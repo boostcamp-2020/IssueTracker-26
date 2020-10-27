@@ -6,3 +6,6 @@
 - 왜 했는지?
 - 참고자료
     - 스크린샷
+
+
+Closes #{issue-number}
