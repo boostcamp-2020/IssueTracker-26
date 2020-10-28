@@ -41,9 +41,16 @@ describe('userName 중복 검사', () => {
       const { userName } = await checkFunction(TESTUSERNAME);
       expect(userName).toBe(TESTUSERNAME);
     });
-    test('test function', async () => {
-      const { userName } = await userModel.checkDuplicated(TESTUSERNAME);
-      expect(userName).toBe(TESTUSERNAME);
+    describe('test function', () => {
+      test('duplicated', async () => {
+        const { userName } = await userModel.checkDuplicated(TESTUSERNAME);
+        expect(userName).toBe(TESTUSERNAME);
+      });
+      test('unique', async () => {
+        const uniqueId = 'qafsdaf36asf314';
+        const result = await userModel.checkDuplicated(uniqueId);
+        expect(result).toBeUndefined();
+      });
     });
   });
 });
