@@ -1,7 +1,21 @@
 /* eslint-disable */
+require('dotenv').config();
 const model = {};
 const milestoneService = require('../services/milestoneService')(model);
 const milestoneControllerFn = require('../controllers/milestoneController');
+const milestoneModel = require('../models/milestoneModel');
+
+describe('milestoneModel 테스트', () => {
+  test('milestone 생성', async () => {
+    const data = {
+      title: 'test',
+      dueDate: null,
+      description: null,
+    };
+    // const insertId = await milestoneModel.createMilestone(data);
+    // expect(insertId).toBeDefined();
+  });
+});
 
 beforeAll(() => {
   model.createMilestone = ({ title, dueDate, description }) => {
