@@ -1,6 +1,7 @@
 require('dotenv').config();
 /* eslint-disable */
 const userService = require('../services/userService');
+const userController = require('../controllers/userController');
 
 describe('userService 테스트', () => {
   describe('findUser', () => {

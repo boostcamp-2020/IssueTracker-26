@@ -1,4 +1,6 @@
+const passport = require('passport');
 const userService = require('../services/userService');
+const { makeToken } = require('../util');
 
 const signUp = async (req, res) => {
   const { userName, password } = req.body;
