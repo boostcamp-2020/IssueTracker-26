@@ -19,6 +19,7 @@ const checkDuplicated = async (userName) => {
       'select * from user where userName=?',
       [userName],
     );
+    pool.end();
     return result;
   } catch (err) {
     return undefined;

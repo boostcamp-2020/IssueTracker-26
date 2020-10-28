@@ -1,8 +1,17 @@
 /* eslint-disable no-undef */
 require('dotenv').config();
+const request = require('supertest');
+const app = require('../app');
 const userModel = require('../models/userModel');
 
 describe('userName 중복 검사', () => {
+  let server;
+  beforeAll(async (done) => {
+    server = await app.listen(3001, () => done());
+  });
+  afterAll(async () => {
+    await server.close();
+  });
   describe('model', () => {
     const TESTUSERNAME = 'postmantest';
     const spyFn = jest.spyOn(userModel, 'checkDuplicated');
@@ -51,6 +60,17 @@ describe('userName 중복 검사', () => {
         const result = await userModel.checkDuplicated(uniqueId);
         expect(result).toBeUndefined();
       });
+    });
+  });
+  describe('request', () => {
+    test('duplicated', async () => {
+      const testData = { userName: 'test' };
+      await request(app).post('/api/userName').send(testData).expect(409);
+    });
+    test('no duplicated', async (done) => {
+      const testData = { userName: 'ejkwer124nwle23' };
+      await request(app).post('/api/userName').send(testData).expect(202);
+      done();
     });
   });
 });
