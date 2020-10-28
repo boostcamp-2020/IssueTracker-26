@@ -13,4 +13,19 @@ const signUp = async (userName, password) => {
   }
 };
 
-module.exports = { signUp };
+const checkDuplicated = async (userName) => {
+  try {
+    const [[result]] = await pool.execute(
+      'select * from user where userName=?',
+      [userName],
+    );
+    return result;
+  } catch (err) {
+    return undefined;
+  }
+};
+
+module.exports = {
+  signUp,
+  checkDuplicated,
+};
