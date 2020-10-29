@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const userRouter = require('./userRouter');
+const labelRouter = require('./labelRouter');
 const milestoneRouter = require('./milestoneRouter');
 const issueRouter = require('./issueRouter');
 
@@ -9,6 +10,7 @@ router.get('/', (req, res) => {
 });
 
 router.use('/api', userRouter);
+router.use('/api', labelRouter);
 router.use('/api', milestoneRouter);
 router.use('/api', issueRouter);
 
