@@ -9,6 +9,16 @@ const signUp = async (userName, password) => {
   }
 };
 
+const checkDuplicated = async (userName) => {
+  try {
+    const userId = await userModel.checkDuplicated(userName);
+    return userId;
+  } catch (err) {
+    return undefined;
+  }
+};
+
 module.exports = {
   signUp,
+  checkDuplicated,
 };
