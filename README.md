@@ -64,7 +64,7 @@
 
 ### 1. ERD
 
-![image](https://user-images.githubusercontent.com/49264892/97277088-66393000-187b-11eb-8aac-e9d225994130.png)
+![image](https://user-images.githubusercontent.com/49264892/97525482-42482c80-19ea-11eb-8dbc-6ccac9bd73b1.png)
 
 ### 2. API 문서
 
