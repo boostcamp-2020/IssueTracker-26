@@ -27,9 +27,19 @@ const ISSUE = {
   WHERE MILESTONE_ID = (SELECT MILESTONE_ID FROM ISSUE WHERE ID = ?)`,
 };
 
+const COMMENT = {
+  CREATE: `INSERT INTO comment(content, user_id, issue_id) VALUES(?,?,?)`,
+};
+
+const MENTION = {
+  CREATE: `INSERT INTO mention(user_id, issue_id, comment_id) VALUES(?,?,?)`,
+};
+
 module.exports = {
   USER,
   LABEL,
   MILESTONE,
   ISSUE,
+  COMMENT,
+  MENTION,
 };
