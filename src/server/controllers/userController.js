@@ -26,7 +26,16 @@ const checkDuplicated = async (req, res) => {
   return res.status(409).end();
 };
 
+const signIn = (req, res, next) =>
+  passport.authenticate('local', (err, user) => {
+    if (err) next(err);
+    if (!user) return res.status(404).json({ token: undefined });
+    const { id, userName } = user;
+    return res.status(200).json({ token: makeToken({ id, userName }) });
+  })(req, res, next);
+
 module.exports = {
   signUp,
   checkDuplicated,
+  signIn,
 };

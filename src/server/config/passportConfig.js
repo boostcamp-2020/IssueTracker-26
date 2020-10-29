@@ -22,7 +22,7 @@ const initPassport = () => {
     new LocalStrategy(localOption, async (userName, password, done) => {
       try {
         if (!userName) return done(null, undefined);
-        const user = await userService.findUser(userName);
+        const user = await userService.checkDuplicated(userName);
         if (!user) return done(null, undefined);
         if (user && user.password === password) return done(null, user);
         return done(null, undefined);
