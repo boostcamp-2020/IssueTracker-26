@@ -1,17 +1,14 @@
-const router = require('express').Router();
-const userRouter = require('./userRouter');
-const labelRouter = require('./labelRouter');
-const milestoneRouter = require('./milestoneRouter');
-const issueRouter = require('./issueRouter');
+const express = require('express');
+
+const router = express.Router();
 
 /* GET home page. */
 router.get('/', (req, res) => {
   res.send('index');
 });
 
-router.use('/api', userRouter);
-router.use('/api', labelRouter);
-router.use('/api', milestoneRouter);
-router.use('/api', issueRouter);
+router.use('/api', (req, res, next) => {
+  next();
+});
 
 module.exports = router;
