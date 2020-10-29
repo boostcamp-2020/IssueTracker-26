@@ -2,7 +2,7 @@ const milestoneController = (service) => {
   return {
     service,
     async createMilestone(req, res) {
-      const { title, dueDate, description } = req.body;
+      const { title, dueDate = null, description = null } = req.body;
       if (!title) {
         return res.status(400).end();
       }

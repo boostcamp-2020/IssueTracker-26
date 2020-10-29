@@ -86,6 +86,8 @@
 
 - 마일스톤 생성 API
 
-  
+  POST : http://127.0.0.1:3000/api/milestone
+
+  BODY : { title, dueDate(optional), description(optional) }
 
 ## 🔵 Client
