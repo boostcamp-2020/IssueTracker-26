@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const userRouter = require('./userRouter');
+const labelRouter = require('./labelRouter');
 
 /* GET home page. */
 router.get('/', (req, res) => {
@@ -7,5 +8,6 @@ router.get('/', (req, res) => {
 });
 
 router.use('/api', userRouter);
+router.use('/api', labelRouter);
 
 module.exports = router;
