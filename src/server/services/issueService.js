@@ -24,6 +24,10 @@ const getIssueList = async () => {
 const getIssueDetail = async (id) => {
   try {
     const issue = await issueModel.getIssueDetail(id);
+    issue.label = await issueModel.getIssueLabel(id);
+    issue.assignee = await issueModel.getIssueAssignee(id);
+    issue.comment = await issueModel.getIssueComment(id);
+    issue.ratio = await issueModel.getIssueRatio(id);
     return issue;
   } catch (err) {
     return undefined;
