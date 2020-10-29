@@ -1,6 +1,6 @@
 const passport = require('passport');
 const userService = require('../services/userService');
-const { makeToken } = require('../util');
+const { makeToken, randomString } = require('../util');
 
 const signUp = async (req, res) => {
   const { userName, password } = req.body;
@@ -34,8 +34,26 @@ const signIn = (req, res, next) =>
     return res.status(200).json({ token: makeToken({ id, userName }) });
   })(req, res, next);
 
+const failGitHubAuth = (req, res) => {
+  return res.status(401).json({ token: undefined });
+};
+
+const gitHubAuth = async (req, res) => {
+  const { user } = req.session.passport;
+  const userId = await userService.checkDuplicated(user);
+  if (userId) {
+    const token = makeToken({ id: userId, userName: user });
+    return res.status(200).json({ token });
+  }
+  const newUserId = await userService.signUp(user, randomString());
+  const token = makeToken({ id: newUserId, userName: user });
+  return res.status(200).json({ token });
+};
+
 module.exports = {
   signUp,
   checkDuplicated,
   signIn,
+  gitHubAuth,
+  failGitHubAuth,
 };
