@@ -12,6 +12,19 @@ const signUp = async (req, res) => {
   return res.status(500).end();
 };
 
+const checkDuplicated = async (req, res) => {
+  const { userName } = req.body;
+  if (!userName) {
+    return res.status(400).end();
+  }
+  const userId = await userService.checkDuplicated(userName);
+  if (!userId) {
+    return res.status(202).end();
+  }
+  return res.status(409).end();
+};
+
 module.exports = {
   signUp,
+  checkDuplicated,
 };
