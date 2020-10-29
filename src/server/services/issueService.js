@@ -3,14 +3,17 @@ const issueModel = require('../models/issueModel');
 const getIssueList = async () => {
   try {
     const issueList = await issueModel.getIssueList();
-    console.log('0');
-    issueList.forEach(async (e) => {
-      const label = await issueModel.getIssueLabel(e.ID);
-      console.log('1');
-      const assignee = await issueModel.getIssueAssignee(e.ID);
-      console.log('2');
-      e.label = label;
-      e.assignee = assignee;
+    const label = [];
+    const assignee = [];
+    issueList.forEach((e) => {
+      label.push(issueModel.getIssueLabel(e.ID));
+      assignee.push(issueModel.getIssueAssignee(e.ID));
+    });
+    const labelArray = await Promise.all(label);
+    const assigneeArray = await Promise.all(assignee);
+    issueList.forEach((e, i) => {
+      e.label = labelArray[i];
+      e.assignee = assigneeArray[i];
     });
     return issueList;
   } catch (err) {
