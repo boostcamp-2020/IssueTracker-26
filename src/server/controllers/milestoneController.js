@@ -6,7 +6,6 @@ const milestoneController = (service) => {
       if (!title) {
         return res.status(400).end();
       }
-
       const milestoneId = await this.service.createMilestone({
         title,
         dueDate,
