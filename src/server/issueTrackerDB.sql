@@ -181,22 +181,6 @@ CREATE TABLE IF NOT EXISTS `mydb`.`mention` (
 ENGINE = InnoDB;
 
 
--- -----------------------------------------------------
--- Table `mydb`.`timestamps`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`timestamps` (
-  `create_time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
-  `update_time` TIMESTAMP NULL);
-
-
--- -----------------------------------------------------
--- Table `mydb`.`timestamps_1`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`timestamps_1` (
-  `create_time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
-  `update_time` TIMESTAMP NULL);
-
-
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
