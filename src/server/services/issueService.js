@@ -21,6 +21,16 @@ const getIssueList = async () => {
   }
 };
 
+const getIssueDetail = async (id) => {
+  try {
+    const issue = await issueModel.getIssueDetail(id);
+    return issue;
+  } catch (err) {
+    return undefined;
+  }
+};
+
 module.exports = {
   getIssueList,
+  getIssueDetail,
 };
