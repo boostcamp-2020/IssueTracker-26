@@ -6,6 +6,7 @@ const getIssueList = async () => {
     const [issueList] = await pool.execute(ISSUE.GETISSUELIST, []);
     return issueList;
   } catch (err) {
+    console.log(err)
     return undefined;
   }
 };
@@ -28,4 +29,18 @@ const getIssueAssignee = async (id) => {
   }
 };
 
-module.exports = { getIssueList, getIssueLabel, getIssueAssignee };
+const getIssueDetail = async (id) => {
+  try {
+    //const [issueAssignee] = await pool.execute(ISSUE.GETISSUEASSIGNEE, [id]);
+    //return issueAssignee;
+  } catch (err) {
+    return undefined;
+  }
+};
+
+module.exports = {
+  getIssueList,
+  getIssueLabel,
+  getIssueAssignee,
+  getIssueDetail,
+};
