@@ -30,7 +30,7 @@ const getIssueAssignee = async (id) => {
 
 const getIssueDetail = async (id) => {
   try {
-    const [issue] = await pool.execute(ISSUE.GETISSUEDETAIL, [id]);
+    const [[issue]] = await pool.execute(ISSUE.GETISSUEDETAIL, [id]);
     return issue;
   } catch (err) {
     return undefined;

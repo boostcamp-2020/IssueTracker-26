@@ -14,11 +14,9 @@ const getIssueDetail = async (req, res) => {
 
   const issue = await issueService.getIssueDetail(id);
   if (issue) {
-    console.log(issue);
-
     return res.status(200).json(issue);
   }
-  return res.status(500).end();
+  return res.status(404).end();
 };
 
 module.exports = {
