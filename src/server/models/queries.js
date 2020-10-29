@@ -3,7 +3,7 @@ const USER = {
 };
 
 const MILESTONE = {
-  CREATE: `INSERT INTO milestone(title, dueDate, description) VALUES(?,?,?)`
+  CREATE: `INSERT INTO milestone(title, dueDate, description) VALUES(?,?,?)`,
 };
 
 const ISSUE = {
