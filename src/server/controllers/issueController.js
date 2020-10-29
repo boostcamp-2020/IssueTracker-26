@@ -9,12 +9,14 @@ const getIssueList = async (req, res) => {
 };
 
 const getIssueDetail = async (req, res) => {
-  const { id } = req.params;
+  const id = parseInt(req.params.id, 10);
+  if (Number.isNaN(id)) return res.status(400).end();
+
   const issue = await issueService.getIssueDetail(id);
   if (issue) {
     return res.status(200).json(issue);
   }
-  return res.status(500).end();
+  return res.status(404).end();
 };
 
 module.exports = {

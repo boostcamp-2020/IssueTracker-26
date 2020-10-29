@@ -30,8 +30,26 @@ const getIssueAssignee = async (id) => {
 
 const getIssueDetail = async (id) => {
   try {
-    // const [issueAssignee] = await pool.execute(ISSUE.GETISSUEASSIGNEE, [id]);
-    // return issueAssignee;
+    const [[issue]] = await pool.execute(ISSUE.GETISSUEDETAIL, [id]);
+    return issue;
+  } catch (err) {
+    return undefined;
+  }
+};
+
+const getIssueComment = async (id) => {
+  try {
+    const [comment] = await pool.execute(ISSUE.GETISSUECOMMENT, [id]);
+    return comment;
+  } catch (err) {
+    return undefined;
+  }
+};
+
+const getIssueRatio = async (id) => {
+  try {
+    const [ratio] = await pool.execute(ISSUE.GETISSUERATIO, [id, id]);
+    return ratio;
   } catch (err) {
     return undefined;
   }
@@ -42,4 +60,6 @@ module.exports = {
   getIssueLabel,
   getIssueAssignee,
   getIssueDetail,
+  getIssueComment,
+  getIssueRatio,
 };
