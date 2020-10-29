@@ -2,6 +2,10 @@ const USER = {
   SIGNUP: `INSERT INTO user(userName, password) VALUES(?,?)`,
 };
 
+const LABEL = {
+  CREATE: `INSERT INTO label(title, description, color) VALUES(?,?,?)`,
+};
+
 const MILESTONE = {
   CREATE: `INSERT INTO milestone(title, dueDate, description) VALUES(?,?,?)`,
 };
@@ -25,6 +29,7 @@ const ISSUE = {
 
 module.exports = {
   USER,
+  LABEL,
   MILESTONE,
   ISSUE,
 };

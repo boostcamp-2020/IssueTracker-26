@@ -64,10 +64,30 @@
 
 ### 1. ERD
 
-![image](https://user-images.githubusercontent.com/49264892/97525482-42482c80-19ea-11eb-8dbc-6ccac9bd73b1.png)
+![image](https://user-images.githubusercontent.com/44664867/97531923-9d811b80-19f8-11eb-821d-9e954811d3dc.png)
 
 ### 2. API 문서
 
+- 회원가입 API
 
+  POST : http://127.0.0.1:3000/api/user
+
+  BODY : { userName, password }
+
+- 중복체크 API
+
+  POST : http://127.0.0.1:3000/api/userName
+
+  BODY : { userName }
+
+- 이슈목록 보기 API
+
+  GET : http://127.0.0.1:3000/api/issue
+
+- 마일스톤 생성 API
+
+  POST : http://127.0.0.1:3000/api/milestone
+
+  BODY : { title, dueDate(optional), description(optional) }
 
 ## 🔵 Client
