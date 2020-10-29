@@ -1,30 +1,30 @@
 const USER = {
-  SIGNUP: `INSERT INTO user(userName, password) VALUES(?,?)`,
+  SIGNUP: `insert into user(username, password) values(?,?)`,
 };
 
 const LABEL = {
-  CREATE: `INSERT INTO label(title, description, color) VALUES(?,?,?)`,
+  CREATE: `insert into label(title, description, color) values(?,?,?)`,
 };
 
 const MILESTONE = {
-  CREATE: `INSERT INTO milestone(title, dueDate, description) VALUES(?,?,?)`,
+  CREATE: `insert into milestone(title, duedate, description) values(?,?,?)`,
 };
 
 const ISSUE = {
-  GETISSUELIST: `SELECT I.ID, I.TITLE, I.CONTENT, I.USER_ID, U.USERNAME, I.CREATEDAT, I.MILESTONE_ID, M.TITLE AS MILESTONENAME 
-  FROM ISSUE I LEFT JOIN USER U ON I.USER_ID=U.ID LEFT JOIN MILESTONE M ON I.MILESTONE_ID=M.ID WHERE I.STATE=1`,
+  GETISSUELIST: `select i.id, i.title, i.content, i.user_id, u.username, i.createdat, i.milestone_id, m.title as milestonename 
+  from issue i left join user u on i.user_id=u.id left join milestone m on i.milestone_id=m.id where i.state=1`,
 
-  GETISSUELABEL: `SELECT L.ID AS LABELID, L.TITLE, L.COLOR FROM ISSUEHASLABEL IH, LABEL L WHERE IH.ISSUE_ID=? AND IH.LABEL_ID=L.ID`,
+  GETISSUELABEL: `select l.id as labelid, l.title, l.color from issuehaslabel ih, label l where ih.issue_id=? and ih.label_id=l.id`,
 
-  GETISSUEASSIGNEE: `SELECT U.ID, U.USERNAME FROM ASSIGNEE A, USER U WHERE A.ISSUE_ID=? AND U.ID=A.USER_ID`,
+  GETISSUEASSIGNEE: `select u.id, u.username from assignee a, user u where a.issue_id=? and u.id=a.user_id`,
 
-  GETISSUEDETAIL: `SELECT I.ID, I.TITLE, I.CONTENT, I.USER_ID, U.USERNAME, I.STATE, I.CREATEDAT, I.MILESTONE_ID, M.TITLE AS MILESTONENAME 
-  FROM ISSUE I LEFT JOIN USER U ON I.USER_ID=U.ID LEFT JOIN MILESTONE M ON I.MILESTONE_ID=M.ID WHERE I.ID = ?`,
+  GETISSUEDETAIL: `select i.id, i.title, i.content, i.user_id, u.username, i.state, i.createdat, i.milestone_id, m.title as milestonename 
+  from issue i left join user u on i.user_id=u.id left join milestone m on i.milestone_id=m.id where i.id = ?`,
 
-  GETISSUECOMMENT: `SELECT C.ID, C.CONTENT, C.CREATEDAT, U.ID, U.USERNAME FROM COMMENT C, USER U WHERE U.ID=C.USER_ID AND C.ISSUE_ID = ?`,
+  GETISSUECOMMENT: `select c.id, c.content, c.createdat, u.id, u.username from comment c, user u where u.id=c.user_id and c.issue_id = ?`,
 
-  GETISSUERATIO: `SELECT (SELECT COUNT(*) FROM ISSUE WHERE MILESTONE_ID = (SELECT MILESTONE_ID FROM ISSUE WHERE ID = ?) AND STATE = 1) / COUNT(*) AS RATIO FROM ISSUE 
-  WHERE MILESTONE_ID = (SELECT MILESTONE_ID FROM ISSUE WHERE ID = ?)`,
+  GETISSUERATIO: `select (select count(*) from issue where milestone_id = (select milestone_id from issue where id = ?) and state = 1) / count(*) as ratio from issue 
+  where milestone_id = (select milestone_id from issue where id = ?)`,
 };
 
 module.exports = {
