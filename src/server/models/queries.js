@@ -1,6 +1,6 @@
 const USER = {
-  SIGNUP: `INSERT INTO user(userName, password) VALUES(?,?)`,
-  FINDUSER: `SELECT * FROM user WHERE userName = ?`,
+  SIGNUP: `insert into user(username, password) values(?,?)`,
+  FINDUSER: `select * from user where username = ?`,
 };
 
 const LABEL = {

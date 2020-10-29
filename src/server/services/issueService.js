@@ -6,8 +6,8 @@ const getIssueList = async () => {
     const label = [];
     const assignee = [];
     issueList.forEach((e) => {
-      label.push(issueModel.getIssueLabel(e.ID));
-      assignee.push(issueModel.getIssueAssignee(e.ID));
+      label.push(issueModel.getIssueLabel(e.id));
+      assignee.push(issueModel.getIssueAssignee(e.id));
     });
     const labelArray = await Promise.all(label);
     const assigneeArray = await Promise.all(assignee);
