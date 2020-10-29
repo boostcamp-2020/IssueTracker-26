@@ -64,10 +64,14 @@
 
 ### 1. ERD
 
-![image](https://user-images.githubusercontent.com/49264892/97525482-42482c80-19ea-11eb-8dbc-6ccac9bd73b1.png)
+![image](https://user-images.githubusercontent.com/44664867/97531923-9d811b80-19f8-11eb-821d-9e954811d3dc.png)
 
 ### 2. API 문서
 
+- 중복체크 API
 
+- 이슈목록 보기 API
+
+- 마일스톤 생성 API
 
 ## 🔵 Client
