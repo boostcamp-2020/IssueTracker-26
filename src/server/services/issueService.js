@@ -2,19 +2,23 @@ const issueModel = require('../models/issueModel');
 
 const getIssueList = async () => {
   try {
-    const issueList = await issueModel.getIssueList();
-    const label = [];
-    const assignee = [];
-    issueList.forEach((e) => {
-      label.push(issueModel.getIssueLabel(e.id));
-      assignee.push(issueModel.getIssueAssignee(e.id));
+    let issueList = await issueModel.getIssueList();
+    const promiseList = [];
+    issueList.forEach((issue) => {
+      const label = issueModel.getIssueLabel(issue.id);
+      const assignee = issueModel.getIssueAssignee(issue.id);
+      promiseList.push(label);
+      promiseList.push(assignee);
     });
-    const labelArray = await Promise.all(label);
-    const assigneeArray = await Promise.all(assignee);
-    issueList.forEach((e, i) => {
-      e.label = labelArray[i];
-      e.assignee = assigneeArray[i];
+
+    await Promise.all(promiseList).then((item) => {
+      let index = -2;
+      issueList = issueList.map((issue) => {
+        index += 2;
+        return { ...issue, label: item[index], assignee: item[index + 1] };
+      });
     });
+
     return issueList;
   } catch (err) {
     return undefined;
@@ -23,11 +27,17 @@ const getIssueList = async () => {
 
 const getIssueDetail = async (id) => {
   try {
+    const optionName = ['label', 'assignee', 'comment', 'ratio'];
     const issue = await issueModel.getIssueDetail(id);
-    issue.label = await issueModel.getIssueLabel(id);
-    issue.assignee = await issueModel.getIssueAssignee(id);
-    issue.comment = await issueModel.getIssueComment(id);
-    issue.ratio = await issueModel.getIssueRatio(id);
+    const option = await Promise.all([
+      issueModel.getIssueLabel(id),
+      issueModel.getIssueAssignee(id),
+      issueModel.getIssueComment(id),
+      issueModel.getIssueRatio(id),
+    ]);
+    option.forEach((item, index) => {
+      issue[optionName[index]] = item;
+    });
     return issue;
   } catch (err) {
     return undefined;
