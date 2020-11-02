@@ -6,6 +6,7 @@ const USER = {
 const LABEL = {
   CREATE: `insert into label(title, description, color) values(?,?,?)`,
   GETLABELLIST: `select id, title, description, color from label`,
+  UPDATELABEL: `update label set title = ?, description = ?, color = ? where id = ?`,
 };
 
 const MILESTONE = {
