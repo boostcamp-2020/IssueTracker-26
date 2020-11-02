@@ -44,18 +44,6 @@ const milestoneService = (model) => {
         return undefined;
       }
     },
-    async createMilestone({ title, dueDate, description }) {
-      try {
-        const milestoneId = await this.model.createMilestone({
-          title,
-          dueDate,
-          description,
-        });
-        return milestoneId;
-      } catch (e) {
-        return undefined;
-      }
-    },
     async updateMilestone({ id, title, dueDate, description }) {
       try {
         const milestoneId = await this.model.updateMilestone({
