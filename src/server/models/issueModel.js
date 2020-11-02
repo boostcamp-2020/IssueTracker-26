@@ -107,7 +107,15 @@ const stateChange = async (state, id) => {
 const titleUpdate = async (id, title) => {
   try {
     const [issue] = await pool.execute(ISSUE.TITLEUPDATE, [title, id]);
-    console.log(id,title)
+    return issue;
+  } catch (err) {
+    return undefined;
+  }
+};
+
+const contentUpdate = async (id, content) => {
+  try {
+    const [issue] = await pool.execute(ISSUE.CONTENTUPDATE, [content, id]);
     return issue;
   } catch (err) {
     return undefined;
@@ -126,4 +134,5 @@ module.exports = {
   createAssignee,
   stateChange,
   titleUpdate,
+  contentUpdate,
 };

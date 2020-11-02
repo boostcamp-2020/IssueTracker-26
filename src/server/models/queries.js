@@ -44,6 +44,8 @@ const ISSUE = {
   STATECHANGE: `update issue set state = ? where id = ? `,
 
   TITLEUPDATE: `update issue set title = ? where id = ?`,
+
+  CONTENTUPDATE: `update issue set content = ? where id = ?`,
 };
 
 const COMMENT = {
