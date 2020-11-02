@@ -9,5 +9,6 @@ router.put('/issue/title/:id', issueController.titleUpdate);
 router.put('/issue/content/:id', issueController.contentUpdate);
 router.put('/issue/assignees/:id', issueController.assigneesUpdate);
 router.put('/issue/labels/:id', issueController.labelsUpdate);
+router.put('/issue/milestone/:id', issueController.milestoneUpdate);
 
 module.exports = router;
