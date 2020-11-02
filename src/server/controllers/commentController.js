@@ -12,6 +12,19 @@ const create = async (req, res) => {
   return res.status(500).end();
 };
 
+const read = async (req, res) => {
+  const { issueId } = req.body;
+  if (!issueId) {
+    return res.status(400).end();
+  }
+  const comments = await commentService.read(issueId);
+  if (comments) {
+    return res.status(200).end();
+  }
+  return res.status(204).end();
+};
+
 module.exports = {
   create,
+  read,
 };
