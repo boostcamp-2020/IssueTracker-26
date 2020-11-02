@@ -254,3 +254,32 @@ describe('POST /issue는', () => {
     })
   })
 })
+
+/* 이슈 수정하기 API 테스트*/
+/* 단위 테스트 */
+
+/* 슈퍼 테스트 */
+describe('PUT /issue/title은', () => {
+  const info = {
+    title : '테스트 제목'
+  }
+  describe('성공시', () => {
+
+    test('이슈 제목을 성공적으로 수정하면 200을 반환한다.', async (done) => {
+      const response = await request(app)
+      .put('/api//issue/title/1').send(info);
+      expect(response.status).toEqual(200);
+      done();
+    })
+  })
+  
+  describe('실패시', () => {
+    info.title='';
+    test('이슈를 성공적으로 활성화 하면 200을 반환한다.', async (done) => {
+      const response = await request(app)
+      .put('/api//issue/title/1').send(info);
+      expect(response.status).toEqual(400);
+      done();
+    })
+  })
+})
