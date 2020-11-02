@@ -96,11 +96,26 @@ const contentUpdate = async (id, content) => {
   }
 };
 
-const assigneesUpdate =  async (id, assignees) => {
+const assigneesUpdate = async (id, assignees) => {
   try {
     const issue = await issueModel.assigneesDelete(id);
     const promiseList = assignees.map(assigneeId => {
       return issueModel.assigneesUpdate(id, assigneeId);
+    });
+    
+    await Promise.all(promiseList);
+
+    return issue;
+  } catch (err) {
+    return undefined;
+  }
+};
+
+const labelsUpdate = async (id, labels) => {
+  try {
+    const issue = await issueModel.labelsDelete(id);
+    const promiseList = assignees.map(labelId => {
+      return issueModel.labelUpdate(id, labelId);
     });
     
     await Promise.all(promiseList);
@@ -119,4 +134,5 @@ module.exports = {
   titleUpdate,
   contentUpdate,
   assigneesUpdate,
+  labelsUpdate,
 };

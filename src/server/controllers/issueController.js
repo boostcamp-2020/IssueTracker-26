@@ -88,7 +88,7 @@ const labelsUpdate = async (req, res) => {
   const { labels } = req.body;
   if (Number.isNaN(id)) return res.status(400).end();
 
-  const issue = await issueService.assigneesUpdate(id, labels);
+  const issue = await issueService.labelsUpdate(id, labels);
 
   if (issue) {
     return res.status(200).end();
