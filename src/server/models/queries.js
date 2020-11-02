@@ -17,6 +17,7 @@ const MILESTONE = {
     if (description) fields += `description='${description}'`;
     return `update milestone set ${fields.trim()} where id=${id}`;
   },
+  DELETE: `delete from milestone where id=?`,
 };
 
 const ISSUE = {
