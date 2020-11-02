@@ -4,6 +4,8 @@ const model = {};
 const milestoneService = require('../services/milestoneService')(model);
 const milestoneControllerFn = require('../controllers/milestoneController');
 const milestoneModel = require('../models/milestoneModel');
+const app = require('../app');
+const superTest = require('supertest');
 
 describe('milestoneModel 테스트', () => {
   test('milestone 생성', async () => {
@@ -148,6 +150,41 @@ describe('milestoneController 테스트', () => {
       req.body = {};
       const status = await milestoneController.updateMilestone(req, res);
       expect(status).toEqual(400);
+    });
+  });
+});
+
+describe('milestone API 테스트', () => {
+  const request = superTest(app);
+  describe('POST /api/milestone', () => {
+    test('성공 시 200 리턴', async () => {
+      // const response = await request
+      //   .post('/api/milestone')
+      //   .send({ title: 'supertest' });
+      // expect(response.status).toEqual(201);
+    });
+    test('title이 없는 경우 400 리턴', async () => {
+      const response = await request.post('/api/milestone').send({});
+      expect(response.status).toEqual(400);
+    });
+  });
+
+  describe('PUT /api/milestone', () => {
+    test('성공 시 200 리턴', async () => {
+      const response = await request
+        .put('/api/milestone/1')
+        .send({ title: 'hi' });
+      expect(response.status).toEqual(200);
+    });
+    test('실패 : title이 주어지지 않은 경우 400 리턴', async () => {
+      const response = await request.put('/api/milestone/1').send({});
+      expect(response.status).toEqual(400);
+    });
+    test('실패 : 해당 id에 대한 마일스톤이 없는 경우 404 리턴', async () => {
+      const response = await request
+        .put('/api/milestone/9999')
+        .send({ title: 'hho' });
+      expect(response.status).toEqual(404);
     });
   });
 });
