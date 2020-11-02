@@ -114,7 +114,7 @@ const assigneesUpdate = async (id, assignees) => {
 const labelsUpdate = async (id, labels) => {
   try {
     const issue = await issueModel.labelsDelete(id);
-    const promiseList = assignees.map(labelId => {
+    const promiseList = labels.map(labelId => {
       return issueModel.labelUpdate(id, labelId);
     });
     

@@ -50,6 +50,10 @@ const ISSUE = {
   ASSIGNEESDELETE: `delete from assignee where issue_id = ? `,
 
   ASSIGNEEUPDATE: `insert into assignee(user_id, issue_id) values(?,?)`,
+
+  LABELSDELETE: `delete from issuehaslabel where issue_id = ? `,
+
+  LABELUPDATE: `insert into issuehaslabel(issue_id, label_id) values(?,?)`,
 };
 
 const COMMENT = {
