@@ -1,5 +1,7 @@
 /* eslint-disable */
 require('dotenv').config();
+const request = require('supertest');
+const app = require('../app');
 const labelModel = require('../models/labelModel');
 const labelService = require('../services/labelService');
 const labelController = require('../controllers/labelController');
@@ -19,75 +21,75 @@ const createRes = (res) => {
 
 describe('label을 추가하는 api', () => {
   describe('Model Layer', () => {
-    const userInfo = {
+    const labelInfo = {
       title: 'feat',
       description: 'feature label',
       color: '#000000'
     }
     test('label 정보가 모두 들어왔을 경우', async () => {
-      expect(await labelModel.createLabel(userInfo)).toBeGreaterThan(0);
+      expect(await labelModel.createLabel(labelInfo)).toBeGreaterThan(0);
     });
 
-    const optionUserInfo = {
+    const optionLabelInfo = {
       title: 'feat',
       description: '',
       color: '#000000'
     }
     test('label 옵션을 뺀 정보가 모두 들어왔을 경우', async () => {
-      expect(await labelModel.createLabel(optionUserInfo)).toBeGreaterThan(0);
+      expect(await labelModel.createLabel(optionLabelInfo)).toBeGreaterThan(0);
     });
 
-    const missUserInfo = {
+    const missLabelInfo = {
       color: '#000000'
     }
 
     test('label 필수 정보가 모두 들어오지 않을 경우', () => {
-      expect(() => labelModel.createLabel(missUserInfo).toThrow());
-      // expect(await labelModel.createLabel(missUserInfo)).toBeUndefined();
+      expect(() => labelModel.createLabel(missLabelInfo).toThrow());
+      // expect(await labelModel.createLabel(missLabelInfo)).toBeUndefined();
     });
     
-    const wrongUserInfo = {
+    const wrongLabelInfo = {
       content: 'asdfasfd',
     }
     test('label 정보가 아닌 값이 들어왔을 경우', () => {
-      expect(() => labelModel.createLabel(wrongUserInfo).toThrow());
-      // expect(await labelModel.createLabel(wrongUserInfo)).toBeUndefined();
+      expect(() => labelModel.createLabel(wrongLabelInfo).toThrow());
+      // expect(await labelModel.createLabel(wrongLabelInfo)).toBeUndefined();
     });
   });
 
   describe('Service Layer', () => {
-    const userInfo = {
+    const labelInfo = {
       title: 'feat',
       description: 'feature label',
       color: '#000000'
     }
     test('label 정보가 모두 들어왔을 경우', async () => {
-      expect(await labelService.createLabel(userInfo)).toBeGreaterThan(0);
+      expect(await labelService.createLabel(labelInfo)).toBeGreaterThan(0);
     });
 
-    const optionUserInfo = {
+    const optionLabelInfo = {
       title: 'feat',
       description: '',
       color: '#000000'
     }
     test('label 옵션을 뺀 정보가 모두 들어왔을 경우', async () => {
-      expect(await labelService.createLabel(optionUserInfo)).toBeGreaterThan(0);
+      expect(await labelService.createLabel(optionLabelInfo)).toBeGreaterThan(0);
     });
 
-    const missUserInfo = {
+    const missLabelInfo = {
       color: '#000000'
     }
     test('label 필수 정보가 모두 들어오지 않을 경우', () => {
-      expect(() => labelService.createLabel(missUserInfo).toThrow());
-      // expect(await labelService.createLabel(missUserInfo)).toBeUndefined();
+      expect(() => labelService.createLabel(missLabelInfo).toThrow());
+      // expect(await labelService.createLabel(missLabelInfo)).toBeUndefined();
     });
 
-    const wrongUserInfo = {
+    const wrongLabelInfo = {
       content: 'asdfasfd',
     }
     test('label 정보가 아닌 값이 들어왔을 경우', () => {
-      expect(() => labelService.createLabel(wrongUserInfo).toThrow());
-      // expect(await labelService.createLabel(wrongUserInfo)).toBeUndefined();
+      expect(() => labelService.createLabel(wrongLabelInfo).toThrow());
+      // expect(await labelService.createLabel(wrongLabelInfo)).toBeUndefined();
     });
   });
 
@@ -97,14 +99,12 @@ describe('label을 추가하는 api', () => {
 
     const req = { body: { title: 'feat', description: 'feature label', color: '#000000' } };
     test('label 정보가 모두 들어왔을 경우', async () => {
-      console.log(req.body);
       const status = await labelController.createLabel(req, res);
       expect(status).toEqual(201);
     }); 
 
     const optionReq = { body: { title: 'feat', description: '', color: '#000000' } };
     test('label 옵션을 뺀 정보가 모두 들어왔을 경우', async () => {
-      console.log(req.body);
       const status = await labelController.createLabel(optionReq, res);
       expect(status).toEqual(201);
     });
@@ -154,6 +154,112 @@ describe('label을 조회하는 api', () => {
     test('label 목록을 제대로 불러왔을 경우', async () => {
       const status = await labelController.getLabelList(req, res);
       expect(status).toEqual(200);
+    });
+  });
+});
+
+describe('label을 수정하는 api', () => {
+  describe('Model Layer', () => {
+    const labelInfo = { title: 'feat', description: 'feature label', color: '#000000' };
+    test('존재하는 label id를 수정하려고 할 경우 - 옵션 값 존재', async () => {
+      expect(await labelModel.updateLabel(1, labelInfo)).toBeGreaterThan(0);
+    });
+
+    const optionLabelInfo = {title: 'label', description: '', color: '#dfdfdf'};
+    test('존재하는 label id를 수정하려고 할 경우 - 옵션 값 존재 X', async () => {
+      expect(await labelModel.updateLabel(1, optionLabelInfo)).toBeGreaterThan(0);
+    });
+
+    const missLabelInfo = { description: 'label one', color: '#dfdfdf'};
+    test('수정할 label 정보가 잘못 된 경우', () => {
+      expect(() => labelModel.updateLabel(1, missLabelInfo).toThrow());
+    });
+
+    const wrongLabelInfo = { content: 'body' };
+    test('존재하지 않는 label id를 수정하려고 할 경우', () => {
+      expect(() => labelModel.updateLabel(100, wrongLabelInfo).toThrow());
+    });
+  })
+
+  describe('Service Layer', () => {
+    const labelInfo = { title: 'feat', description: 'feature label', color: '#000000' };
+    test('존재하는 label id를 수정하려고 할 경우 - 옵션 값 존재', async () => {
+      expect(await labelService.updateLabel(1, labelInfo)).toBeGreaterThan(0);
+    });
+
+    const optionLabelInfo = {title: 'label', description: '', color: '#dfdfdf'};
+    test('존재하는 label id를 수정하려고 할 경우 - 옵션 값 존재 X', async () => {
+      expect(await labelService.updateLabel(1, optionLabelInfo)).toBeGreaterThan(0);
+    });
+
+    const missLabelInfo = { description: 'label one', color: '#dfdfdf'};
+    test('수정할 label 정보가 잘못 된 경우', () => {
+      expect(() => labelService.updateLabel(1, missLabelInfo).toThrow());
+    });
+
+    const wrongLabelInfo = { content: 'body' };
+    test('존재하지 않는 label id를 수정하려고 할 경우', () => {
+      expect(() => labelService.updateLabel(100, wrongLabelInfo).toThrow());
+    });
+  })
+
+  describe('Controller Layer', () => {
+    const res = {};
+    beforeAll(() => createRes(res));
+
+    const req = {params: {id: 1}, body: {title: 'label', description: 'label one', color: '#dfdfdf'}};
+    test('존재하는 label id를 수정하려고 할 경우 - 옵션 값 존재', async () => {
+      const status = await labelController.updateLabel(req, res);
+      expect(status).toEqual(200);
+    });
+
+    const optionReq = {params: {id: 1}, body: {title: 'label', description: '', color: '#dfdfdf'}};
+    test('존재하는 label id를 수정하려고 할 경우 - 옵션 값 존재 X', async () => {
+      const status = await labelController.updateLabel(optionReq, res);
+      expect(status).toEqual(200);
+    });
+
+    const missReq = {params: {id: 1}, body: { content: 'feat' }};
+    test('수정할 label 정보가 잘못 된 경우', async () => {
+      const status = await labelController.updateLabel(missReq, res);
+      expect(status).toEqual(400);
+    });
+
+    const wrongReq = {params: {id: 1000}, body: {title: 'label', description: 'label one', color: '#dfdfdf'}};
+    test('존재하지 않는 label id를 수정하려고 할 경우', async () => {
+      const status = await labelController.updateLabel(wrongReq, res);
+      expect(status).toEqual(404);
+    });
+  });
+
+  describe('API 테스트', () => {
+    const labelInfo = { title: 'feat', description: 'feature label', color: '#000000' };
+    test('존재하는 label id를 수정하려고 할 경우 - 옵션 값 존재', async (done) => {
+      await request(app).put(`/api/label/1`).send(labelInfo).expect(200);
+      done();
+    });
+
+    const optionLabelInfo = {title: 'label', description: '', color: '#dfdfdf'};
+    test('존재하는 label id를 수정하려고 할 경우 - 옵션 값 존재 X', async (done) => {
+      await request(app).put('/api/label/1').send(optionLabelInfo).expect(200);
+      done();
+    });
+
+    const missLabelInfo = { description: 'label one', color: '#dfdfdf'};
+    test('수정할 label 정보가 잘못 된 경우', async (done) => {
+      await request(app).put('/api/label/1').send(missLabelInfo).expect(400);
+      done();
+    });
+
+    const wrongLabelInfo = { content: 'body' };
+    test('수정할 label 정보가 잘못 된 경우', async (done) => {
+      await request(app).put('/api/label/1').send(wrongLabelInfo).expect(400);
+      done();
+    });
+
+    test('존재하지 않는 label id를 수정하려고 할 경우', async (done) => {
+      await request(app).put('/api/label/1000').send(labelInfo).expect(404);
+      done();
     });
   });
 });
