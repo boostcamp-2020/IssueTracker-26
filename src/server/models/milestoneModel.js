@@ -1,6 +1,15 @@
 const pool = require('../config/db-config');
 const { MILESTONE } = require('./queries');
 
+const getMilestoneList = async () => {
+  try {
+    const [rows] = await pool.execute(MILESTONE.GETMILESTONELIST);
+    return rows;
+  } catch (e) {
+    return undefined;
+  }
+};
+
 const createMilestone = async ({ title, dueDate, description }) => {
   try {
     const [{ insertId }] = await pool.execute(MILESTONE.CREATE, [
@@ -26,4 +35,5 @@ const updateMilestone = async (data) => {
 module.exports = {
   createMilestone,
   updateMilestone,
+  getMilestoneList,
 };

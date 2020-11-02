@@ -17,6 +17,7 @@ const MILESTONE = {
     if (description) fields += `description='${description}'`;
     return `update milestone set ${fields.trim()} where id=${id}`;
   },
+  GETMILESTONELIST: `select id, title, duedate, description from milestone`,
 };
 
 const ISSUE = {
