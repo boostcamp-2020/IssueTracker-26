@@ -27,4 +27,13 @@ const updateLabel = async (id, labelInfo) => {
   }
 };
 
-module.exports = { createLabel, getLabelList, updateLabel };
+const deleteLabel = async (id) => {
+  try {
+    const affectedRows = await labelModel.deleteLabel(id);
+    return affectedRows;
+  } catch (err) {
+    return undefined;
+  }
+};
+
+module.exports = { createLabel, getLabelList, updateLabel, deleteLabel };
