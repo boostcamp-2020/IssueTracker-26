@@ -1,5 +1,3 @@
-const { updateMilestone } = require('../models/milestoneModel');
-
 const milestoneController = (service) => {
   return {
     service,
