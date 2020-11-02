@@ -10,6 +10,13 @@ const LABEL = {
 
 const MILESTONE = {
   CREATE: `insert into milestone(title, duedate, description) values(?,?,?)`,
+  UPDATE: ({ id, title, dueDate, description }) => {
+    let fields = '';
+    if (title) fields += `title='${title}' `;
+    if (dueDate) fields += `dueDate='${dueDate}'`;
+    if (description) fields += `description='${description}'`;
+    return `update milestone set ${fields.trim()} where id=${id}`;
+  },
 };
 
 const ISSUE = {

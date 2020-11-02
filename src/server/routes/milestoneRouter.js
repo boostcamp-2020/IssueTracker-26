@@ -12,4 +12,9 @@ router.post(
   milestoneController.createMilestone.bind(milestoneController),
 );
 
+router.put(
+  '/milestone/:id',
+  milestoneController.updateMilestone.bind(milestoneController),
+);
+
 module.exports = router;
