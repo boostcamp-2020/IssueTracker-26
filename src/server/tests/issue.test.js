@@ -186,3 +186,70 @@ describe('POST /issue는', () => {
     })
   })
 })
+
+/* 이슈 닫기 API 테스트*/
+/* 단위 테스트 */
+describe('이슈 닫기 API 단위 TEST', () => {
+  const onState = 1;
+  const closeState = 0;
+  describe('이슈 닫기 MODEL API TEST', () => {
+    describe('이슈 MODEL', ()=>{
+  
+      test('사용자가 이슈 닫기', async () => {
+        const data = await issueModel.stateChangeIssue(onState);
+        expect(data).toBeDefined();
+      })
+    })
+
+    describe('이슈 MODEL', ()=>{
+  
+      test('사용자가 이슈 활성화하기', async () => {
+        const data = await issueModel.stateChangeIssue(closeState);
+        expect(data).toBeDefined();
+      })
+    })
+  })
+  
+  describe('이슈 닫기 SERVICE API TEST', ()=>{
+    describe('이슈 SERVICE', ()=>{
+  
+      test('사용자가 이슈 닫기', async () => {
+        const data = await issueService.stateChangeIssue(onState);
+        expect(data).toBeDefined();
+      })
+    })
+
+    describe('이슈 SERVICE', ()=>{
+  
+      test('사용자가 이슈 활성화하기', async () => {
+        const data = await issueService.stateChangeIssue(closeState);
+        expect(data).toBeDefined();
+      })
+    })
+  })
+});
+
+/* 슈퍼 테스트 */
+describe('POST /issue는', () => {
+  const state = {state: 1};
+  describe('성공시', () => {
+
+    test('이슈를 성공적으로 닫으면 200을 반환한다.', async (done) => {
+      const response = await request(app)
+      .put('/api/issue/state').send(state);
+      expect(response.status).toEqual(200);
+      done();
+    })
+  })
+  
+  state.state = 0;
+  describe('성공시', () => {
+
+    test('이슈를 성공적으로 활성화 하면 200을 반환한다.', async (done) => {
+      const response = await request(app)
+      .put('/api/issue/state').send(state);
+      expect(response.status).toEqual(200);
+      done();
+    })
+  })
+})
