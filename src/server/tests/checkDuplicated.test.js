@@ -13,7 +13,7 @@ describe('userName 중복 검사', () => {
     await server.close();
   });
   describe('model', () => {
-    const TESTUSERNAME = 'postmantest';
+    const TESTUSERNAME = 'park';
     const spyFn = jest.spyOn(userModel, 'checkDuplicated');
     beforeEach(() => {
       spyFn.mockClear();
@@ -64,7 +64,7 @@ describe('userName 중복 검사', () => {
   });
   describe('request', () => {
     test('duplicated', async () => {
-      const testData = { userName: 'test' };
+      const testData = { userName: 'park' };
       await request(app).post('/api/userName').send(testData).expect(409);
     });
     test('no duplicated', async (done) => {

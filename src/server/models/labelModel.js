@@ -3,7 +3,7 @@ const { LABEL } = require('./queries');
 
 const createLabel = async (userInfo) => {
   try {
-    const { title, description, color } = userInfo;
+    const { title, description = null, color } = userInfo;
     const [{ insertId }] = await pool.execute(LABEL.CREATE, [
       title,
       description,
