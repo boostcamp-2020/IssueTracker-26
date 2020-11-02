@@ -46,6 +46,10 @@ const ISSUE = {
   TITLEUPDATE: `update issue set title = ? where id = ?`,
 
   CONTENTUPDATE: `update issue set content = ? where id = ?`,
+
+  ASSIGNEESDELETE: `delete from assignee where issue_id = ? `,
+
+  ASSIGNEEUPDATE: `insert into assignee(user_id, issue_id) values(?,?)`,
 };
 
 const COMMENT = {

@@ -122,6 +122,24 @@ const contentUpdate = async (id, content) => {
   }
 };
 
+const assigneesDelete = async (id) => {
+  try {
+    const [issue] = await pool.execute(ISSUE.ASSIGNEESDELETE, [id]);
+    return issue;
+  } catch (err) {
+    return undefined;
+  }
+};
+
+const assigneesUpdate = async (id, assigneeId) => {
+  try {
+    const [issue] = await pool.execute(ISSUE.ASSIGNEEUPDATE, [assigneeId, id]);
+    return issue;
+  } catch (err) {
+    return undefined;
+  }
+};
+
 module.exports = {
   getIssueList,
   getIssueLabel,
@@ -135,4 +153,6 @@ module.exports = {
   stateChange,
   titleUpdate,
   contentUpdate,
+  assigneesDelete,
+  assigneesUpdate,
 };
