@@ -14,6 +14,16 @@ const createMilestone = async ({ title, dueDate, description }) => {
   }
 };
 
+const updateMilestone = async (data) => {
+  try {
+    const [rows] = await pool.execute(MILESTONE.UPDATE(data));
+    return rows.affectedRows ? data.id : undefined;
+  } catch (e) {
+    return undefined;
+  }
+};
+
 module.exports = {
   createMilestone,
+  updateMilestone,
 };
