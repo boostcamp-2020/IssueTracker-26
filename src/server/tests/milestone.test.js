@@ -225,4 +225,12 @@ describe('milestone API 테스트', () => {
       expect(response.status).toEqual(404);
     });
   });
+  describe(`DELETE /api/milestone/`, () => {
+    // test('성공 시 200 리턴', async () => {
+    //   await request.delete('/api/milestone/5').expect(200);
+    // });
+    test('id가 존재하지 않는 경우 204 리턴', async () => {
+      await request.delete('/api/milestone/99').expect(204);
+    });
+  });
 });
