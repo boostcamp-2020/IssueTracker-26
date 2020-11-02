@@ -32,7 +32,7 @@ const createIssue = async (req, res) => {
 };
 
 const stateChange = async (req, res) => {
-  const id = parseInt(req.body.id, 10);
+  const id = parseInt(req.params.id, 10);
   const state = parseInt(req.body.state, 10);
   if (Number.isNaN(id) || Number.isNaN(state)) return res.status(400).end();
 
