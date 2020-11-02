@@ -1,8 +1,9 @@
 const userModel = require('../models/userModel');
+const { makeHashPassword } = require('../util');
 
 const signUp = async (userName, password) => {
   try {
-    const userId = await userModel.signUp(userName, password);
+    const userId = await userModel.signUp(userName, makeHashPassword(password));
     return userId;
   } catch (err) {
     return undefined;
