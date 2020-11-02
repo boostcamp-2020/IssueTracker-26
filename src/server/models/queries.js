@@ -15,7 +15,7 @@ const ISSUE = {
   GETISSUELIST: `select i.id, i.title, i.content, i.user_id, u.username, i.createdat, i.milestone_id, m.title as milestonename 
   from issue i left join user u on i.user_id=u.id left join milestone m on i.milestone_id=m.id where i.state=1`,
 
-  GETISSUELABEL: `select l.id as labelid, l.title, l.color from issuehaslabel ih, label l where ih.issue_id=? and ih.label_id=l.id`,
+  GETISSUELABEL: `select l.id as labelid, l.title, l.color from issueHasLabel ih, label l where ih.issue_id=? and ih.label_id=l.id`,
 
   GETISSUEASSIGNEE: `select u.id, u.username from assignee a, user u where a.issue_id=? and u.id=a.user_id`,
 
