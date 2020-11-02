@@ -1,4 +1,12 @@
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
+
+const makeHashPassword = (password) => {
+  const hash = bcrypt.hashSync(password, bcrypt.genSaltSync());
+  return hash;
+};
+const comparePassword = (password, hashedPassword) =>
+  bcrypt.compareSync(password, hashedPassword);
 
 const makeToken = (payload) => {
   const token = jwt.sign(payload, process.env.JWT_SECRET);
@@ -15,4 +23,6 @@ const randomString = () => {
 module.exports = {
   makeToken,
   randomString,
+  makeHashPassword,
+  comparePassword,
 };
