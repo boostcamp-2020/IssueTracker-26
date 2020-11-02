@@ -97,5 +97,15 @@ describe('comment API', () => {
         expect(comments).toEqual([]);
       });
     });
+    describe('REQUEST', () => {
+      test('request1', async (done) => {
+        const testData = {
+          issueId: 1,
+        };
+        const res = await request(app).get('/api/comment').send(testData);
+        expect(res.status).toBe(200);
+        done();
+      });
+    });
   });
 });
