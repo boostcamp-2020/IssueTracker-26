@@ -124,6 +124,9 @@ describe('milestoneController 테스트', () => {
     service.updateMilestone = ({ id, title, dueDate, description }) => {
       return service.list.find((index) => index === id);
     };
+    service.deleteMilestone = async (id) => {
+      return Promise.resolve(service.list.find((list) => list === id));
+    };
     milestoneController = milestoneControllerFn(service);
   });
   describe('milestoneController : createMilestone', () => {
@@ -172,6 +175,19 @@ describe('milestoneController 테스트', () => {
       req.body = {};
       const status = await milestoneController.updateMilestone(req, res);
       expect(status).toEqual(400);
+    });
+  });
+
+  describe('milestoneController : deleteMilestone', () => {
+    test('id에 해당하는 milestone이 있으면 지우고 200 코드를 리턴한다.', async () => {
+      req.params = { id: 1 };
+      const status = await milestoneController.deleteMilestone(req, res);
+      expect(status).toEqual(200);
+    });
+    test('id에 해당하는 milestone이 없으면 204 코드를 리턴한다.', async () => {
+      req.params = { id: 999 };
+      const status = await milestoneController.deleteMilestone(req, res);
+      expect(status).toEqual(204);
     });
   });
 });
