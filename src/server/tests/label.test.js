@@ -4,6 +4,16 @@ const labelModel = require('../models/labelModel');
 const labelService = require('../services/labelService');
 const labelController = require('../controllers/labelController');
 
+const createRes = (res) => {
+  res.status = function (code) {
+    this.code = code;
+    return this;
+  };
+  res.end = function () {
+    return this.code;
+  };
+}
+
 describe('label을 추가하는 api', () => {
   describe('Model Layer', () => {
     const userInfo = {
@@ -80,15 +90,7 @@ describe('label을 추가하는 api', () => {
 
   describe('Controller Layer', () => {
     const res = {};
-    beforeAll(() => {
-      res.status = function (code) {
-        this.code = code;
-        return this;
-      };
-      res.end = function () {
-        return this.code;
-      };
-    });
+    beforeAll(() => createRes(res));
 
     const req = { body: { title: 'feat', description: 'feature label', color: '#000000' } };
     test('label 정보가 모두 들어왔을 경우', async () => {
@@ -116,4 +118,8 @@ describe('label을 추가하는 api', () => {
       expect(status).toEqual(400);
     });
   });
+});
+
+describe('label을 조회하는 api', () => {
+
 });
