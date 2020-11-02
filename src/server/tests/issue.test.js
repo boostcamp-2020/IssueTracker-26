@@ -111,3 +111,26 @@ describe('GET /issue는', () => {
     })
   })
 })
+
+/* 이슈 등록하기 API 테스트*/
+
+/* 슈퍼 테스트 */
+describe('POST /issue는', () => {
+  describe('성공시', () => {
+    test('생성된 이슈 객체를 반환환다..', async (done) => {
+      const response = await request(app)
+      .post('/api/issue/').send();
+      expect(response.body.ID).toBeDefined();
+      done();
+    })
+  })
+
+  describe('실패시', () => {
+    test('파라메터 누락시 400을 반환한다.', async (done) => {
+      const response = await request(app)
+      .post('/api/issue/').send();
+      expect(response.status).toEqual(400);
+      done();
+    })
+  })
+})
