@@ -65,11 +65,11 @@ const createIssue = async (issueInfo) => {
   }
 };
 
-const stateChange = async (state) => {
+const stateChange = async (state, id) => {
   try {
-    state = state===1 ? 0 : state;
-    const issue = await issueModel.stateChange(state);
-    
+    state = state === 1 ? 0 : 1;
+    const issue = await issueModel.stateChange(state, id);
+
     return issue;
   } catch (err) {
     return undefined;

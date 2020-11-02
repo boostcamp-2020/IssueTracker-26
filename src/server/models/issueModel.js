@@ -96,6 +96,15 @@ const createAssignee = async (assigneeId, issueId) => {
   }
 };
 
+const stateChange = async (state, id) => {
+  try {
+    const [issue] = await pool.execute(ISSUE.STATECHANGE, [state, id]);
+    return issue;
+  } catch (err) {
+    return undefined;
+  }
+};
+
 module.exports = {
   getIssueList,
   getIssueLabel,
@@ -106,4 +115,5 @@ module.exports = {
   createIssue,
   createIssueHasLbel,
   createAssignee,
+  stateChange,
 };

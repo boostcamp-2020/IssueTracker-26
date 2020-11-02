@@ -32,6 +32,8 @@ const ISSUE = {
   CREATEISSUEHASLABEL: `insert into issuehaslabel(issue_id, label_id) values(?,?)`,
 
   CREATEASSIGNEE: `insert into assignee(user_id, issue_id) values(?,?)`,
+
+  STATECHANGE: `update issue set state = ? where id = ? `,
 };
 
 module.exports = {

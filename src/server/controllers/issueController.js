@@ -32,11 +32,12 @@ const createIssue = async (req, res) => {
 };
 
 const stateChange = async (req, res) => {
-  const { state } = req.body;
-  if (!state) return res.status(400).end();
+  const id = parseInt(req.body.id, 10);
+  const state = parseInt(req.body.state, 10);
+  if (Number.isNaN(id) || Number.isNaN(state)) return res.status(400).end();
 
-  const issue = await issueService.stateChange(state);
-  console.log(issue);
+  const issue = await issueService.stateChange(state, id);
+
   if (issue) {
     return res.status(200).json(issue);
   }
