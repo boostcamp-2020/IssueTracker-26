@@ -21,7 +21,6 @@ const getIssueDetail = async (req, res) => {
 
 const createIssue = async (req, res) => {
   const { title, userId } = req.body;
-
   if (!title || !userId) return res.status(400).end();
 
   const issueInfo = req.body;

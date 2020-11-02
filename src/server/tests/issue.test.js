@@ -113,20 +113,72 @@ describe('GET /issue는', () => {
 })
 
 /* 이슈 등록하기 API 테스트*/
+/* 단위 테스트 */
+describe('이슈 등록하기 API 단위 TEST', () => {
+  let issueInfo = {
+    "title" : "테스트 이슈",
+    "content" : "",
+    "userId" : "1",
+    "milestoneId" : "1",
+    "assignees" : ["2"],
+    "labels" : ["1"]
+  };
+
+  describe('이슈 등록하기 MODEL API TEST', () => {
+    describe('이슈 MODEL', ()=>{
+  
+      test('등록한 이슈 데이터로 이슈 등록하기', async () => {
+        const data = await issueModel.createIssue(issueInfo);
+        expect(data).toBeDefined();
+      })
+    })
+  })
+  
+  describe('이슈 등록하기 SERVICE API TEST', ()=>{
+    describe('이슈 SERVICE', ()=>{
+  
+      test('등록한 이슈 데이터로 이슈 등록하기', async () => {
+        const data = await issueService.createIssue(issueInfo);
+        expect(data).toBeDefined();
+      })
+    })
+  })
+})
 
 /* 슈퍼 테스트 */
 describe('POST /issue는', () => {
+  let issueInfo = {
+    "title" : "테스트 이슈",
+    "content" : "",
+    "userId" : "1",
+    "milestoneId" : "1",
+    "assignees" : ["2"],
+    "labels" : ["1"]
+  };
+
   describe('성공시', () => {
     test('생성된 이슈 객체를 반환환다..', async (done) => {
       const response = await request(app)
-      .post('/api/issue/').send();
-      expect(response.body.ID).toBeDefined();
+      .post('/api/issue/').send(issueInfo);
+      expect(response.body).toBeDefined();
       done();
     })
   })
 
+  issueInfo.title = '';
   describe('실패시', () => {
-    test('파라메터 누락시 400을 반환한다.', async (done) => {
+    test('title 파라메터 누락시 400을 반환한다.', async (done) => {
+      const response = await request(app)
+      .post('/api/issue/').send();
+      expect(response.status).toEqual(400);
+      done();
+    })
+  })
+
+  issueInfo.title = 'test';
+  issueInfo.usrId = '';
+  describe('실패시', () => {
+    test('usrId 파라메터 누락시 400을 반환한다.', async (done) => {
       const response = await request(app)
       .post('/api/issue/').send();
       expect(response.status).toEqual(400);
