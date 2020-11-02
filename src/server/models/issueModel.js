@@ -55,6 +55,47 @@ const getIssueRatio = async (id) => {
   }
 };
 
+const createIssue = async (issueInfo) => {
+  try {
+    const { title, content, userId } = issueInfo;
+    const milestoneId =
+      issueInfo.milestoneId === '' ? null : issueInfo.milestoneId;
+    const [issue] = await pool.execute(ISSUE.CREATEISSUE, [
+      title,
+      content,
+      userId,
+      milestoneId,
+    ]);
+    return issue.insertId;
+  } catch (err) {
+    return undefined;
+  }
+};
+
+const createIssueHasLbel = async (issueId, labelId) => {
+  try {
+    const [issueHasLabel] = await pool.execute(ISSUE.CREATEISSUEHASLABEL, [
+      issueId,
+      labelId,
+    ]);
+    return issueHasLabel.insertId;
+  } catch (err) {
+    return undefined;
+  }
+};
+
+const createAssignee = async (assigneeId, issueId) => {
+  try {
+    const [assingnee] = await pool.execute(ISSUE.CREATEASSIGNEE, [
+      assigneeId,
+      issueId,
+    ]);
+    return assingnee.insertId;
+  } catch (err) {
+    return undefined;
+  }
+};
+
 module.exports = {
   getIssueList,
   getIssueLabel,
@@ -62,4 +103,7 @@ module.exports = {
   getIssueDetail,
   getIssueComment,
   getIssueRatio,
+  createIssue,
+  createIssueHasLbel,
+  createAssignee,
 };

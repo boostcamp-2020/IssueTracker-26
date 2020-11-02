@@ -48,21 +48,21 @@ const createIssue = async (issueInfo) => {
   try {
 
     const issueId = await issueModel.createIssue(issueInfo);
-
-    const { assignee, labels } = issueInfo;
+    const { assignees, labels } = issueInfo;
     const promiseList = [];
 
-    labels.Map((labelId) => {
+    labels.forEach((labelId) => {
       promiseList.push(issueModel.createIssueHasLbel(issueId, labelId));
     })
 
-    assignee.forEach((assigneeId) => {
+    assignees.forEach((assigneeId) => {
       promiseList.push(issueModel.createAssignee(assigneeId, issueId));
     })
 
     await Promise.all(promiseList);
     return issueId;
   } catch (err) {
+    console.log(err)
     return undefined;
   }
 };

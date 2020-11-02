@@ -26,6 +26,12 @@ const ISSUE = {
 
   GETISSUERATIO: `select (select count(*) from issue where milestone_id = (select milestone_id from issue where id = ?) and state = 1) / count(*) as ratio from issue 
   where milestone_id = (select milestone_id from issue where id = ?)`,
+
+  CREATEISSUE: `insert into issue(title, content, user_id, milestone_id) values(?,?,?,?)`,
+
+  CREATEISSUEHASLABEL: `insert into issuehaslabel(issue_id, label_id) values(?,?)`,
+
+  CREATEASSIGNEE: `insert into assignee(user_id, issue_id) values(?,?)`,
 };
 
 module.exports = {
