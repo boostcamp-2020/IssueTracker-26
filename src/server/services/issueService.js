@@ -126,6 +126,16 @@ const labelsUpdate = async (id, labels) => {
   }
 };
 
+const milestoneUpdate = async (id, milestoneId = null) => {
+  try {
+    const milestone = await issueModel.milestoneUpdate(id, milestoneId);
+
+    return issue;
+  } catch (err) {
+    return undefined;
+  }
+};
+
 module.exports = {
   getIssueList,
   getIssueDetail,
@@ -135,4 +145,5 @@ module.exports = {
   contentUpdate,
   assigneesUpdate,
   labelsUpdate,
+  milestoneUpdate,
 };
