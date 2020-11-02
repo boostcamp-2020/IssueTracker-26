@@ -20,14 +20,16 @@ const getIssueDetail = async (req, res) => {
 };
 
 const setIssue = async (req, res) => {
-  const id = parseInt(req.params.id, 10);
-  if (Number.isNaN(id)) return res.status(400).end();
+  const { title, userId } = req.body;
 
-  const issue = await issueService.getIssueDetail(id);
-  if (issue) {
-    return res.status(200).json(issue);
+  if (!title || !userId) return res.status(400).end();
+
+  const issueInfo = req.body;
+  const issueId = await issueService.setIssue(issueInfo);
+  if (issueId) {
+    return res.status(201).json(issueId);
   }
-  return res.status(404).end();
+  return res.status(500).end();
 };
 
 module.exports = {
