@@ -58,8 +58,7 @@ const getIssueRatio = async (id) => {
 const createIssue = async (issueInfo) => {
   try {
     const { title, content, userId } = issueInfo;
-    const milestoneId =
-      issueInfo.milestoneId === '' ? null : issueInfo.milestoneId;
+    const milestoneId = issueInfo.milestoneId || null;
     const [issue] = await pool.execute(ISSUE.CREATEISSUE, [
       title,
       content,
@@ -96,6 +95,15 @@ const createAssignee = async (assigneeId, issueId) => {
   }
 };
 
+const stateChange = async (state, id) => {
+  try {
+    const [issue] = await pool.execute(ISSUE.STATECHANGE, [state, id]);
+    return issue;
+  } catch (err) {
+    return undefined;
+  }
+};
+
 module.exports = {
   getIssueList,
   getIssueLabel,
@@ -106,4 +114,5 @@ module.exports = {
   createIssue,
   createIssueHasLbel,
   createAssignee,
+  stateChange,
 };
