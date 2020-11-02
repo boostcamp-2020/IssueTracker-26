@@ -1,9 +1,11 @@
 /* eslint-disable */
 require('dotenv').config();
 const model = {};
-const milestoneService = require('../services/milestoneService')(model);
+const milestoneServiceFn = require('../services/milestoneService');
+const milestoneService = milestoneServiceFn(model);
 const milestoneControllerFn = require('../controllers/milestoneController');
 const milestoneModel = require('../models/milestoneModel');
+const issueModel = require('../models/issueModel');
 const app = require('../app');
 const superTest = require('supertest');
 
@@ -29,8 +31,14 @@ describe('milestoneModel 테스트', () => {
   });
   test('milestone 가져오기', async () => {
     const milestoneLists = await milestoneModel.getMilestoneList();
-    console.log(milestoneLists);
     expect(milestoneLists instanceof Array).toEqual(true);
+  });
+  test('milestone id를 가진 issue들 가져오기', async () => {
+    const milestoneId = 1;
+    const issuesByMilestone = await milestoneModel.getIssueListByMilestoneId(
+      milestoneId,
+    );
+    expect(issuesByMilestone instanceof Array).toEqual(true);
   });
 });
 
@@ -82,6 +90,15 @@ describe('milestoneService 테스트', () => {
       const title = 'notfound';
       const milestoneId = await milestoneService.updateMilestone({ id, title });
       expect(milestoneId).toBeUndefined();
+    });
+  });
+
+  describe('milestoneService : getMilestoneList', () => {
+    test('모든 마일스톤 값을 불러온다.', async () => {
+      const service = milestoneServiceFn(milestoneModel);
+      const milestoneList = await service.getMilestoneList(issueModel);
+      console.log(milestoneList);
+      expect(milestoneList instanceof Array).toEqual(true);
     });
   });
 });
