@@ -12,4 +12,12 @@ const createLabel = async (req, res) => {
   return res.status(500).end();
 };
 
-module.exports = { createLabel };
+const getLabelList = async (req, res) => {
+  const labelList = await labelService.getLabelList();
+  if (labelList) {
+    return res.status(200).json(labelList);
+  }
+  return res.status(500).end();
+};
+
+module.exports = { createLabel, getLabelList };
