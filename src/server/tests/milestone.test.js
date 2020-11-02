@@ -15,6 +15,16 @@ describe('milestoneModel 테스트', () => {
     // const insertId = await milestoneModel.createMilestone(data);
     // expect(insertId).toBeDefined();
   });
+  test('milestone 수정', async () => {
+    const data = {
+      id: 1,
+      title: 'updated!',
+      dueDate: null,
+      description: null,
+    };
+    const updatedId = await milestoneModel.updateMilestone(data);
+    expect(updatedId).toBeDefined();
+  });
 });
 
 beforeAll(() => {
