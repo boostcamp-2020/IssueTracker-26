@@ -104,6 +104,16 @@ const stateChange = async (state, id) => {
   }
 };
 
+const titleUpdate = async (id, title) => {
+  try {
+    const [issue] = await pool.execute(ISSUE.TITLEUPDATE, [title, id]);
+    console.log(id,title)
+    return issue;
+  } catch (err) {
+    return undefined;
+  }
+};
+
 module.exports = {
   getIssueList,
   getIssueLabel,
@@ -115,4 +125,5 @@ module.exports = {
   createIssueHasLbel,
   createAssignee,
   stateChange,
+  titleUpdate,
 };

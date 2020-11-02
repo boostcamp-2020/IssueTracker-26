@@ -42,6 +42,8 @@ const ISSUE = {
   CREATEASSIGNEE: `insert into assignee(user_id, issue_id) values(?,?)`,
 
   STATECHANGE: `update issue set state = ? where id = ? `,
+
+  TITLEUPDATE: `update issue set title = ? where id = ?`,
 };
 
 const COMMENT = {
