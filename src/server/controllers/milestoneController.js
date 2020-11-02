@@ -1,3 +1,5 @@
+const { updateMilestone } = require('../models/milestoneModel');
+
 const milestoneController = (service) => {
   return {
     service,
@@ -11,10 +13,22 @@ const milestoneController = (service) => {
         dueDate,
         description,
       });
-      if (milestoneId) {
-        return res.status(201).end();
-      }
+      if (milestoneId) return res.status(201).end();
+
       return res.status(500).end();
+    },
+    async updateMilestone(req, res) {
+      const { id } = req.params;
+      const { title, dueDate = null, description = null } = req.body;
+      if (!title || !id) return res.status(400).end();
+      const affectedRow = await this.service.updateMilestone({
+        id,
+        title,
+        dueDate,
+        description,
+      });
+      if (affectedRow) return res.status(200).end();
+      return res.status(404).end();
     },
   };
 };
