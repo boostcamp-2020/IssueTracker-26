@@ -6,7 +6,7 @@ const commentService = require('../services/commentService');
 const app = require('../app');
 
 describe('comment API', () => {
-  describe('CREATE', () => {
+  describe.skip('CREATE', () => {
     test('model test', async () => {
       const testData = {
         content: 'test content22',
@@ -79,6 +79,31 @@ describe('comment API', () => {
         const testData = { userId: 1, issueId: 1, commentId: 1 };
         const mentionId = await commentService.createMention(testData);
         expect(mentionId).toBeDefined();
+        done();
+      });
+    });
+  });
+
+  describe('READ', () => {
+    describe('MODEL', () => {
+      test('select comment from issue(exist)', async () => {
+        const issueId = 1;
+        const comments = await commentModel.read(issueId);
+        expect(comments).toBeDefined();
+      });
+      test('select comment from issue(not exist)', async () => {
+        const issueId = 110;
+        const comments = await commentModel.read(issueId);
+        expect(comments).toEqual([]);
+      });
+    });
+    describe('REQUEST', () => {
+      test('request1', async (done) => {
+        const testData = {
+          issueId: 1,
+        };
+        const res = await request(app).get('/api/comment').send(testData);
+        expect(res.status).toBe(200);
         done();
       });
     });

@@ -57,9 +57,15 @@ const create = async ({ content, userId, issueId }) => {
 
     return commentId;
   } catch (err) {
+    // eslint-disable-next-line no-console
     console.log(err);
     return undefined;
   }
+};
+
+const read = async (issueId) => {
+  const comments = await commentModel.read(issueId);
+  return comments;
 };
 
 module.exports = {
@@ -67,4 +73,5 @@ module.exports = {
   containMention,
   checkUser,
   createMention,
+  read,
 };

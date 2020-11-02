@@ -14,6 +14,16 @@ const create = async ({ content, userId, issueId }) => {
   }
 };
 
+const read = async (issueId) => {
+  try {
+    const [result] = await pool.execute(COMMENT.READ, [issueId]);
+    return result;
+  } catch (err) {
+    return undefined;
+  }
+};
+
 module.exports = {
   create,
+  read,
 };
