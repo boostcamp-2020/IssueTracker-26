@@ -46,10 +46,10 @@ const getIssueComment = async (id) => {
   }
 };
 
-const getIssueRatio = async (id) => {
+const getMilestone = async (id) => {
   try {
-    const [ratio] = await pool.execute(ISSUE.GETISSUERATIO, [id, id]);
-    return ratio;
+    const [milestone] = await pool.execute(ISSUE.GETMILESTONE, [id, id]);
+    return milestone;
   } catch (err) {
     return undefined;
   }
@@ -158,13 +158,26 @@ const labelUpdate = async (id, labelId) => {
   }
 };
 
+const milestoneUpdate = async (id, milestoneId) => {
+  try {
+    const [milestone] = await pool.execute(ISSUE.MILESTONEUPDATE, [
+      milestoneId,
+      id,
+    ]);
+
+    return milestone;
+  } catch (err) {
+    return undefined;
+  }
+};
+
 module.exports = {
   getIssueList,
   getIssueLabel,
   getIssueAssignee,
   getIssueDetail,
   getIssueComment,
-  getIssueRatio,
+  getMilestone,
   createIssue,
   createIssueHasLbel,
   createAssignee,
@@ -175,4 +188,5 @@ module.exports = {
   assigneesUpdate,
   labelsDelete,
   labelUpdate,
+  milestoneUpdate,
 };

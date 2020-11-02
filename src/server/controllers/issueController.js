@@ -102,9 +102,8 @@ const milestoneUpdate = async (req, res) => {
   if (Number.isNaN(id)) return res.status(400).end();
 
   const milestone = await issueService.milestoneUpdate(id, milestoneId);
-  console.log(milestone);
   if (milestone) {
-    return res.status(200).end();
+    return res.status(200).json(milestone);
   }
   return res.status(500).end();
 };

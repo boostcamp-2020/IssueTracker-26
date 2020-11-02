@@ -32,8 +32,8 @@ const ISSUE = {
 
   GETISSUECOMMENT: `select c.id, c.content, c.createdat, u.id, u.username from comment c, user u where u.id=c.user_id and c.issue_id = ?`,
 
-  GETISSUERATIO: `select (select count(*) from issue where milestone_id = (select milestone_id from issue where id = ?) and state = 1) / count(*) as ratio from issue 
-  where milestone_id = (select milestone_id from issue where id = ?)`,
+  GETMILESTONE: `select m.id, m.title, (select count(*) from issue where milestone_id = (select milestone_id from issue where id = ?) and state = 1) / count(*) as ratio from issue i, milestone m 
+  where milestone_id = (select milestone_id from issue where id = ?) and i.milestone_id=m.id`,
 
   CREATEISSUE: `insert into issue(title, content, user_id, milestone_id) values(?,?,?,?)`,
 
@@ -54,6 +54,8 @@ const ISSUE = {
   LABELSDELETE: `delete from issuehaslabel where issue_id = ? `,
 
   LABELUPDATE: `insert into issuehaslabel(issue_id, label_id) values(?,?)`,
+
+  MILESTONEUPDATE: `update issue set milestone_id = ? where id = ?`,
 };
 
 const COMMENT = {

@@ -27,13 +27,13 @@ const getIssueList = async () => {
 
 const getIssueDetail = async (id) => {
   try {
-    const optionName = ['label', 'assignee', 'comment', 'ratio'];
+    const optionName = ['label', 'assignee', 'comment', 'milestone'];
     const issue = await issueModel.getIssueDetail(id);
     const option = await Promise.all([
       issueModel.getIssueLabel(id),
       issueModel.getIssueAssignee(id),
       issueModel.getIssueComment(id),
-      issueModel.getIssueRatio(id),
+      issueModel.getMilestone(id),
     ]);
     option.forEach((item, index) => {
       issue[optionName[index]] = item;
@@ -126,11 +126,12 @@ const labelsUpdate = async (id, labels) => {
   }
 };
 
-const milestoneUpdate = async (id, milestoneId = null) => {
+const milestoneUpdate = async (id, milestoneId) => {
   try {
-    const milestone = await issueModel.milestoneUpdate(id, milestoneId);
-
-    return issue;
+    milestoneId = milestoneId || null;
+    await issueModel.milestoneUpdate(id, milestoneId);
+    const milestone = await issueModel.getMilestone(id);
+    return milestone;
   } catch (err) {
     return undefined;
   }
