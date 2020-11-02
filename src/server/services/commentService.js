@@ -38,6 +38,15 @@ const createMention = async ({ userId, issueId, commentId = null }) => {
   return mentionId;
 };
 
+const removeMention = async ({ issueId, commentId = null }) => {
+  const result = await mentionModel.remove({ issueId, commentId });
+  return result;
+};
+
+const updateMention = async ({ issueId, commentId = null}) => {
+
+};
+
 const create = async ({ content, userId, issueId }) => {
   try {
     const commentId = await commentModel.create({ content, userId, issueId });
@@ -45,9 +54,9 @@ const create = async ({ content, userId, issueId }) => {
     const mentionedUserIds = await checkUser(mentions);
 
     if (mentionedUserIds) {
-      mentionedUserIds.map(async (muid) => {
+      mentionedUserIds.map(async (MUID) => {
         const mentionId = await createMention({
-          userId: muid,
+          userId: MUID,
           issueId,
           commentId,
         });
@@ -57,8 +66,6 @@ const create = async ({ content, userId, issueId }) => {
 
     return commentId;
   } catch (err) {
-    // eslint-disable-next-line no-console
-    console.log(err);
     return undefined;
   }
 };
@@ -73,6 +80,32 @@ const remove = async (commnetId) => {
   return result;
 };
 
+const update = async ({ commentId, content, issueId }) => {
+  try {
+    const result = await commentModel.update(commentId, content);
+    if (!result) {
+      return undefined;
+    }
+    removeMention({ issueId, commentId });
+    const mentions = containMention(content);
+    const mentionedUserIds = await checkUser(mentions);
+
+    if (mentionedUserIds) {
+      mentionedUserIds.map(async (muid) => {
+        const mentionId = await createMention({
+          userId: muid,
+          commentId,
+        });
+        return mentionId;
+      });
+    }
+
+    return commentId;
+  } catch (err) {
+    return undefined;
+  }
+};
+
 module.exports = {
   create,
   containMention,
@@ -80,4 +113,7 @@ module.exports = {
   createMention,
   read,
   remove,
+  update,
+  removeMention,
+  updateMention,
 };
