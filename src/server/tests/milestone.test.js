@@ -194,6 +194,16 @@ describe('milestoneController 테스트', () => {
 
 describe('milestone API 테스트', () => {
   const request = superTest(app);
+  describe('GET /api/milestone', () => {
+    test('성공 시 200 리턴과 milestones arr를 가지는 객체 리턴', async () => {
+      await request
+        .get('/api/milestone')
+        .expect(200)
+        .then((response) =>
+          expect(response.body.milestones instanceof Array).toEqual(true),
+        );
+    });
+  });
   describe('POST /api/milestone', () => {
     test('성공 시 200 리턴', async () => {
       // const response = await request
@@ -220,7 +230,7 @@ describe('milestone API 테스트', () => {
     });
     test('실패 : 해당 id에 대한 마일스톤이 없는 경우 404 리턴', async () => {
       const response = await request
-        .put('/api/milestone/9999')
+        .put('/api/milestone/99')
         .send({ title: 'hho' });
       expect(response.status).toEqual(404);
     });
