@@ -62,11 +62,13 @@ describe('comment API', () => {
         expect(result).toEqual([1, 2]);
       });
       test('createMention function - comment is null', async () => {
-        const mentionId = await commentService.createMention(1, 1);
+        const testData = { userId: 1, issueId: 1 };
+        const mentionId = await commentService.createMention(testData);
         expect(mentionId).toBeDefined();
       });
       test('createMention function - comment is not null', async () => {
-        const mentionId = await commentService.createMention(1, 1, 1);
+        const testData = { userId: 1, issueId: 1, commentId: 1 };
+        const mentionId = await commentService.createMention(testData);
         expect(mentionId).toBeDefined();
       });
     });
