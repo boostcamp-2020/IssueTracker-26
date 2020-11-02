@@ -75,7 +75,7 @@ const assigneesUpdate = async (req, res) => {
   const { assignees } = req.body;
   if (Number.isNaN(id)) return res.status(400).end();
 
-  const issue = await issueService.contentUpdate(id, assignees);
+  const issue = await issueService.cassigneesUpdate(id, assignees);
 
   if (issue) {
     return res.status(200).end();

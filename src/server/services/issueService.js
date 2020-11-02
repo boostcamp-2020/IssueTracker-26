@@ -96,6 +96,21 @@ const contentUpdate = async (id, content) => {
   }
 };
 
+const assigneesUpdate =  async (id, assignees) => {
+  try {
+    const issue = await issueModel.assigneesDelete(id);
+    const promiseList = assignee.map(assigneeId => {
+      return issueModel.assigneesUpdate(id, assigneeId);
+    });
+    
+    await Promise.all(promiseList);
+
+    return issue;
+  } catch (err) {
+    return undefined;
+  }
+};
+
 module.exports = {
   getIssueList,
   getIssueDetail,
@@ -103,4 +118,5 @@ module.exports = {
   stateChange,
   titleUpdate,
   contentUpdate,
+  assigneesUpdate,
 };
