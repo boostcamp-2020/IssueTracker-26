@@ -58,8 +58,7 @@ const getIssueRatio = async (id) => {
 const createIssue = async (issueInfo) => {
   try {
     const { title, content, userId } = issueInfo;
-    const milestoneId =
-      issueInfo.milestoneId === '' ? null : issueInfo.milestoneId;
+    const milestoneId = issueInfo.milestoneId || null;
     const [issue] = await pool.execute(ISSUE.CREATEISSUE, [
       title,
       content,
