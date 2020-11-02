@@ -27,6 +27,11 @@ describe('milestoneModel 테스트', () => {
     const updatedId = await milestoneModel.updateMilestone(data);
     expect(updatedId).toBeDefined();
   });
+  test('milestone 가져오기', async () => {
+    const milestoneLists = await milestoneModel.getMilestoneList();
+    console.log(milestoneLists);
+    expect(milestoneLists instanceof Array).toEqual(true);
+  });
 });
 
 beforeAll(() => {
