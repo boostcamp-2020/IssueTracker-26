@@ -97,7 +97,6 @@ describe('milestoneService 테스트', () => {
     test('모든 마일스톤 값을 불러온다.', async () => {
       const service = milestoneServiceFn(milestoneModel);
       const milestoneList = await service.getMilestoneList(issueModel);
-      console.log(milestoneList);
       expect(milestoneList instanceof Array).toEqual(true);
     });
   });
