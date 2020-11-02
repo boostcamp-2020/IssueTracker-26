@@ -12,6 +12,9 @@ const createRes = (res) => {
   res.end = function () {
     return this.code;
   };
+  res.json = function (data) {
+    return this.code;
+  }
 }
 
 describe('label을 추가하는 api', () => {
@@ -121,5 +124,36 @@ describe('label을 추가하는 api', () => {
 });
 
 describe('label을 조회하는 api', () => {
+  describe('Model Layer', () => {
+    test('label 목록을 제대로 불러왔을 경우', async () => {
+      const labelList = await labelService.getLabelList();
+      expect(labelList).toBeDefined();
+    }); 
 
+    test('label 목록을 제대로 불러오지 못 했을 경우', async () => {
+      expect(() => labelService.getLabelList().toThrow());
+    });
+  })
+  
+  describe('Service Layer', () => {
+    test('label 목록을 제대로 불러왔을 경우', async () => {
+      const labelList = await labelService.getLabelList();
+      expect(labelList).toBeDefined();
+    }); 
+
+    test('label 목록을 제대로 불러오지 못 했을 경우', async () => {
+      expect(() => labelService.getLabelList().toThrow());
+    });
+  })
+
+  describe('Controller Layer', () => {
+    const req = {};
+    const res = {};
+    beforeAll(() => createRes(res));
+
+    test('label 목록을 제대로 불러왔을 경우', async () => {
+      const status = await labelController.getLabelList(req, res);
+      expect(status).toEqual(200);
+    });
+  });
 });
