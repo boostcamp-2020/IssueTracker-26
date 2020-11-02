@@ -16,9 +16,18 @@ describe('comment API', () => {
       const result = await commentModel.create(testData);
       expect(result).toBeDefined();
     });
-    test('request test', async () => {
+    test('request test - no mention', async () => {
       const testData = {
         content: 'supertest1',
+        userId: 1,
+        issueId: 1,
+      };
+      const res = await request(app).post('/api/comment').send(testData);
+      expect(res.status).toBe(201);
+    });
+    test('request test - mention', async () => {
+      const testData = {
+        content: 'hey, @park show this',
         userId: 1,
         issueId: 1,
       };
@@ -39,7 +48,7 @@ describe('comment API', () => {
         const testData =
           'this is comments. comehere, @testMans sdfnjlksdfn @wenjkrwen, @asd';
         const result = commentService.containMention(testData);
-        expect(result).toEqual(['@testMans', '@wenjkrwen']);
+        expect(result).toEqual(['@testMans', '@wenjkrwen', '@asd']);
       });
       test('contain mention function test (not exist)', async () => {
         const testData = 'this is comments. comehere, sdfnjlksdfn';
@@ -66,10 +75,11 @@ describe('comment API', () => {
         const mentionId = await commentService.createMention(testData);
         expect(mentionId).toBeDefined();
       });
-      test('createMention function - comment is not null', async () => {
+      test('createMention function - comment is not null', async (done) => {
         const testData = { userId: 1, issueId: 1, commentId: 1 };
         const mentionId = await commentService.createMention(testData);
         expect(mentionId).toBeDefined();
+        done();
       });
     });
   });
