@@ -7,5 +7,6 @@ router.post('/issue/', issueController.createIssue);
 router.put('/issue/state/:id', issueController.stateChange);
 router.put('/issue/title/:id', issueController.titleUpdate);
 router.put('/issue/content/:id', issueController.contentUpdate);
+router.put('/issue/assignees/:id', issueController.assigneesUpdate);
 
 module.exports = router;
