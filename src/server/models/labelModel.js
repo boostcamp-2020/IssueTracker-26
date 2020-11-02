@@ -15,4 +15,13 @@ const createLabel = async (userInfo) => {
   }
 };
 
-module.exports = { createLabel };
+const getLabelList = async () => {
+  try {
+    const [labelList] = await pool.execute(LABEL.GETLABELLIST);
+    return labelList;
+  } catch (err) {
+    return undefined;
+  }
+};
+
+module.exports = { createLabel, getLabelList };
