@@ -19,15 +19,15 @@ describe('비밀번호 암호화 테스트(makeHashPassword, comparePassword)', 
 });
 
 describe('userService 테스트', () => {
-  describe('findUser', () => {
+  describe('checkDuplicated', () => {
     test('username과 일치되는 유저가 있는 경우 user를 반환', async () => {
-      const input = 'test';
-      const user = await userService.findUser(input);
+      const input = 'park';
+      const user = await userService.checkDuplicated(input);
       expect(input).toEqual(user.userName);
     });
     test('username에 일치하는 유저가 없는 경우 undefined를 반환', async () => {
       const input = 'test2';
-      const user = await userService.findUser(input);
+      const user = await userService.checkDuplicated(input);
       expect(user).toBeUndefined();
     });
   });
