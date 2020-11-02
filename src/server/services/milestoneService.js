@@ -13,6 +13,19 @@ const milestoneService = (model) => {
         return undefined;
       }
     },
+    async updateMilestone({ id, title, dueDate, description }) {
+      try {
+        const milestoneId = await this.model.updateMilestone({
+          id,
+          title,
+          dueDate,
+          description,
+        });
+        return milestoneId;
+      } catch (e) {
+        return undefined;
+      }
+    },
   };
 };
 
