@@ -18,4 +18,13 @@ const getLabelList = async () => {
   }
 };
 
-module.exports = { createLabel, getLabelList };
+const updateLabel = async (id, labelInfo) => {
+  try {
+    const changedRows = await labelModel.updateLabel(id, labelInfo);
+    return changedRows;
+  } catch (err) {
+    return undefined;
+  }
+};
+
+module.exports = { createLabel, getLabelList, updateLabel };
