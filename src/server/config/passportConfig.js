@@ -3,6 +3,7 @@ const LocalStrategy = require('passport-local').Strategy;
 const passportJWT = require('passport-jwt');
 const GitHubStrategy = require('passport-github2').Strategy;
 const userService = require('../services/userService');
+const { comparePassword } = require('../util/index');
 
 const JWTStrategy = passportJWT.Strategy;
 const extractJWT = passportJWT.ExtractJwt;
@@ -33,7 +34,8 @@ const initPassport = () => {
         if (!userName) return done(null, undefined);
         const user = await userService.checkDuplicated(userName);
         if (!user) return done(null, undefined);
-        if (user && user.password === password) return done(null, user);
+        if (user && comparePassword(password, user.password))
+          return done(null, user);
         return done(null, undefined);
       } catch (err) {
         return done(err, undefined);
