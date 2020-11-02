@@ -1,15 +1,19 @@
 /* eslint-disable array-callback-return */
 const commentModel = require('../models/commentModel');
 const userModel = require('../models/userModel');
+const mentionModel = require('../models/mentionModel');
 
 const containMention = (content) => {
-  const reg = /(@[\w]{6,16})/g;
+  const reg = /(@[\w]{3,16})/g;
   const mentions = content.match(reg);
   return mentions;
 };
 
 const checkUser = async (mentions) => {
-  // select id from user where userName=${mention}
+  if (!mentions) {
+    return undefined;
+  }
+
   const userId = [];
   const promiseList = [];
 
@@ -29,17 +33,31 @@ const checkUser = async (mentions) => {
   return userId;
 };
 
-const createMention = (userId, issueId, commentId = null) => {
-  console.log(commentId);
+const createMention = async ({ userId, issueId, commentId = null }) => {
+  const mentionId = await mentionModel.create({ userId, issueId, commentId });
+  return mentionId;
 };
 
 const create = async ({ content, userId, issueId }) => {
   try {
     const commentId = await commentModel.create({ content, userId, issueId });
-    // const mentions = containMention(content);
+    const mentions = containMention(content);
+    const mentionedUserIds = await checkUser(mentions);
+
+    if (mentionedUserIds) {
+      mentionedUserIds.map(async (muid) => {
+        const mentionId = await createMention({
+          userId: muid,
+          issueId,
+          commentId,
+        });
+        return mentionId;
+      });
+    }
 
     return commentId;
   } catch (err) {
+    console.log(err);
     return undefined;
   }
 };
