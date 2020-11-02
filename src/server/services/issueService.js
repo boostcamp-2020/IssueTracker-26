@@ -46,7 +46,6 @@ const getIssueDetail = async (id) => {
 
 const createIssue = async (issueInfo) => {
   try {
-
     const issueId = await issueModel.createIssue(issueInfo);
     const { assignees, labels } = issueInfo;
     const promiseList = [];
@@ -62,7 +61,17 @@ const createIssue = async (issueInfo) => {
     await Promise.all(promiseList);
     return issueId;
   } catch (err) {
-    console.log(err)
+    return undefined;
+  }
+};
+
+const stateChange = async (state) => {
+  try {
+    state = state===1 ? 0 : state;
+    const issue = await issueModel.stateChange(state);
+    
+    return issue;
+  } catch (err) {
     return undefined;
   }
 };
@@ -70,5 +79,6 @@ const createIssue = async (issueInfo) => {
 module.exports = {
   getIssueList,
   getIssueDetail,
-  createIssue
+  createIssue,
+  stateChange
 };

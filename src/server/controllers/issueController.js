@@ -35,7 +35,7 @@ const stateChange = async (req, res) => {
   const { state } = req.body;
   if (!state) return res.status(400).end();
 
-  const issue = await issueService.createIssue(state);
+  const issue = await issueService.stateChange(state);
   console.log(issue);
   if (issue) {
     return res.status(200).json(issue);
