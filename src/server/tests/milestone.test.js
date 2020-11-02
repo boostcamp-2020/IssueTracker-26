@@ -115,13 +115,19 @@ describe('milestoneController 테스트', () => {
     res.end = function () {
       return this.code;
     };
+    res.json = function (obj) {
+      return { code: this.code, ...obj };
+    };
     service.list = [1, 2, 3, 4];
     service.createMilestone = ({ title, dueDate, description }) => {
-      if (title === 'ERROR') return undefined;
-      return 1;
+      if (title === 'ERROR') return Promise.resolve(undefined);
+      return Promise.resolve(1);
     };
     service.updateMilestone = ({ id, title, dueDate, description }) => {
-      return service.list.find((index) => index === id);
+      return Promise.resolve(service.list.find((index) => index === id));
+    };
+    service.getMilestoneList = (err) => {
+      return Promise.resolve([]);
     };
     milestoneController = milestoneControllerFn(service);
   });
@@ -171,6 +177,17 @@ describe('milestoneController 테스트', () => {
       req.body = {};
       const status = await milestoneController.updateMilestone(req, res);
       expect(status).toEqual(400);
+    });
+  });
+
+  describe('milestoneController : getMilestoneList', () => {
+    test('모든 마일스톤 목록을 불러오는데 성공한 경우 200을 리턴', async () => {
+      const { code, milestones } = await milestoneController.getMilestoneList(
+        req,
+        res,
+      );
+      expect(code).toEqual(200);
+      expect(milestones instanceof Array).toEqual(true);
     });
   });
 });
