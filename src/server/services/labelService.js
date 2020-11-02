@@ -9,4 +9,13 @@ const createLabel = async (labelInfo) => {
   }
 };
 
-module.exports = { createLabel };
+const getLabelList = async () => {
+  try {
+    const labelList = await labelModel.getLabelList();
+    return labelList;
+  } catch (err) {
+    return undefined;
+  }
+};
+
+module.exports = { createLabel, getLabelList };
