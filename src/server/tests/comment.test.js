@@ -34,31 +34,41 @@ describe('comment API', () => {
       const result = await commentService.create(testData);
       expect(result).toBeDefined();
     });
-    test('contain mention function test (exist)', async () => {
-      const testData =
-        'this is comments. comehere, @testMans sdfnjlksdfn @wenjkrwen, @asd';
-      const result = commentService.containMention(testData);
-      expect(result).toEqual(['@testMans', '@wenjkrwen']);
-    });
-    test('contain mention function test (not exist)', async () => {
-      const testData = 'this is comments. comehere, sdfnjlksdfn';
-      const result = commentService.containMention(testData);
-      expect(result).toEqual(null);
-    });
-    test('cehck user who mentioned - zero', async () => {
-      const testData = ['@nobody'];
-      const result = await commentService.checkUser(testData);
-      expect(result).toEqual([]);
-    });
-    test('check user who mentioned - only one', async () => {
-      const testData = ['@park'];
-      const result = await commentService.checkUser(testData);
-      expect(result).toEqual([1]);
-    });
-    test('check user who mentioned - two people', async () => {
-      const testData = ['@park', '@choi'];
-      const result = await commentService.checkUser(testData);
-      expect(result).toEqual([1, 2]);
+    describe('mention test', () => {
+      test('contain mention function test (exist)', async () => {
+        const testData =
+          'this is comments. comehere, @testMans sdfnjlksdfn @wenjkrwen, @asd';
+        const result = commentService.containMention(testData);
+        expect(result).toEqual(['@testMans', '@wenjkrwen']);
+      });
+      test('contain mention function test (not exist)', async () => {
+        const testData = 'this is comments. comehere, sdfnjlksdfn';
+        const result = commentService.containMention(testData);
+        expect(result).toEqual(null);
+      });
+      test('cehck user who mentioned - zero', async () => {
+        const testData = ['@nobody'];
+        const result = await commentService.checkUser(testData);
+        expect(result).toEqual([]);
+      });
+      test('check user who mentioned - only one', async () => {
+        const testData = ['@park'];
+        const result = await commentService.checkUser(testData);
+        expect(result).toEqual([1]);
+      });
+      test('check user who mentioned - two people', async () => {
+        const testData = ['@park', '@choi'];
+        const result = await commentService.checkUser(testData);
+        expect(result).toEqual([1, 2]);
+      });
+      test('createMention function - comment is null', async () => {
+        const mentionId = await commentService.createMention(1, 1);
+        expect(mentionId).toBeDefined();
+      });
+      test('createMention function - comment is not null', async () => {
+        const mentionId = await commentService.createMention(1, 1, 1);
+        expect(mentionId).toBeDefined();
+      });
     });
   });
 });
