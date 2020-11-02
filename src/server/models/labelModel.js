@@ -39,4 +39,13 @@ const updateLabel = async (id, userInfo) => {
   }
 };
 
-module.exports = { createLabel, getLabelList, updateLabel };
+const deleteLabel = async (id) => {
+  try {
+    const [{ affectedRows }] = await pool.execute(LABEL.DELETELABEL, [id]);
+    return affectedRows;
+  } catch (err) {
+    return undefined;
+  }
+};
+
+module.exports = { createLabel, getLabelList, updateLabel, deleteLabel };
