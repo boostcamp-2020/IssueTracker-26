@@ -18,9 +18,13 @@ describe('milestoneModel 테스트', () => {
 });
 
 beforeAll(() => {
+  model.list = [1, 2, 3];
   model.createMilestone = ({ title, dueDate, description }) => {
     if (!title) return Promise.resolve(undefined);
     return Promise.resolve(1);
+  };
+  model.updateMilestone = ({ id, title, dueDate, description }) => {
+    return Promise.resolve(model.list.find((list) => list === id));
   };
 });
 
@@ -41,6 +45,26 @@ describe('milestoneService 테스트', () => {
         });
         expect(milestoneId).toBeUndefined();
       });
+    });
+  });
+
+  describe('milestoneService : updateMilestone', () => {
+    describe('id와 일치하는 마일스톤을 찾아 수정한다.', () => {
+      test('id와 일치하는 마일스톤의 값을 수정 후 수정된 milestone의 id를 리턴한다.', async () => {
+        const id = 1;
+        const title = 'updated';
+        const milestoneId = await milestoneService.updateMilestone({
+          id,
+          title,
+        });
+        expect(id).toEqual(milestoneId);
+      });
+    });
+    test('id와 일치하는 마일스톤이 없는 경우 undefined를 리턴한다', async () => {
+      const id = 4;
+      const title = 'notfound';
+      const milestoneId = await milestoneService.updateMilestone({ id, title });
+      expect(milestoneId).toBeUndefined();
     });
   });
 });
