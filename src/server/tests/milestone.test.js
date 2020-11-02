@@ -38,6 +38,9 @@ beforeAll(() => {
   model.updateMilestone = ({ id, title, dueDate, description }) => {
     return Promise.resolve(model.list.find((list) => list === id));
   };
+  model.deleteMilestone = (id) => {
+    return Promise.resolve(model.list.find((list) => list === id));
+  };
 });
 
 describe('milestoneService 테스트', () => {
@@ -76,6 +79,19 @@ describe('milestoneService 테스트', () => {
       const id = 4;
       const title = 'notfound';
       const milestoneId = await milestoneService.updateMilestone({ id, title });
+      expect(milestoneId).toBeUndefined();
+    });
+  });
+
+  describe('milestoneService : deleteMilestone', () => {
+    test('해당하는 id의 마일스톤을 찾아 삭제한다. 삭제한 후에 삭제된 milestone id를 리턴한다.', async () => {
+      const id = 3;
+      const milestoneId = await milestoneService.deleteMilestone(id);
+      expect(milestoneId).toEqual(id);
+    });
+    test('해당하는 id의 마일스톤이 없는 경우 undefined를 리턴한다.', async () => {
+      const id = 999;
+      const milestoneId = await milestoneService.deleteMilestone(id);
       expect(milestoneId).toBeUndefined();
     });
   });
