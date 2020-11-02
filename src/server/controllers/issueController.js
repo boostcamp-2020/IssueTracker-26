@@ -83,6 +83,19 @@ const assigneesUpdate = async (req, res) => {
   return res.status(500).end();
 };
 
+const labelsUpdate = async (req, res) => {
+  const id = parseInt(req.params.id, 10);
+  const { labels } = req.body;
+  if (Number.isNaN(id)) return res.status(400).end();
+
+  const issue = await issueService.assigneesUpdate(id, labels);
+
+  if (issue) {
+    return res.status(200).end();
+  }
+  return res.status(500).end();
+};
+
 module.exports = {
   getIssueList,
   getIssueDetail,
@@ -91,4 +104,5 @@ module.exports = {
   titleUpdate,
   contentUpdate,
   assigneesUpdate,
+  labelsUpdate,
 };

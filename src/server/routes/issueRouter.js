@@ -8,5 +8,6 @@ router.put('/issue/state/:id', issueController.stateChange);
 router.put('/issue/title/:id', issueController.titleUpdate);
 router.put('/issue/content/:id', issueController.contentUpdate);
 router.put('/issue/assignees/:id', issueController.assigneesUpdate);
+router.put('/issue/labels/:id', issueController.labelsUpdate);
 
 module.exports = router;
