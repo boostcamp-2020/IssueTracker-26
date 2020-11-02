@@ -80,25 +80,29 @@ describe('milestoneService 테스트', () => {
 });
 
 describe('milestoneController 테스트', () => {
-  describe('milestoneController : createMilestone', () => {
-    const req = {};
-    const res = {};
-    const service = {
-      createMilestone({ title, dueDate, description }) {
-        if (title === 'ERROR') return undefined;
-        return 1;
-      },
+  const req = {};
+  const res = {};
+  const service = {};
+  let milestoneController = null;
+  beforeAll(() => {
+    res.status = function (code) {
+      this.code = code;
+      return this;
     };
-    const milestoneController = milestoneControllerFn(service);
-    beforeAll(() => {
-      res.status = function (code) {
-        this.code = code;
-        return this;
-      };
-      res.end = function () {
-        return this.code;
-      };
-    });
+    res.end = function () {
+      return this.code;
+    };
+    service.list = [1, 2, 3, 4];
+    service.createMilestone = ({ title, dueDate, description }) => {
+      if (title === 'ERROR') return undefined;
+      return 1;
+    };
+    service.updateMilestone = ({ id, title, dueDate, description }) => {
+      return service.list.find((index) => index === id);
+    };
+    milestoneController = milestoneControllerFn(service);
+  });
+  describe('milestoneController : createMilestone', () => {
     test('title이 없는 경우 상태코드 400를 리턴한다.', async () => {
       req.body = { title: '' };
       const status = await milestoneController.createMilestone(req, res);
@@ -117,6 +121,33 @@ describe('milestoneController 테스트', () => {
       };
       const status = await milestoneController.createMilestone(req, res);
       expect(status).toEqual(500);
+    });
+  });
+
+  describe('milestoneController : updateMilestone', () => {
+    test('id에 해당하는 milestone이 있는 경우 상태코드 200을 리턴한다.', async () => {
+      req.params = { id: 1 };
+      req.body = { title: 'hhoho' };
+      const status = await milestoneController.updateMilestone(req, res);
+      expect(status).toEqual(200);
+    });
+    test('id에 해당하는 milestone이 없는 경우 상태코드 404을 리턴한다', async () => {
+      req.params = { id: 10 };
+      req.body = { title: 'asdf' };
+      const status = await milestoneController.updateMilestone(req, res);
+      expect(status).toEqual(404);
+    });
+    test('id가 params로 넘어오지 않으면 400을 리턴한다.', async () => {
+      req.params = {};
+      req.body = { title: 'test123' };
+      const status = await milestoneController.updateMilestone(req, res);
+      expect(status).toEqual(400);
+    });
+    test('title이 body로 넘어오지 않으면 400을 리턴한다.', async () => {
+      req.params = { id: 1 };
+      req.body = {};
+      const status = await milestoneController.updateMilestone(req, res);
+      expect(status).toEqual(400);
     });
   });
 });
