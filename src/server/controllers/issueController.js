@@ -31,8 +31,21 @@ const createIssue = async (req, res) => {
   return res.status(500).end();
 };
 
+const stateChange = async (req, res) => {
+  const { state } = req.body;
+  if (!state) return res.status(400).end();
+
+  const issue = await issueService.createIssue(state);
+  console.log(issue);
+  if (issue) {
+    return res.status(200).json(issue);
+  }
+  return res.status(500).end();
+};
+
 module.exports = {
   getIssueList,
   getIssueDetail,
   createIssue,
+  stateChange,
 };
