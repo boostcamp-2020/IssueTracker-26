@@ -33,8 +33,21 @@ const remove = async (commentId) => {
   }
 };
 
+const update = async (commentId, content) => {
+  try {
+    const [{ affectedRows }] = await pool.execute(COMMENT.UPDATE, [
+      content,
+      commentId,
+    ]);
+    return affectedRows === 0 ? undefined : true;
+  } catch (err) {
+    return undefined;
+  }
+};
+
 module.exports = {
   create,
   read,
   remove,
+  update,
 };

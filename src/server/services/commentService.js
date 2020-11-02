@@ -43,26 +43,30 @@ const removeMention = async ({ issueId, commentId = null }) => {
   return result;
 };
 
-const updateMention = async ({ issueId, commentId = null}) => {
+const createMentionLogic = async ({ content, issueId, commentId }) => {
+  const mentions = containMention(content);
+  const mentionedUserIds = await checkUser(mentions);
 
+  if (mentionedUserIds) {
+    const promiseList = [];
+    mentionedUserIds.map(async (MUID) => {
+      const promiseItem = createMention({
+        userId: MUID,
+        issueId,
+        commentId,
+      });
+      promiseList.push(promiseItem);
+      return MUID;
+    });
+    await Promise.all(promiseList);
+  }
 };
 
 const create = async ({ content, userId, issueId }) => {
   try {
     const commentId = await commentModel.create({ content, userId, issueId });
-    const mentions = containMention(content);
-    const mentionedUserIds = await checkUser(mentions);
 
-    if (mentionedUserIds) {
-      mentionedUserIds.map(async (MUID) => {
-        const mentionId = await createMention({
-          userId: MUID,
-          issueId,
-          commentId,
-        });
-        return mentionId;
-      });
-    }
+    await createMentionLogic({ content, issueId, commentId });
 
     return commentId;
   } catch (err) {
@@ -75,8 +79,8 @@ const read = async (issueId) => {
   return comments;
 };
 
-const remove = async (commnetId) => {
-  const result = await commentModel.remove(commnetId);
+const remove = async (commentId) => {
+  const result = await commentModel.remove(commentId);
   return result;
 };
 
@@ -86,21 +90,11 @@ const update = async ({ commentId, content, issueId }) => {
     if (!result) {
       return undefined;
     }
-    removeMention({ issueId, commentId });
-    const mentions = containMention(content);
-    const mentionedUserIds = await checkUser(mentions);
+    await removeMention({ issueId, commentId });
 
-    if (mentionedUserIds) {
-      mentionedUserIds.map(async (muid) => {
-        const mentionId = await createMention({
-          userId: muid,
-          commentId,
-        });
-        return mentionId;
-      });
-    }
+    await createMentionLogic({ content, issueId, commentId });
 
-    return commentId;
+    return true;
   } catch (err) {
     return undefined;
   }
@@ -115,5 +109,4 @@ module.exports = {
   remove,
   update,
   removeMention,
-  updateMention,
 };
