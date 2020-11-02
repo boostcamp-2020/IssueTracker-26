@@ -17,4 +17,9 @@ router.put(
   milestoneController.updateMilestone.bind(milestoneController),
 );
 
+router.delete(
+  '/milestone/:id',
+  milestoneController.deleteMilestone.bind(milestoneController),
+);
+
 module.exports = router;
