@@ -86,10 +86,21 @@ const titleUpdate = async (id, title) => {
   }
 };
 
+const contentUpdate = async (id, content) => {
+  try {
+    const issue = await issueModel.contentUpdate(id, content);
+
+    return issue;
+  } catch (err) {
+    return undefined;
+  }
+};
+
 module.exports = {
   getIssueList,
   getIssueDetail,
   createIssue,
   stateChange,
   titleUpdate,
+  contentUpdate,
 };
