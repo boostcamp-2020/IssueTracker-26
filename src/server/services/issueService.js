@@ -44,7 +44,31 @@ const getIssueDetail = async (id) => {
   }
 };
 
+const createIssue = async (issueInfo) => {
+  try {
+
+    const issueId = await issueModel.createIssue(issueInfo);
+
+    const { assignee, labels } = issueInfo;
+    const promiseList = [];
+
+    labels.Map((labelId) => {
+      promiseList.push(issueModel.createIssueHasLbel(issueId, labelId));
+    })
+
+    assignee.forEach((assigneeId) => {
+      promiseList.push(issueModel.createAssignee(assigneeId, issueId));
+    })
+
+    await Promise.all(promiseList);
+    return issueId;
+  } catch (err) {
+    return undefined;
+  }
+};
+
 module.exports = {
   getIssueList,
   getIssueDetail,
+  createIssue
 };

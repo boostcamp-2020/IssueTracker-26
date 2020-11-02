@@ -19,13 +19,13 @@ const getIssueDetail = async (req, res) => {
   return res.status(404).end();
 };
 
-const setIssue = async (req, res) => {
+const createIssue = async (req, res) => {
   const { title, userId } = req.body;
 
   if (!title || !userId) return res.status(400).end();
 
   const issueInfo = req.body;
-  const issueId = await issueService.setIssue(issueInfo);
+  const issueId = await issueService.createIssue(issueInfo);
   if (issueId) {
     return res.status(201).json(issueId);
   }
@@ -35,5 +35,5 @@ const setIssue = async (req, res) => {
 module.exports = {
   getIssueList,
   getIssueDetail,
-  setIssue,
+  createIssue,
 };
