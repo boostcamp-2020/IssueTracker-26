@@ -1,8 +1,11 @@
+const issueModel = require('../models/issueModel');
+
 const milestoneController = (service) => {
   return {
     service,
     async getMilestoneList(req, res) {
-      const milestones = await service.getMilestoneList();
+      const milestones = await service.getMilestoneList(issueModel);
+
       if (milestones) return res.status(200).json({ milestones });
       return res.status(500).end();
     },
