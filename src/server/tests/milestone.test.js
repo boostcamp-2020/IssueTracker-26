@@ -8,13 +8,14 @@ const app = require('../app');
 const superTest = require('supertest');
 
 describe('milestoneModel 테스트', () => {
+  let insertId = null;
   test('milestone 생성', async () => {
-    const data = {
-      title: 'test',
-      dueDate: null,
-      description: null,
-    };
-    // const insertId = await milestoneModel.createMilestone(data);
+    // const data = {
+    //   title: 'test',
+    //   dueDate: null,
+    //   description: null,
+    // };
+    // insertId = await milestoneModel.createMilestone(data);
     // expect(insertId).toBeDefined();
   });
   test('milestone 수정', async () => {
@@ -26,6 +27,11 @@ describe('milestoneModel 테스트', () => {
     };
     const updatedId = await milestoneModel.updateMilestone(data);
     expect(updatedId).toBeDefined();
+  });
+  test('milestone 삭제', async () => {
+    // const id = insertId;
+    // const deletedId = await milestoneModel.deleteMilestone(id);
+    // expect(deletedId).toEqual(id);
   });
 });
 
