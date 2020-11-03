@@ -19,6 +19,8 @@ const MILESTONE = {
     if (description) fields += `description='${description}'`;
     return `update milestone set ${fields.trim()} where id=${id}`;
   },
+  GET_MILESTONE_LIST: `select id, title, duedate, description from milestone`,
+  GET_ISSUE_LIST_BY_MILESTONE_ID: `select i.id, i.title, i.content, i.user_id, u.username, i.createdat, i.milestone_id from issue i left join user u on i.user_id=u.id where i.milestone_id=?`,
 };
 
 const ISSUE = {
