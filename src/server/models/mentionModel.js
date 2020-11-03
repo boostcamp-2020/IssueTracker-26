@@ -14,6 +14,25 @@ const create = async ({ userId, issueId, commentId }) => {
   }
 };
 
+const remove = async ({ issueId, commentId }) => {
+  try {
+    if (!commentId) {
+      const [{ affectedRows }] = await pool.execute(MENTION.REMOVE_NULL, [
+        issueId,
+      ]);
+      return affectedRows === 0 ? undefined : true;
+    }
+    const [{ affectedRows }] = await pool.execute(MENTION.REMOVE_NOTNULL, [
+      issueId,
+      commentId,
+    ]);
+    return affectedRows === 0 ? undefined : true;
+  } catch (err) {
+    return undefined;
+  }
+};
+
 module.exports = {
   create,
+  remove,
 };

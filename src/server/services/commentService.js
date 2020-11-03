@@ -38,27 +38,38 @@ const createMention = async ({ userId, issueId, commentId = null }) => {
   return mentionId;
 };
 
+const removeMention = async ({ issueId, commentId = null }) => {
+  const result = await mentionModel.remove({ issueId, commentId });
+  return result;
+};
+
+const createMentionLogic = async ({ content, issueId, commentId }) => {
+  const mentions = containMention(content);
+  const mentionedUserIds = await checkUser(mentions);
+
+  if (mentionedUserIds) {
+    const promiseList = [];
+    mentionedUserIds.map(async (MUID) => {
+      const promiseItem = createMention({
+        userId: MUID,
+        issueId,
+        commentId,
+      });
+      promiseList.push(promiseItem);
+      return MUID;
+    });
+    await Promise.all(promiseList);
+  }
+};
+
 const create = async ({ content, userId, issueId }) => {
   try {
     const commentId = await commentModel.create({ content, userId, issueId });
-    const mentions = containMention(content);
-    const mentionedUserIds = await checkUser(mentions);
 
-    if (mentionedUserIds) {
-      mentionedUserIds.map(async (muid) => {
-        const mentionId = await createMention({
-          userId: muid,
-          issueId,
-          commentId,
-        });
-        return mentionId;
-      });
-    }
+    await createMentionLogic({ content, issueId, commentId });
 
     return commentId;
   } catch (err) {
-    // eslint-disable-next-line no-console
-    console.log(err);
     return undefined;
   }
 };
@@ -68,10 +79,34 @@ const read = async (issueId) => {
   return comments;
 };
 
+const remove = async (commentId) => {
+  const result = await commentModel.remove(commentId);
+  return result;
+};
+
+const update = async ({ commentId, content, issueId }) => {
+  try {
+    const result = await commentModel.update(commentId, content);
+    if (!result) {
+      return undefined;
+    }
+    await removeMention({ issueId, commentId });
+
+    await createMentionLogic({ content, issueId, commentId });
+
+    return true;
+  } catch (err) {
+    return undefined;
+  }
+};
+
 module.exports = {
   create,
   containMention,
   checkUser,
   createMention,
   read,
+  remove,
+  update,
+  removeMention,
 };
