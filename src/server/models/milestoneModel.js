@@ -10,6 +10,27 @@ const deleteMilestone = async (id) => {
   }
 };
 
+const getIssueListByMilestoneId = async (milestoneId) => {
+  try {
+    const [rows] = await pool.execute(
+      MILESTONE.GET_ISSUE_LIST_BY_MILESTONE_ID,
+      [milestoneId],
+    );
+    return rows;
+  } catch (e) {
+    return undefined;
+  }
+};
+
+const getMilestoneList = async () => {
+  try {
+    const [rows] = await pool.execute(MILESTONE.GET_MILESTONE_LIST);
+    return rows;
+  } catch (e) {
+    return undefined;
+  }
+};
+
 const createMilestone = async ({ title, dueDate, description }) => {
   try {
     const [{ insertId }] = await pool.execute(MILESTONE.CREATE, [
@@ -36,4 +57,6 @@ module.exports = {
   createMilestone,
   updateMilestone,
   deleteMilestone,
+  getMilestoneList,
+  getIssueListByMilestoneId,
 };

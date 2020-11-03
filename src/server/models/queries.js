@@ -6,6 +6,8 @@ const USER = {
 const LABEL = {
   CREATE: `insert into label(title, description, color) values(?,?,?)`,
   GETLABELLIST: `select id, title, description, color from label`,
+  UPDATELABEL: `update label set title = ?, description = ?, color = ? where id = ?`,
+  DELETELABEL: `delete from label where id = ?`,
 };
 
 const MILESTONE = {
@@ -18,6 +20,8 @@ const MILESTONE = {
     return `update milestone set ${fields.trim()} where id=${id}`;
   },
   DELETE: `delete from milestone where id=?`,
+  GET_MILESTONE_LIST: `select id, title, duedate, description from milestone`,
+  GET_ISSUE_LIST_BY_MILESTONE_ID: `select i.id, i.title, i.content, i.user_id, u.username, i.createdat, i.milestone_id from issue i left join user u on i.user_id=u.id where i.milestone_id=?`,
 };
 
 const ISSUE = {
@@ -46,12 +50,16 @@ const ISSUE = {
 };
 
 const COMMENT = {
-  CREATE: `INSERT INTO comment(content, user_id, issue_id) VALUES(?,?,?)`,
+  CREATE: `insert into comment(content, user_id, issue_id) VALUES(?,?,?)`,
   READ: `select id, content, user_id, issue_id from comment where issue_id = ?`,
+  REMOVE: `delete from comment where id=?`,
+  UPDATE: `update comment set content = ? where id = ?`,
 };
 
 const MENTION = {
-  CREATE: `INSERT INTO mention(user_id, issue_id, comment_id) VALUES(?,?,?)`,
+  CREATE: `insert into mention(user_id, issue_id, comment_id) VALUES(?,?,?)`,
+  REMOVE_NULL: `delete from mention where issue_id = ? and comment_id is null`,
+  REMOVE_NOTNULL: `delete from mention where issue_id = ? and comment_id = ?`,
 };
 
 module.exports = {
