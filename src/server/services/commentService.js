@@ -68,10 +68,16 @@ const read = async (issueId) => {
   return comments;
 };
 
+const remove = async (commnetId) => {
+  const result = await commentModel.remove(commnetId);
+  return result;
+};
+
 module.exports = {
   create,
   containMention,
   checkUser,
   createMention,
   read,
+  remove,
 };

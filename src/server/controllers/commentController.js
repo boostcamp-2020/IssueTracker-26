@@ -24,7 +24,21 @@ const read = async (req, res) => {
   return res.status(204).end();
 };
 
+const remove = async (req, res) => {
+  const { id } = req.params;
+  // eslint-disable-next-line no-restricted-globals
+  if (isNaN(id)) {
+    return res.status(400).end();
+  }
+  const result = await commentService.remove(id);
+  if (result) {
+    return res.status(205).end(); // this means need refresh
+  }
+  return res.status(406).end();
+};
+
 module.exports = {
   create,
   read,
+  remove,
 };

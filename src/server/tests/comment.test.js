@@ -6,7 +6,7 @@ const commentService = require('../services/commentService');
 const app = require('../app');
 
 describe('comment API', () => {
-  describe.skip('CREATE', () => {
+  describe('CREATE', () => {
     test('model test', async () => {
       const testData = {
         content: 'test content22',
@@ -104,6 +104,35 @@ describe('comment API', () => {
         };
         const res = await request(app).get('/api/comment').send(testData);
         expect(res.status).toBe(200);
+        done();
+      });
+    });
+  });
+  describe('DELETE', () => {
+    describe('MODEL', () => {
+      test('잘못된 comment id : undefined 반환', async () => {
+        const wrongId = 2121;
+        const result = await commentModel.remove(wrongId);
+        expect(result).toBeUndefined();
+      });
+      test.skip('해당 comment id 삭제 : true 반환', async () => {
+        const commentId = 250; // 삭제할 comment ID 입력
+        const result = await commentModel.remove(commentId);
+        expect(result).toBeDefined();
+      });
+    });
+    describe('REQUEST', () => {
+      test.skip('삭제를 위한 올바른 commentId', async (done) => {
+        const commentId = 254; // 삭제할 comment ID 입력
+        await request(app).delete(`/api/comment/${commentId}`).expect(205);
+        done();
+      });
+      test('잘못된 id로 요청', async (done) => {
+        await request(app).delete('/api/comment/2462627').expect(406);
+        done();
+      });
+      test('문자로 id 요청', async (done) => {
+        await request(app).delete('/api/comment/as').expect(400);
         done();
       });
     });

@@ -47,6 +47,7 @@ const ISSUE = {
 const COMMENT = {
   CREATE: `INSERT INTO comment(content, user_id, issue_id) VALUES(?,?,?)`,
   READ: `select id, content, user_id, issue_id from comment where issue_id = ?`,
+  REMOVE: 'delete from comment where id=?',
 };
 
 const MENTION = {
