@@ -4,6 +4,7 @@ const request = require('supertest');
 const commentModel = require('../models/commentModel');
 const commentService = require('../services/commentService');
 const app = require('../app');
+const mentionModel = require('../models/mentionModel');
 
 describe('comment API', () => {
   describe('CREATE', () => {
@@ -133,6 +134,98 @@ describe('comment API', () => {
       });
       test('문자로 id 요청', async (done) => {
         await request(app).delete('/api/comment/as').expect(400);
+        done();
+      });
+    });
+  });
+  describe('UPDATE', () => {
+    describe('MODEL', () => {
+      describe('no mention', () => {
+        test('put : commnetId 있음', async (done) => {
+          const result = await commentModel.update(1, 'update using jest');
+          expect(result).toBe(true);
+          done();
+        });
+        test('put : commnetId 없음', async (done) => {
+          const result = await commentModel.update(0, 'update using jest');
+          expect(result).toBeUndefined();
+          done();
+        });
+      });
+      describe('mention', () => {
+        test('commentId 포함 생성', async (done) => {
+          const testData = {
+            userId: 1,
+            issueId: 1,
+            commentId: 261,
+          };
+          const result = await mentionModel.create(testData);
+          expect(result).toBeDefined();
+          done();
+        });
+        test('commnetId null', () => {
+          expect(1).toBe(2); // todo: 구현
+        });
+      });
+    });
+    describe('SERVICE', () => {
+      describe('remove mention', () => {
+        describe('issue 로만 삭제', () => {
+          test('issueId 없음', async (done) => {
+            const issueId = 95959;
+            const result = await commentService.removeMention({ issueId });
+            expect(result).toBeUndefined();
+            done();
+          });
+          test.skip('isuueId 있음', async (done) => {
+            const issueId = 1; // mention에 해당 issueId가 있어야함
+            const result = await commentService.removeMention({ issueId });
+            expect(result).toBe(true);
+            done();
+          });
+        });
+        describe('issue + comment 로 삭제', () => {
+          test.skip('삭제 성공', async (done) => {
+            const testData = {
+              issueId: 1,
+              commentId: 3,
+            };
+            const result = await commentService.removeMention(testData);
+            expect(result).toBe(true);
+            done();
+          });
+          test('삭제 실패', async (done) => {
+            const testData = {
+              issueId: 2,
+              commentId: 3,
+            };
+            const result = await commentService.removeMention(testData);
+            expect(result).toBeUndefined();
+            done();
+          });
+        });
+      });
+      describe('udate mention', () => {
+        test.skip('코멘트 업데이트 with mention', async (done) => {
+          const testData = {
+            commentId: 270, // 주의
+            content: 'hey @park and @choi and @kim',
+            issueId: 1,
+          };
+          const result = await commentService.update(testData);
+          expect(result).toBe(true); // mention에 대한 테스트 결과는 모름
+          done();
+        });
+      });
+    });
+    describe('REQUEST', () => {
+      test.skip('코멘트에 멘션 있게 변경', async (done) => {
+        const testData = {
+          commentId: 270, // 주의
+          content: 'hey @park and @choi and @kim',
+          issueId: 1,
+        };
+        await request(app).put('/api/comment/261').send(testData).expect(205);
         done();
       });
     });

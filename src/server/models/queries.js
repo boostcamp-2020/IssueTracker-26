@@ -45,13 +45,16 @@ const ISSUE = {
 };
 
 const COMMENT = {
-  CREATE: `INSERT INTO comment(content, user_id, issue_id) VALUES(?,?,?)`,
+  CREATE: `insert into comment(content, user_id, issue_id) VALUES(?,?,?)`,
   READ: `select id, content, user_id, issue_id from comment where issue_id = ?`,
-  REMOVE: 'delete from comment where id=?',
+  REMOVE: `delete from comment where id=?`,
+  UPDATE: `update comment set content = ? where id = ?`,
 };
 
 const MENTION = {
-  CREATE: `INSERT INTO mention(user_id, issue_id, comment_id) VALUES(?,?,?)`,
+  CREATE: `insert into mention(user_id, issue_id, comment_id) VALUES(?,?,?)`,
+  REMOVE_NULL: `delete from mention where issue_id = ? and comment_id is null`,
+  REMOVE_NOTNULL: `delete from mention where issue_id = ? and comment_id = ?`,
 };
 
 module.exports = {

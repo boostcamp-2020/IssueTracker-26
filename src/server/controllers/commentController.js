@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 const commentService = require('../services/commentService');
 
 const create = async (req, res) => {
@@ -26,7 +27,6 @@ const read = async (req, res) => {
 
 const remove = async (req, res) => {
   const { id } = req.params;
-  // eslint-disable-next-line no-restricted-globals
   if (isNaN(id)) {
     return res.status(400).end();
   }
@@ -37,8 +37,22 @@ const remove = async (req, res) => {
   return res.status(406).end();
 };
 
+const update = async (req, res) => {
+  const { id } = req.params;
+  const { commentId, content, issueId } = req.body;
+  if (isNaN(id)) {
+    return res.status(400).end();
+  }
+  const result = await commentService.update({ commentId, content, issueId });
+  if (result) {
+    return res.status(205).end();
+  }
+  return res.status(406).end();
+};
+
 module.exports = {
   create,
   read,
   remove,
+  update,
 };
