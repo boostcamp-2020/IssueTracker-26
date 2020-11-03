@@ -1,6 +1,14 @@
 const milestoneService = (model) => {
   return {
     model,
+    async deleteMilestone(id) {
+      try {
+        const milestoneId = await this.model.deleteMilestone(id);
+        return milestoneId;
+      } catch (e) {
+        return undefined;
+      }
+    },
     async getMilestoneList(issueModel) {
       let milestoneList = await this.model.getMilestoneList();
       const issuesListsPromise = milestoneList.map((milestone) => {

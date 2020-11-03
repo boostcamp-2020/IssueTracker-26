@@ -3,6 +3,12 @@ const issueModel = require('../models/issueModel');
 const milestoneController = (service) => {
   return {
     service,
+    async deleteMilestone(req, res) {
+      const { id } = req.params;
+      const milestoneId = await this.service.deleteMilestone(id);
+      if (milestoneId) return res.status(200).end();
+      return res.status(204).end();
+    },
     async getMilestoneList(req, res) {
       const milestones = await service.getMilestoneList(issueModel);
 

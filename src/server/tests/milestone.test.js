@@ -10,13 +10,14 @@ const app = require('../app');
 const superTest = require('supertest');
 
 describe('milestoneModel 테스트', () => {
+  let insertId = null;
   test('milestone 생성', async () => {
-    const data = {
-      title: 'test',
-      dueDate: null,
-      description: null,
-    };
-    // const insertId = await milestoneModel.createMilestone(data);
+    // const data = {
+    //   title: 'test',
+    //   dueDate: null,
+    //   description: null,
+    // };
+    // insertId = await milestoneModel.createMilestone(data);
     // expect(insertId).toBeDefined();
   });
   test('milestone 수정', async () => {
@@ -28,6 +29,11 @@ describe('milestoneModel 테스트', () => {
     };
     const updatedId = await milestoneModel.updateMilestone(data);
     expect(updatedId).toBeDefined();
+  });
+  test('milestone 삭제', async () => {
+    // const id = insertId;
+    // const deletedId = await milestoneModel.deleteMilestone(id);
+    // expect(deletedId).toEqual(id);
   });
   test('milestone 가져오기', async () => {
     const milestoneLists = await milestoneModel.getMilestoneList();
@@ -49,6 +55,9 @@ beforeAll(() => {
     return Promise.resolve(1);
   };
   model.updateMilestone = ({ id, title, dueDate, description }) => {
+    return Promise.resolve(model.list.find((list) => list === id));
+  };
+  model.deleteMilestone = (id) => {
     return Promise.resolve(model.list.find((list) => list === id));
   };
 });
@@ -93,6 +102,19 @@ describe('milestoneService 테스트', () => {
     });
   });
 
+  describe('milestoneService : deleteMilestone', () => {
+    test('해당하는 id의 마일스톤을 찾아 삭제한다. 삭제한 후에 삭제된 milestone id를 리턴한다.', async () => {
+      const id = 3;
+      const milestoneId = await milestoneService.deleteMilestone(id);
+      expect(milestoneId).toEqual(id);
+    });
+    test('해당하는 id의 마일스톤이 없는 경우 undefined를 리턴한다.', async () => {
+      const id = 999;
+      const milestoneId = await milestoneService.deleteMilestone(id);
+      expect(milestoneId).toBeUndefined();
+    });
+  });
+
   describe('milestoneService : getMilestoneList', () => {
     test('모든 마일스톤 값을 불러온다.', async () => {
       const service = milestoneServiceFn(milestoneModel);
@@ -128,6 +150,9 @@ describe('milestoneController 테스트', () => {
     };
     service.getMilestoneList = (err) => {
       return Promise.resolve([]);
+    };
+    service.deleteMilestone = async (id) => {
+      return Promise.resolve(service.list.find((list) => list === id));
     };
     milestoneController = milestoneControllerFn(service);
   });
@@ -180,6 +205,18 @@ describe('milestoneController 테스트', () => {
     });
   });
 
+  describe('milestoneController : deleteMilestone', () => {
+    test('id에 해당하는 milestone이 있으면 지우고 200 코드를 리턴한다.', async () => {
+      req.params = { id: 1 };
+      const status = await milestoneController.deleteMilestone(req, res);
+      expect(status).toEqual(200);
+    });
+    test('id에 해당하는 milestone이 없으면 204 코드를 리턴한다.', async () => {
+      req.params = { id: 999 };
+      const status = await milestoneController.deleteMilestone(req, res);
+      expect(status).toEqual(204);
+    });
+  });
   describe('milestoneController : getMilestoneList', () => {
     test('모든 마일스톤 목록을 불러오는데 성공한 경우 200을 리턴', async () => {
       const { code, milestones } = await milestoneController.getMilestoneList(
@@ -233,6 +270,14 @@ describe('milestone API 테스트', () => {
         .put('/api/milestone/99')
         .send({ title: 'hho' });
       expect(response.status).toEqual(404);
+    });
+  });
+  describe(`DELETE /api/milestone/`, () => {
+    // test('성공 시 200 리턴', async () => {
+    //   await request.delete('/api/milestone/5').expect(200);
+    // });
+    test('id가 존재하지 않는 경우 204 리턴', async () => {
+      await request.delete('/api/milestone/99').expect(204);
     });
   });
 });

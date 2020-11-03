@@ -1,6 +1,15 @@
 const pool = require('../config/db-config');
 const { MILESTONE } = require('./queries');
 
+const deleteMilestone = async (id) => {
+  try {
+    const [rows] = await pool.execute(MILESTONE.DELETE, [id]);
+    return rows.affectedRows ? id : undefined;
+  } catch (e) {
+    return undefined;
+  }
+};
+
 const getIssueListByMilestoneId = async (milestoneId) => {
   try {
     const [rows] = await pool.execute(
@@ -47,6 +56,7 @@ const updateMilestone = async (data) => {
 module.exports = {
   createMilestone,
   updateMilestone,
+  deleteMilestone,
   getMilestoneList,
   getIssueListByMilestoneId,
 };
