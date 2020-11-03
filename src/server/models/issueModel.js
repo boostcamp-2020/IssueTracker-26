@@ -46,10 +46,10 @@ const getIssueComment = async (id) => {
   }
 };
 
-const getIssueRatio = async (id) => {
+const getMilestone = async (id) => {
   try {
-    const [ratio] = await pool.execute(ISSUE.GETISSUERATIO, [id, id]);
-    return ratio;
+    const [milestone] = await pool.execute(ISSUE.GETMILESTONE, [id, id]);
+    return milestone;
   } catch (err) {
     return undefined;
   }
@@ -104,15 +104,89 @@ const stateChange = async (state, id) => {
   }
 };
 
+const titleUpdate = async (id, title) => {
+  try {
+    const [issue] = await pool.execute(ISSUE.TITLEUPDATE, [title, id]);
+    return issue;
+  } catch (err) {
+    return undefined;
+  }
+};
+
+const contentUpdate = async (id, content) => {
+  try {
+    const [issue] = await pool.execute(ISSUE.CONTENTUPDATE, [content, id]);
+    return issue;
+  } catch (err) {
+    return undefined;
+  }
+};
+
+const assigneesDelete = async (id) => {
+  try {
+    const [issue] = await pool.execute(ISSUE.ASSIGNEESDELETE, [id]);
+    return issue;
+  } catch (err) {
+    return undefined;
+  }
+};
+
+const assigneesUpdate = async (id, assigneeId) => {
+  try {
+    const [issue] = await pool.execute(ISSUE.ASSIGNEEUPDATE, [assigneeId, id]);
+    return issue;
+  } catch (err) {
+    return undefined;
+  }
+};
+
+const labelsDelete = async (id) => {
+  try {
+    const [issue] = await pool.execute(ISSUE.LABELSDELETE, [id]);
+    return issue;
+  } catch (err) {
+    return undefined;
+  }
+};
+
+const labelUpdate = async (id, labelId) => {
+  try {
+    const [issue] = await pool.execute(ISSUE.LABELUPDATE, [id, labelId]);
+    return issue;
+  } catch (err) {
+    return undefined;
+  }
+};
+
+const milestoneUpdate = async (id, milestoneId) => {
+  try {
+    const [milestone] = await pool.execute(ISSUE.MILESTONEUPDATE, [
+      milestoneId,
+      id,
+    ]);
+
+    return milestone;
+  } catch (err) {
+    return undefined;
+  }
+};
+
 module.exports = {
   getIssueList,
   getIssueLabel,
   getIssueAssignee,
   getIssueDetail,
   getIssueComment,
-  getIssueRatio,
+  getMilestone,
   createIssue,
   createIssueHasLbel,
   createAssignee,
   stateChange,
+  titleUpdate,
+  contentUpdate,
+  assigneesDelete,
+  assigneesUpdate,
+  labelsDelete,
+  labelUpdate,
+  milestoneUpdate,
 };

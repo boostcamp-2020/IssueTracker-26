@@ -2,6 +2,7 @@
 require('dotenv').config();
 const request = require('superTest');
 const app = require('../app');
+const { milestoneUpdate } = require('../models/issueModel');
 const issueModel = require('../models/issueModel');
 const issueService = require('../services/issueService');
 
@@ -251,6 +252,208 @@ describe('POST /issue는', () => {
       .put('/api/issue/state').send(state);
       expect(response.status).toEqual(200);
       done();
+    })
+  })
+})
+
+/* 이슈 수정하기 API 테스트*/
+/* 단위 테스트 */
+describe('이슈 제목 수정하기 API 단위 TEST', () => {
+  const id = 1;
+  const title = 'test 제목';
+  const content = 'test 내용';
+  const assignees = [2];
+  const labels = [2];
+  const milestoneId = 2;
+  describe('이슈 제목 수정하기 MODEL API TEST', () => {
+    describe('이슈 MODEL', ()=>{
+  
+      test('이슈 제목 수정하기', async () => {
+        const data = await issueModel.titleUpdate(id, title);
+        expect(data).toBeDefined();
+      })
+    })
+
+    describe('이슈 MODEL', ()=>{
+  
+      test('이슈 내용 수정하기', async () => {
+        const data = await issueModel.contentUpdate(id, content);
+        expect(data).toBeDefined();
+      })
+    })
+
+    describe('이슈 MODEL', ()=>{
+  
+      test('이슈 담당자 수정하기', async () => {
+        await issueModel.assigneesDelete(id);
+        const data = await issueModel.assigneesUpdate(id, assignees[0]);
+        expect(data).toBeDefined();
+      })
+    })
+
+    describe('이슈 MODEL', ()=>{
+  
+      test('이슈 레이블 수정하기', async () => {
+        await issueModel.labelsDelete(id);
+        const data = await issueModel.labelUpdate(id, labels[0]);
+        expect(data).toBeDefined();
+      })
+    })
+
+    describe('이슈 MODEL', ()=>{
+  
+      test('이슈 마일스톤 수정하기', async () => {
+        const data = await issueModel.milestoneUpdate(id, milestoneId);
+        expect(data).toBeDefined();
+      })
+    })
+  })
+
+  describe('이슈 제목 수정하기 SERVICE API TEST', ()=>{
+    describe('이슈 SERVICE', ()=>{
+  
+      test('이슈 제목 수정하기', async () => {
+        const data = await issueService.titleUpdate(id, title);
+        expect(data).toBeDefined();
+      })
+    })
+  })
+
+  describe('이슈 내용 수정하기 SERVICE API TEST', ()=>{
+    describe('이슈 SERVICE', ()=>{
+  
+      test('이슈 내용 수정하기', async () => {
+        const data = await issueService.contentUpdate(id, content);
+        expect(data).toBeDefined();
+      })
+    })
+  })
+
+  describe('이슈 담당자 수정하기 SERVICE API TEST', ()=>{
+    describe('이슈 SERVICE', ()=>{
+  
+      test('이슈 내용 수정하기', async () => {
+        const data = await issueService.assigneesUpdate(id, assignees);
+        expect(data).toBeDefined();
+      })
+    })
+  })
+
+  describe('이슈 레이블 수정하기 SERVICE API TEST', ()=>{
+    describe('이슈 SERVICE', ()=>{
+  
+      test('이슈 레이블 수정하기', async () => {
+        const data = await issueService.labelsUpdate(id, labels);
+        expect(data).toBeDefined();
+      })
+    })
+  })
+
+  describe('이슈 마일스톤 수정하기 SERVICE API TEST', ()=>{
+    describe('이슈 SERVICE', ()=>{
+  
+      test('이슈 마일스톤 수정하기', async () => {
+        const data = await issueService.milestoneUpdate(id, milestoneId);
+        expect(data).toBeDefined();
+      })
+    })
+  })
+});
+
+/* 슈퍼 테스트 */
+describe('PUT /issue/title은', () => {
+  const info = {
+    "title" : "테스트 제목"
+  }
+  describe('성공시', () => {
+
+    test('이슈 제목을 성공적으로 수정하면 200을 반환한다.', async (done) => {
+      const response = await request(app)
+      .put('/api/issue/title/1').send(info);
+      expect(response.status).toEqual(200);
+      done();
+    })
+  })
+  
+  describe('실패시', () => {
+    
+    test('이슈 제목이 존재하지 않으면 400을 반환한다.', async (done) => {
+      info.title='';
+      const response = await request(app)
+      .put('/api/issue/title/1').send(info);
+      expect(response.status).toEqual(400);
+      done();
+    })
+  })
+})
+
+describe('PUT /issue/content는', () => {
+  const info = {
+    "content" : "테스트 내용"
+  }
+  describe('성공시', () => {
+
+    test('이슈 내용을 성공적으로 수정하면 200을 반환한다.', async (done) => {
+      const response = await request(app)
+      .put('/api//issue/content/1').send(info);
+      expect(response.status).toEqual(200);
+      done();
+    })
+  })
+  
+  describe('실패시', () => {
+    
+    test('이슈 내용이 존재하지 않으면 400을 반환한다.', async (done) => {
+      info.content='';
+      const response = await request(app)
+      .put('/api//issue/content/1').send(info);
+      expect(response.status).toEqual(400);
+      done();
+    })
+  })
+})
+
+describe('PUT /issue/assignees는', () => {
+  const info = {
+    "assignees" : [2,3]
+  }
+  describe('성공시', () => {
+
+    test('이슈 담당자를 성공적으로 수정하면 200을 반환한다.', async (done) => {
+      const response = await request(app)
+      .put('/api//issue/assignees/1').send(info);
+      expect(response.status).toEqual(200);
+      done();
+    })
+  })
+})
+
+describe('PUT /issue/labels는', () => {
+  const info = {
+    "labels" : [2,3]
+  }
+  describe('성공시', () => {
+
+    test('이슈 레이블을 성공적으로 수정하면 200을 반환한다.', async (done) => {
+      const response = await request(app)
+      .put('/api//issue/labels/1').send(info);
+      expect(response.status).toEqual(200);
+      done();
+    })
+  })
+
+  describe('PUT /issue/milestone는', () => {
+    const info = {
+      "milestoneId" : 1
+    }
+    describe('성공시', () => {
+  
+      test('이슈 마일스톤을 성공적으로 수정하면 200을 반환한다.', async (done) => {
+        const response = await request(app)
+        .put('/api//issue/milestone/1').send(info);
+        expect(response.status).toEqual(200);
+        done();
+      })
     })
   })
 })
