@@ -33,4 +33,17 @@ const updateLabel = async (req, res) => {
   return res.status(404).end();
 };
 
-module.exports = { createLabel, getLabelList, updateLabel };
+const deleteLabel = async (req, res) => {
+  const { id } = req.params;
+  // eslint-disable-next-line no-restricted-globals
+  if (isNaN(id)) {
+    return res.status(400).end();
+  }
+  const affectedRows = await labelService.deleteLabel(id);
+  if (affectedRows) {
+    return res.status(205).end();
+  }
+  return res.status(404).end();
+};
+
+module.exports = { createLabel, getLabelList, updateLabel, deleteLabel };

@@ -263,3 +263,74 @@ describe('label을 수정하는 api', () => {
     });
   });
 });
+
+/* test DB에 실제 존재하는 id 값으로 테스트 중 -> transaction rollback 적용 필요 */
+describe('label을 삭제하는 api', () => {
+  describe('Model Layer', () => {
+    test('id값이 정상적으로 입력된 경우', async () => {
+      expect(await labelModel.deleteLabel(17)).toBeGreaterThan(0);
+    });
+
+    test('id값이 숫자가 아닌 경우', async () => {
+      expect(await labelModel.deleteLabel('asdf')).toBeUndefined();
+    });
+    
+    test('없는 id값의 label을 삭제하는 경우', async () => {
+      expect(await labelModel.deleteLabel(1000)).toEqual(0);
+    });
+  })
+  
+  describe('Service Layer', () => {
+    test('id값이 정상적으로 입력된 경우', async () => {
+      expect(await labelService.deleteLabel(16)).toBeGreaterThan(0);
+    });
+
+    test('id값이 숫자가 아닌 경우', async () => {
+      expect(await labelService.deleteLabel('asdf')).toBeUndefined();
+    });
+    
+    test('없는 id값의 label을 삭제하는 경우', async () => {
+      expect(await labelService.deleteLabel(1000)).toEqual(0);
+    });
+  })
+
+  describe('Controller Layer', () => {
+    const res = {};
+    beforeAll(() => createRes(res));
+
+    const req = { params: { id: 15 } };
+    test('id값이 정상적으로 입력된 경우', async () => {
+      const status = await labelController.deleteLabel(req, res);
+      expect(status).toEqual(205);
+    });
+
+    const strReq = { params: { id: 'asdf' } };
+    test('id값이 숫자가 아닌 경우', async () => {
+      const status = await labelController.deleteLabel(strReq, res);
+      expect(status).toEqual(400);
+    });
+    
+    const wrongReq = { params: { id: 1000 } };
+    test('없는 id값의 label을 삭제하는 경우', async () => {
+      const status = await labelController.deleteLabel(wrongReq, res);
+      expect(status).toEqual(404);
+    });
+  });
+
+  describe('API 테스트', () => {
+    test('id값이 정상적으로 입력된 경우', async (done) => {
+      await request(app).delete(`/api/label/14`).expect(205);
+      done();
+    });
+
+    test('id값이 숫자가 아닌 경우', async (done) => {
+      await request(app).delete('/api/label/asdf').expect(400);
+      done();
+    });
+    
+    test('없는 id값의 label을 삭제하는 경우', async (done) => {
+      await request(app).delete('/api/label/1000').expect(404);
+      done();
+    });
+  });
+});
