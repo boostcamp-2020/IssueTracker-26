@@ -1,11 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Textarea from '../components/Textarea';
 
 function MainPage() {
+  const [textareaValue, setTextareaValue] = useState('');
+
+  const handleInput = (e) => setTextareaValue(e.target.value);
   return (
     <div>
       메인 페이지입니다.
-      <Textarea width={'500px'} placeholder={'Leave a comment'}></Textarea>
+      <Textarea
+        value={textareaValue}
+        handleInput={handleInput}
+        width={'500px'}
+        placeholder={'Leave a comment'}
+      ></Textarea>
     </div>
   );
 }
