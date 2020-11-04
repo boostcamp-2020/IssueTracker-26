@@ -4,6 +4,7 @@ const theme = {
     inputOutline: '#0466d5',
     border: '#cfd3da',
     grayBackground: '#f7f8fa',
+    lightGreen: '#2c994c',
   },
 };
 
