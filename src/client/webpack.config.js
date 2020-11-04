@@ -61,6 +61,7 @@ module.exports = {
     host: 'localhost',
     overlay: true,
     port: 8080,
+    hot: true,
     stats: 'errors-only',
     historyApiFallback: true,
   },
