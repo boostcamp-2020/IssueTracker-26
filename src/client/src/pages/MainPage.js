@@ -11,7 +11,7 @@ function MainPage() {
       <Textarea
         value={textareaValue}
         handleInput={handleInput}
-        width={'500px'}
+        width={'1000px'}
         placeholder={'Leave a comment'}
       ></Textarea>
     </div>
