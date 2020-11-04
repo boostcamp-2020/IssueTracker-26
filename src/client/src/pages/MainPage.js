@@ -3,7 +3,6 @@ import Textarea from '../components/Textarea';
 
 function MainPage() {
   const [textareaValue, setTextareaValue] = useState('');
-
   const handleInput = (e) => setTextareaValue(e.target.value);
   return (
     <div>

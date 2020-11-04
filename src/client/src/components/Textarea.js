@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
@@ -28,6 +28,8 @@ const Span = styled.span`
   right: 1rem;
 `;
 
+let timeoutId = null;
+
 function TextareaComponent({
   width = '100%',
   height = 300,
@@ -35,6 +37,22 @@ function TextareaComponent({
   handleInput,
   value,
 }) {
+  const spanRef = useRef(null);
+  const handleCount = () => {
+    const inputCount = value.length;
+    spanRef.current.innerText = `${
+      inputCount ? `${inputCount} characters` : ' '
+    }`;
+    setTimeout(() => {
+      spanRef.current.innerText = '';
+    }, 2000);
+  };
+  useEffect(() => {
+    if (timeoutId) clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => {
+      handleCount();
+    }, 2000);
+  }, [value]);
   return (
     <Container width={width}>
       <TextArea
@@ -43,7 +61,7 @@ function TextareaComponent({
         onChange={handleInput}
         value={value}
       ></TextArea>
-      <Span>{value.length} characters</Span>
+      <Span ref={spanRef}></Span>
     </Container>
   );
 }
