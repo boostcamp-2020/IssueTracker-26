@@ -281,3 +281,16 @@ describe('milestone API 테스트', () => {
     });
   });
 });
+
+/* 슈퍼 테스트 */
+describe('GET /milestone/total은', () => {
+  describe('성공시', () => {
+
+    test('마일스톤의 총 개수를 성공적으로 리턴하면 200을 반환한다.', async (done) => {
+      const response = await request(app)
+      .get('/api/milestone/total').send();
+      expect(response.status).toEqual(200);
+      done();
+    })
+  })
+})
