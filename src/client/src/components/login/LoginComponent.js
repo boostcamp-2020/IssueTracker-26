@@ -55,10 +55,14 @@ const Sign = styled.div`
 `;
 
 function Login() {
-  const [id, setId] = useState('');
-  const [passwd, setPasswd] = useState('');
-  const [checkPasswd, setCheckPasswd] = useState('');
+  const [input, setInput] = useState({
+    id: '',
+    passwd: '',
+    checkPasswd: '',
+  });
   const [isLogin, setIsLogin] = useState(true);
+  const [correct, setCorrect] = useState(false);
+
   const width = '400px';
   const buttonProps = {
     width: '100%',
@@ -66,13 +70,26 @@ function Login() {
     height: '42px',
   };
 
-  const HandleId = (event) => setId(event.target.value);
-  const HandlePasswd = (event) => setPasswd(event.target.value);
-  const HandleCheckPasswd = (event) => setCheckPasswd(event.target.value);
+  const HandleInput = (e) => {
+    const { value, name } = e.target;
+    if (name === 'checkPasswd') {
+      if (input.passwd === value) {
+        setCorrect(false);
+      } else {
+        setCorrect(true);
+      }
+    }
+    setInput({
+      ...input,
+      [name]: value,
+    });
+  };
   const HandleIsLogin = (bool) => () => {
-    setId('');
-    setPasswd('');
-    setCheckPasswd('');
+    setInput({
+      id: '',
+      passwd: '',
+      checkPasswd: '',
+    });
     setIsLogin(bool);
   };
 
@@ -83,20 +100,27 @@ function Login() {
         <Form>
           <Label>아이디</Label>
           <Layer>
-            <Input value={id} onChange={HandleId} />
+            <Input name="id" value={input.id} onChange={HandleInput} />
           </Layer>
           <Label>비밀번호</Label>
           <Layer>
-            <Input type="password" value={passwd} onChange={HandlePasswd} />
+            <Input
+              name="passwd"
+              type="password"
+              value={input.passwd}
+              onChange={HandleInput}
+            />
           </Layer>
           {isLogin ? null : (
             <>
               <Label>비밀번호 확인</Label>
               <Layer>
                 <Input
+                  outlineColor={correct}
+                  name="checkPasswd"
                   type="password"
-                  value={checkPasswd}
-                  onChange={HandleCheckPasswd}
+                  value={input.checkPasswd}
+                  onChange={HandleInput}
                 />
               </Layer>
             </>
