@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Input from '../input/InputComponent';
 import Button from '../Button';
+import UserContext from '../Context/UserContext';
 
 const LoginComponent = styled.div`
   max-width: 960px;
@@ -54,7 +56,8 @@ const Sign = styled.div`
   }
 `;
 
-function Login() {
+function Login({ history }) {
+  const { state, setState } = useContext(UserContext);
   const [input, setInput] = useState({
     id: '',
     password: '',
@@ -94,10 +97,35 @@ function Login() {
   };
   const handleSignin = (e) => {
     e.preventDefault();
+    const { id, password } = input;
+    fetch('http://127.0.0.1:3000/api/user/signIn', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        userName: id,
+        password,
+      }),
+    })
+      .then((res) => res.json())
+      .then(({ status, token }) => {
+        if (status === 200) {
+          setState({ ...state, isLoggedIn: true });
+          localStorage.setItem('jwt', token);
+          history.replace('/');
+          return;
+        }
+        alert('로그인 실패');
+        setInput({ id: '', password: '', checkPassword: '' });
+      });
   };
   const handleSignup = (e) => {
     e.preventDefault();
-    const { id, password } = input;
+    const { id, password, checkPassword } = input;
+    if (password !== checkPassword) {
+      alert('비밀번호가 일치하지 않습니다.');
+      return;
+    }
+
     fetch('http://127.0.0.1:3000/api/user', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -105,7 +133,17 @@ function Login() {
         userName: id,
         password,
       }),
-    });
+    })
+      .then((res) => res.json())
+      .then(({ status, token }) => {
+        if (status === 201) {
+          setState({ ...state, isLoggedIn: true });
+          localStorage.setItem('jwt', token);
+          history.replace('/');
+          return;
+        }
+        alert('회원가입 실패');
+      });
   };
 
   return (
@@ -161,5 +199,9 @@ function Login() {
     </LoginComponent>
   );
 }
+
+Login.propTypes = {
+  history: PropTypes.object,
+};
 
 export default Login;
