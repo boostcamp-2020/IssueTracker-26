@@ -21,6 +21,7 @@ const Title = styled.h1`
 const Form = styled.div`
   margin: 0 auto;
   border: 1px solid ${(props) => props.theme.Color.border};
+  background-color: ${(props) => props.theme.Color.lightGrayBackground};
   border-radius: 3px;
   width: 100%;
   padding: 2rem 2rem;
@@ -40,6 +41,10 @@ const Layer = styled.div`
 
 const Sign = styled.div`
   color: ${(props) => props.theme.Color.blue};
+  cursor: pointer;
+  &:hover {
+    color: #2656a8;
+  }
 `;
 
 function Login() {
