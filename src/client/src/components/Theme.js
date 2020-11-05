@@ -1,7 +1,9 @@
 const theme = {
   Color: {
     inputShadow: '#bbd1f3',
-    inputOutline: '#0466d5',
+    warningInputShadow: '#f3acac',
+    inputBorder: '#0466d5',
+    warningInputBorder: '#ff0000',
     border: '#cfd3da',
     lightGreen: '#2c994c',
     blue: '#316FD7',
