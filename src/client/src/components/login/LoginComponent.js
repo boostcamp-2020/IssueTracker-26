@@ -1,25 +1,40 @@
-/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import Input from '../input/InputComponent';
+import Button from '../Button';
+
+const LoginComponent = styled.div`
+  max-width: 960px;
+  margin: 12rem auto;
+`;
+
+const FormContainer = styled.div`
+  width: ${(props) => props.width};
+  margin: 0 auto;
+`;
 
 const Title = styled.h1`
   text-align: center;
-  margin: 0 auto;
   margin-bottom: 20px;
 `;
 
-const FormBox = styled.div`
-  margin: 0 auto; // wow
+const Form = styled.div`
+  margin: 0 auto;
   border: 1px solid ${(props) => props.theme.Color.border};
   border-radius: 3px;
-  width: ${(props) => props.width};
-  padding: 10px;
+  width: 100%;
+  padding: 2rem 2rem;
+`;
+
+const Label = styled.label`
+  margin: 0.5rem 0;
+  font-weight: 600;
 `;
 
 const Layer = styled.div`
   display: flex;
   margin-bottom: 17px;
+  padding: 0.5rem 0;
   justify-content: space-around;
 `;
 
@@ -27,25 +42,10 @@ const Sign = styled.div`
   color: ${(props) => props.theme.Color.blue};
 `;
 
-const Button = styled.button`
-  width: 100%;
-  font-size: 12px;
-  padding: 10px;
-  color: white;
-  background-color: ${(props) => props.theme.Color.lightGreen};
-  border: 1px solid ${(props) => props.theme.Color.border};
-  border-radius: 3px;
-  outline: none;
-
-  &:hover {
-    background-color: green;
-  }
-`;
-
 function Login() {
   const [id, setId] = useState('');
   const [passwd, setPasswd] = useState('');
-  const width = '200px';
+  const width = '400px';
 
   const HandleChangeId = (event) => {
     setId(event.target.value);
@@ -56,26 +56,34 @@ function Login() {
   };
 
   return (
-    <div>
-      <Title>이슈 트래커</Title>
-      <FormBox width={width}>
-        <p>아이디</p>
-        <Layer>
-          <Input width={width} onChange={HandleChangeId} />
-        </Layer>
-        <p>비밀번호</p>
-        <Layer>
-          <Input width={width} type="password" onChange={HandleChangePasswd} />
-        </Layer>
-        <Layer>
-          <Sign>로그인</Sign>
-          <Sign>회원가입</Sign>
-        </Layer>
-        <Layer>
-          <Button>Sign in with GitHub</Button>
-        </Layer>
-      </FormBox>
-    </div>
+    <LoginComponent>
+      <FormContainer width={width}>
+        <Title>이슈 트래커</Title>
+        <Form>
+          <Label>아이디</Label>
+          <Layer>
+            <Input value={id} onChange={HandleChangeId} />
+          </Layer>
+          <Label>비밀번호</Label>
+          <Layer>
+            <Input
+              type="password"
+              value={passwd}
+              onChange={HandleChangePasswd}
+            />
+          </Layer>
+          <Layer>
+            <Sign>로그인</Sign>
+            <Sign>회원가입</Sign>
+          </Layer>
+          <Layer>
+            <Button width={'100%'} fontSize={'18px'} height={'42px'}>
+              Sign in with GitHub
+            </Button>
+          </Layer>
+        </Form>
+      </FormContainer>
+    </LoginComponent>
   );
 }
 
