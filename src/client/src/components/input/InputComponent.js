@@ -10,7 +10,10 @@ const InputTag = styled.input`
   width: ${(props) => props.width};
   min-height: ${(props) => props.height};
   padding: 0 0.5rem;
-  ${SharedStyle.inputOutlineStyle}
+  ${(props) =>
+    props.outlineColor
+      ? SharedStyle.warningOutlineStyle
+      : SharedStyle.inputOutlineStyle}
 `;
 
 function Input(props) {
@@ -18,10 +21,12 @@ function Input(props) {
     type,
     placeholder,
     value,
+    name,
     onChange,
     width = '100%',
     height = '42px',
     fontSize = '18px',
+    outlineColor,
   } = props;
 
   return (
@@ -33,6 +38,8 @@ function Input(props) {
       placeholder={placeholder}
       value={value}
       onChange={onChange}
+      name={name}
+      outlineColor={outlineColor}
     />
   );
 }
@@ -45,6 +52,8 @@ Input.propTypes = {
   width: PropTypes.string,
   height: PropTypes.string,
   fontSize: PropTypes.string,
+  name: PropTypes.string,
+  outlineColor: PropTypes.bool,
 };
 
 export default Input;
