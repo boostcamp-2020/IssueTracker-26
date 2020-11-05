@@ -4,6 +4,7 @@ import MainPage from '../pages/MainPage';
 import LoginPage from '../pages/LoginPage';
 import LabelPage from '../pages/LabelPage';
 import MilestonePage from '../pages/MilestonePage';
+import IssueCreatePage from '../pages/IssueCreatePage';
 
 function App() {
   return (
@@ -12,7 +13,7 @@ function App() {
       <Route exact path="/login" component={LoginPage} />
       <Route exact path="/label" component={LabelPage} />
       <Route exact path="/milestone" component={MilestonePage} />
-      <Route />
+      <Route exact path="/issue-create" component={IssueCreatePage} />
     </Switch>
   );
 }
