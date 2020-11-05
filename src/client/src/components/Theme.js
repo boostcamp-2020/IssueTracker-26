@@ -3,7 +3,9 @@ const theme = {
     inputShadow: '#bbd1f3',
     inputOutline: '#0466d5',
     border: '#cfd3da',
-    grayBackground: '#EAEAEA',
+    button: '#2ea44f',
+    buttonHover: '#22863a',
+    grayBackground: '#eaeaea',
   },
 };
 
