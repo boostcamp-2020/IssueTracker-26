@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import sharedStyle from './SharedStyle';
 
 const Container = styled.div`
   position: relative;
@@ -14,11 +15,7 @@ const TextArea = styled.textarea`
   max-height: ${(props) => props.height * 2}px;
   border-radius: 5px;
   padding: 0.5rem 0.5rem;
-  &:focus {
-    box-shadow: 0 0 0 4px ${(props) => props.theme.Color.inputShadow};
-    outline-style: none;
-    border: 0.1px solid ${(props) => props.theme.Color.inputOutline};
-  }
+  ${sharedStyle.inputOutlineStyle}
 `;
 
 const Span = styled.span`
