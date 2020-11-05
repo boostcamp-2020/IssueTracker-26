@@ -92,12 +92,27 @@ function Login() {
     });
     setIsLogin(bool);
   };
+  const handleSignin = (e) => {
+    e.preventDefault();
+  };
+  const handleSignup = (e) => {
+    e.preventDefault();
+    const { id, password } = input;
+    fetch('http://127.0.0.1:3000/api/user', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        userName: id,
+        password,
+      }),
+    });
+  };
 
   return (
     <LoginComponent>
       <FormContainer width={width}>
         <Title>{isLogin ? '이슈 트래커' : '이슈 트래커 - 회원가입'}</Title>
-        <Form>
+        <Form onSubmit={isLogin ? handleSignin : handleSignup}>
           <Label>아이디</Label>
           <Layer>
             <Input name="id" value={input.id} onChange={handleInput} />
@@ -133,7 +148,9 @@ function Login() {
             {isLogin ? (
               <ButtonGroup>
                 <Button {...buttonProps}>Sign in</Button>
-                <Button {...buttonProps}>Sign in with GitHub</Button>
+                <Button type="button" {...buttonProps}>
+                  Sign in with GitHub
+                </Button>
               </ButtonGroup>
             ) : (
               <Button {...buttonProps}>Sign up</Button>
