@@ -9,7 +9,7 @@ const signUp = async (req, res) => {
   }
   const userId = await userService.signUp(userName, password);
   if (userId) {
-    return res.status(201).end();
+    return res.status(201).json({ token: makeToken({ id: userId, userName }) });
   }
   return res.status(500).end();
 };
