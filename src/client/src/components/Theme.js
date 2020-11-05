@@ -7,7 +7,7 @@ const theme = {
     blue: '#295db7',
     button: '#2ea44f',
     buttonHover: '#22863a',
-    grayBackground: '#eaeaea',
+    grayBackground: '#fafbfc',
   },
 };
 
