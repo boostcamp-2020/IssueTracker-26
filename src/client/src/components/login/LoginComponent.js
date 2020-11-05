@@ -57,8 +57,8 @@ const Sign = styled.div`
 function Login() {
   const [input, setInput] = useState({
     id: '',
-    passwd: '',
-    checkPasswd: '',
+    password: '',
+    checkPassword: '',
   });
   const [isLogin, setIsLogin] = useState(true);
   const [correct, setCorrect] = useState(false);
@@ -70,10 +70,10 @@ function Login() {
     height: '42px',
   };
 
-  const HandleInput = (e) => {
+  const handleInput = (e) => {
     const { value, name } = e.target;
-    if (name === 'checkPasswd') {
-      if (input.passwd === value) {
+    if (name === 'checkPassword') {
+      if (input.password === value) {
         setCorrect(false);
       } else {
         setCorrect(true);
@@ -84,11 +84,11 @@ function Login() {
       [name]: value,
     });
   };
-  const HandleIsLogin = (bool) => () => {
+  const handleIsLogin = (bool) => () => {
     setInput({
       id: '',
-      passwd: '',
-      checkPasswd: '',
+      password: '',
+      checkPassword: '',
     });
     setIsLogin(bool);
   };
@@ -100,15 +100,15 @@ function Login() {
         <Form>
           <Label>아이디</Label>
           <Layer>
-            <Input name="id" value={input.id} onChange={HandleInput} />
+            <Input name="id" value={input.id} onChange={handleInput} />
           </Layer>
           <Label>비밀번호</Label>
           <Layer>
             <Input
-              name="passwd"
+              name="password"
               type="password"
-              value={input.passwd}
-              onChange={HandleInput}
+              value={input.password}
+              onChange={handleInput}
             />
           </Layer>
           {isLogin ? null : (
@@ -117,17 +117,17 @@ function Login() {
               <Layer>
                 <Input
                   outlineColor={correct}
-                  name="checkPasswd"
+                  name="checkPassword"
                   type="password"
-                  value={input.checkPasswd}
-                  onChange={HandleInput}
+                  value={input.checkPassword}
+                  onChange={handleInput}
                 />
               </Layer>
             </>
           )}
           <Layer>
-            <Sign onClick={HandleIsLogin(true)}>로그인</Sign>
-            <Sign onClick={HandleIsLogin(false)}>회원가입</Sign>
+            <Sign onClick={handleIsLogin(true)}>로그인</Sign>
+            <Sign onClick={handleIsLogin(false)}>회원가입</Sign>
           </Layer>
           <Layer>
             {isLogin ? (
