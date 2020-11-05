@@ -61,6 +61,7 @@ function Button({
   fontSize = '0.8em',
   fullWidth,
   handler,
+  type,
   hoverColor,
   fontColor,
 }) {
@@ -74,6 +75,7 @@ function Button({
       fontSize={fontSize}
       fullWidth={fullWidth}
       onClick={handler}
+      type={type}
     >
       {children}
     </StyledButton>
@@ -89,6 +91,7 @@ Button.propTypes = {
   fontSize: PropTypes.string,
   fullWidth: PropTypes.string,
   handler: PropTypes.func,
+  type: PropTypes.string,
   fontColor: PropTypes.string,
 };
 
