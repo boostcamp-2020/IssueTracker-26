@@ -81,10 +81,10 @@ const CountDiv = styled.div`
 `;
 
 function LabelMilestoneButton(props) {
-  const { page = 'issue', labelCnt = 3, milestoneCnt = 12 } = props;
+  const { page, labelCnt, milestoneCnt } = props;
   return (
     <Nav>
-      <StyledLink page={page} left to={'/label'}>
+      <StyledLink page={page} left="true" to={'/label'}>
         <svg
           fill={page === 'label' ? 'white' : ''}
           className="octicon octicon-tag"
@@ -108,7 +108,7 @@ function LabelMilestoneButton(props) {
           ''
         )}
       </StyledLink>
-      <StyledLink page={page} right to={'/milestone'}>
+      <StyledLink page={page} right="true" to={'/milestone'}>
         <svg
           fill={page === 'milestone' ? 'white' : ''}
           className="octicon octicon-milestone"

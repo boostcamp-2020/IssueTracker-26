@@ -1,22 +1,32 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
 
 const InputTag = styled.input`
-  border: 1px solid ${(props) => props.theme.Color.border};
+  ${(props) =>
+    props.border === 'none'
+      ? css`
+          border: none;
+          outline: none;
+        `
+      : css`
+          border: 1px solid props.theme.currentColor.border;
+          outline-color: props.theme.Color.inputOutline;
+        `}
+
   border-radius: 3px;
-  outline-color: ${(props) => props.theme.Color.inputOutline};
   width: ${(props) => props.width || '150px'};
 `;
 
 function Input(props) {
-  const { type, placeholder, value, onChange, width = '150px' } = props;
+  const { type, placeholder, value, onChange, width = '150px', border } = props;
 
   return (
     <InputTag
       width={width}
       type={type}
       placeholder={placeholder}
+      border={border}
       value={value}
       onChange={onChange}
     />
@@ -29,6 +39,7 @@ Input.propTypes = {
   value: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   width: PropTypes.string,
+  border: PropTypes.string,
 };
 
 export default Input;
