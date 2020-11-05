@@ -43,7 +43,7 @@ const milestoneController = (service) => {
       return res.status(404).end();
     },
     async getMilestoneTotal(req, res) {
-      const total = await this.service.updateMilestone();
+      const total = await this.service.getMilestoneTotal();
       if (total) return res.status(200).json(total);
       return res.status(404).end();
     },
