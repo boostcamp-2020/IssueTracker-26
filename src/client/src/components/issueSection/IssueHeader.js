@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import IssueFilter from './IssueFilter';
 import LabelMilestoneButton from '../LabelMilestoneButton';
 import Button from '../Button';
@@ -16,9 +16,7 @@ const HeaderDiv = styled.div`
   }
 `;
 
-function IssueHeader(props) {
-  // const {} = props;
-
+function IssueHeader() {
   return (
     <HeaderDiv>
       <div>
@@ -28,7 +26,9 @@ function IssueHeader(props) {
         <LabelMilestoneButton page={'issue'} labelCnt={3} milestoneCnt={12} />
       </div>
       <div>
-        <Button height={'32px'}>New Issue</Button>
+        <Link to={'/issue-create'}>
+          <Button height={'32px'}>New Issue</Button>
+        </Link>
       </div>
     </HeaderDiv>
   );
