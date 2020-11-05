@@ -65,6 +65,14 @@ const milestoneService = (model) => {
         return undefined;
       }
     },
+    async getMilestoneTotal() {
+      try {
+        const total = await this.model.getMilestoneTotal();
+        return total;
+      } catch (e) {
+        return undefined;
+      }
+    },
   };
 };
 
