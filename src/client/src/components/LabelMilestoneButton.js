@@ -84,7 +84,7 @@ function LabelMilestoneButton(props) {
   const { page, labelCnt, milestoneCnt } = props;
   return (
     <Nav>
-      <StyledLink page={page} left to={'/label'}>
+      <StyledLink page={page} left="true" to={'/label'}>
         <svg
           fill={page === 'label' ? 'white' : ''}
           className="octicon octicon-tag"
@@ -108,7 +108,7 @@ function LabelMilestoneButton(props) {
           ''
         )}
       </StyledLink>
-      <StyledLink page={page} right to={'/milestone'}>
+      <StyledLink page={page} right="true" to={'/milestone'}>
         <svg
           fill={page === 'milestone' ? 'white' : ''}
           className="octicon octicon-milestone"
