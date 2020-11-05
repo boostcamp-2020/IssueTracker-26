@@ -18,7 +18,7 @@ const Title = styled.h1`
   margin-bottom: 20px;
 `;
 
-const Form = styled.div`
+const Form = styled.form`
   margin: 0 auto;
   border: 1px solid ${(props) => props.theme.Color.border};
   background-color: ${(props) => props.theme.Color.lightGrayBackground};
@@ -50,41 +50,60 @@ const Sign = styled.div`
 function Login() {
   const [id, setId] = useState('');
   const [passwd, setPasswd] = useState('');
+  const [checkPasswd, setCheckPasswd] = useState('');
+  const [isLogin, setIsLogin] = useState(true);
   const width = '400px';
-
-  const HandleChangeId = (event) => {
-    setId(event.target.value);
+  const buttonProps = {
+    width: '100%',
+    fontSize: '18px',
+    height: '42px',
   };
 
-  const HandleChangePasswd = (event) => {
-    setPasswd(event.target.value);
+  const HandleId = (event) => setId(event.target.value);
+  const HandlePasswd = (event) => setPasswd(event.target.value);
+  const HandleCheckPasswd = (event) => setCheckPasswd(event.target.value);
+  const HandleIsLogin = (bool) => () => {
+    setId('');
+    setPasswd('');
+    setCheckPasswd('');
+    setIsLogin(bool);
   };
 
   return (
     <LoginComponent>
       <FormContainer width={width}>
-        <Title>이슈 트래커</Title>
+        <Title>{isLogin ? '이슈 트래커' : '이슈 트래커 - 회원가입'}</Title>
         <Form>
           <Label>아이디</Label>
           <Layer>
-            <Input value={id} onChange={HandleChangeId} />
+            <Input value={id} onChange={HandleId} />
           </Layer>
           <Label>비밀번호</Label>
           <Layer>
-            <Input
-              type="password"
-              value={passwd}
-              onChange={HandleChangePasswd}
-            />
+            <Input type="password" value={passwd} onChange={HandlePasswd} />
+          </Layer>
+          {isLogin ? null : (
+            <>
+              <Label>비밀번호 확인</Label>
+              <Layer>
+                <Input
+                  type="password"
+                  value={checkPasswd}
+                  onChange={HandleCheckPasswd}
+                />
+              </Layer>
+            </>
+          )}
+          <Layer>
+            <Sign onClick={HandleIsLogin(true)}>로그인</Sign>
+            <Sign onClick={HandleIsLogin(false)}>회원가입</Sign>
           </Layer>
           <Layer>
-            <Sign>로그인</Sign>
-            <Sign>회원가입</Sign>
-          </Layer>
-          <Layer>
-            <Button width={'100%'} fontSize={'18px'} height={'42px'}>
-              Sign in with GitHub
-            </Button>
+            {isLogin ? (
+              <Button {...buttonProps}>Sign in with GitHub</Button>
+            ) : (
+              <Button {...buttonProps}>Sign Up</Button>
+            )}
           </Layer>
         </Form>
       </FormContainer>
