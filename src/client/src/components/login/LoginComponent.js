@@ -107,8 +107,8 @@ function Login({ history }) {
       }),
     })
       .then((res) => res.json())
-      .then(({ status, token }) => {
-        if (status === 200) {
+      .then(({ token }) => {
+        if (token) {
           setState({ ...state, isLoggedIn: true });
           localStorage.setItem('jwt', token);
           history.replace('/');
@@ -135,8 +135,8 @@ function Login({ history }) {
       }),
     })
       .then((res) => res.json())
-      .then(({ status, token }) => {
-        if (status === 201) {
+      .then(({ token }) => {
+        if (token) {
           setState({ ...state, isLoggedIn: true });
           localStorage.setItem('jwt', token);
           history.replace('/');

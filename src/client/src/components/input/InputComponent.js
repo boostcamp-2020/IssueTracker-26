@@ -26,7 +26,7 @@ const InputTag = styled.input`
         `}
 
     border-radius: 3px;
-    width: ${(props) => props.width || '150px'};
+  width: ${(props) => props.width || '150px'};
 `;
 
 function Input(props) {
@@ -40,10 +40,8 @@ function Input(props) {
     height = '42px',
     fontSize = '18px',
     outlineColor,
+    border,
   } = props;
-
-function Input(props) {
-  const { type, placeholder, value, onChange, width = '150px', border } = props;
 
   return (
     <InputTag
