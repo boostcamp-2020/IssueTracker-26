@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import InputComponent from '../input/InputComponent';
@@ -55,6 +55,7 @@ const SectionDiv = styled.div`
 
 function IssueFilter(props) {
   const { open } = props;
+  const [searchVal, setSearchVal] = useState('');
   return (
     <FilterDiv>
       <SectionDiv>
@@ -67,6 +68,8 @@ function IssueFilter(props) {
           width={'100%'}
           placeholder={'Search all issues'}
           border={'none'}
+          value={searchVal}
+          onChange={setSearchVal}
         />
       </SectionDiv>
     </FilterDiv>
