@@ -50,7 +50,7 @@ const deleteLabel = async (id) => {
 
 const getLabelTotal = async () => {
   try {
-    const [ total ] = await pool.execute(LABEL.GETLABELTOTAL);
+    const [total] = await pool.execute(LABEL.GETLABELTOTAL);
     return total[0];
   } catch (err) {
     return undefined;
