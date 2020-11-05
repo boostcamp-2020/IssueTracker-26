@@ -39,6 +39,13 @@ const Layer = styled.div`
   justify-content: space-around;
 `;
 
+const ButtonGroup = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem 0;
+`;
+
 const Sign = styled.div`
   color: ${(props) => props.theme.Color.blue};
   cursor: pointer;
@@ -100,9 +107,12 @@ function Login() {
           </Layer>
           <Layer>
             {isLogin ? (
-              <Button {...buttonProps}>Sign in with GitHub</Button>
+              <ButtonGroup>
+                <Button {...buttonProps}>Sign in</Button>
+                <Button {...buttonProps}>Sign in with GitHub</Button>
+              </ButtonGroup>
             ) : (
-              <Button {...buttonProps}>Sign Up</Button>
+              <Button {...buttonProps}>Sign up</Button>
             )}
           </Layer>
         </Form>
