@@ -3,9 +3,11 @@ const theme = {
     inputShadow: '#bbd1f3',
     inputOutline: '#0466d5',
     border: '#cfd3da',
-    grayBackground: '#f7f8fa',
     lightGreen: '#2c994c',
     blue: '#295db7',
+    button: '#2ea44f',
+    buttonHover: '#22863a',
+    grayBackground: '#eaeaea',
   },
 };
 
