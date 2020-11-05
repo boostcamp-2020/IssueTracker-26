@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
 const InputTag = styled.input`
-  border-color: ${(props) => props.theme.Color.border};
+  border: 1px solid ${(props) => props.theme.Color.border};
   border-radius: 3px;
   outline-color: ${(props) => props.theme.Color.inputOutline};
   width: ${(props) => props.width || '150px'};
