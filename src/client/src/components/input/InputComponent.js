@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
 import SharedStyle from '../SharedStyle';
 
@@ -14,6 +14,19 @@ const InputTag = styled.input`
     props.outlineColor
       ? SharedStyle.warningOutlineStyle
       : SharedStyle.inputOutlineStyle}
+  ${(props) =>
+    props.border === 'none'
+      ? css`
+          border: none;
+          outline: none;
+        `
+      : css`
+          border: 1px solid props.theme.currentColor.border;
+          outline-color: props.theme.Color.inputOutline;
+        `}
+
+    border-radius: 3px;
+    width: ${(props) => props.width || '150px'};
 `;
 
 function Input(props) {
@@ -29,6 +42,9 @@ function Input(props) {
     outlineColor,
   } = props;
 
+function Input(props) {
+  const { type, placeholder, value, onChange, width = '150px', border } = props;
+
   return (
     <InputTag
       width={width}
@@ -36,6 +52,7 @@ function Input(props) {
       fontSize={fontSize}
       type={type}
       placeholder={placeholder}
+      border={border}
       value={value}
       onChange={onChange}
       name={name}
@@ -54,6 +71,7 @@ Input.propTypes = {
   fontSize: PropTypes.string,
   name: PropTypes.string,
   outlineColor: PropTypes.bool,
+  border: PropTypes.string,
 };
 
 export default Input;

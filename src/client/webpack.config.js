@@ -17,10 +17,9 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.png|jpg|gif$/,
+        test: /\.png|jpg|gif|svg$/,
         loader: 'url-loader',
         options: {
-          publicPath: './img',
           name: '[name].[ext]?[hash]',
           limit: 100,
         },

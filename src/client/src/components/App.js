@@ -5,6 +5,7 @@ import LoginPage from '../pages/LoginPage';
 import LabelPage from '../pages/LabelPage';
 import MilestonePage from '../pages/MilestonePage';
 import UserContext from './Context/UserContext';
+import IssueCreatePage from '../pages/IssueCreatePage';
 
 function App() {
   const [state, setState] = useState({
@@ -44,6 +45,7 @@ function PrivateRoute() {
       <Route exact path="/login">
         <Redirect to="/" />
       </Route>
+      <Route exact path="/issue-create" component={IssueCreatePage} />
     </Switch>
   );
 }

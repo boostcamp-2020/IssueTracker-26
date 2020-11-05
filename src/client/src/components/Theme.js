@@ -9,8 +9,8 @@ const theme = {
     blue: '#316FD7',
     button: '#2ea44f',
     buttonHover: '#22863a',
-    grayBackground: '#eaeaea',
     lightGrayBackground: '#fafbfc',
+    grayBackground: '#fafbfc',
   },
 };
 

@@ -1,7 +1,14 @@
 import React from 'react';
+import Header from '../components/header/Header';
+import IssueSection from '../components/issueSection/IssueSection';
 
 function MainPage() {
-  return <div>메인 페이지입니다.</div>;
+  return (
+    <div>
+      <Header />
+      <IssueSection />
+    </div>
+  );
 }
 
 export default MainPage;
