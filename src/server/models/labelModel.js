@@ -48,4 +48,19 @@ const deleteLabel = async (id) => {
   }
 };
 
-module.exports = { createLabel, getLabelList, updateLabel, deleteLabel };
+const getLabelTotal = async () => {
+  try {
+    const [ total ] = await pool.execute(LABEL.GETLABELTOTAL);
+    return total[0];
+  } catch (err) {
+    return undefined;
+  }
+};
+
+module.exports = {
+  createLabel,
+  getLabelList,
+  updateLabel,
+  deleteLabel,
+  getLabelTotal,
+};

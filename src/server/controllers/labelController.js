@@ -49,7 +49,7 @@ const deleteLabel = async (req, res) => {
 const getLabelTotal = async (req, res) => {
   const total = await labelService.getLabelTotal();
   if (total) {
-    return res.status(200).end();
+    return res.status(200).json(total);
   }
   return res.status(404).end();
 };
