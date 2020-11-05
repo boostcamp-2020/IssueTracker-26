@@ -20,7 +20,6 @@ module.exports = {
         test: /\.png|jpg|gif$/,
         loader: 'url-loader',
         options: {
-          publicPath: './img',
           name: '[name].[ext]?[hash]',
           limit: 100,
         },
