@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import IssueHeader from './IssueHeader';
 import IssueList from './IssueList';
@@ -8,10 +8,18 @@ const IssueContainer = styled.div`
 `;
 
 function IssueSection() {
+  const [issueList, setIssueList] = useState([]);
+
+  useEffect(() => {
+    fetch('http://localhost:3000/api/issue')
+      .then((res) => res.json())
+      .then((data) => setIssueList(data));
+  }, []);
+
   return (
     <IssueContainer>
       <IssueHeader />
-      <IssueList />
+      <IssueList issueList={issueList} />
     </IssueContainer>
   );
 }
