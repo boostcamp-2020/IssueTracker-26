@@ -27,4 +27,9 @@ router.delete(
   milestoneController.deleteMilestone.bind(milestoneController),
 );
 
+router.get(
+  '/milestone/total',
+  milestoneController.getMilestoneTotal.bind(milestoneController),
+);
+
 module.exports = router;

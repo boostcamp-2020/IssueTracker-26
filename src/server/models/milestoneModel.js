@@ -53,10 +53,20 @@ const updateMilestone = async (data) => {
   }
 };
 
+const getMilestoneTotal = async () => {
+  try {
+    const [total] = await pool.execute(MILESTONE.GETTOTAL);
+    return total[0];
+  } catch (e) {
+    return undefined;
+  }
+};
+
 module.exports = {
   createMilestone,
   updateMilestone,
   deleteMilestone,
   getMilestoneList,
   getIssueListByMilestoneId,
+  getMilestoneTotal,
 };
