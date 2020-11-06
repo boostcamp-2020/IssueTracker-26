@@ -98,7 +98,7 @@ function Login({ history }) {
   const handleSignin = (e) => {
     e.preventDefault();
     const { id, password } = input;
-    fetch('http://127.0.0.1:3000/api/user/signIn', {
+    fetch('http://115.85.182.96:3000/api/user/signIn', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -126,7 +126,7 @@ function Login({ history }) {
       return;
     }
 
-    fetch('http://127.0.0.1:3000/api/user', {
+    fetch('http://115.85.182.96:3000/api/user', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

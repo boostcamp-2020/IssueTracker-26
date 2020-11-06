@@ -17,7 +17,7 @@ function App() {
   const { isLoggedIn } = state;
   useEffect(() => {
     if (isLoggedIn) {
-      fetch('http://localhost:3000/api/user', {
+      fetch('http://115.85.182.96:3000/api/user', {
         headers: {
           Authorization: `Bearer ${state.token}`,
         },

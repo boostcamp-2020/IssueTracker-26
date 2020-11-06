@@ -20,13 +20,13 @@ function IssueHeader() {
   const [milestoneCount, setMilestoneCount] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:3000/api/label/total')
+    fetch('http://115.85.182.96:3000/api/label/total')
       .then((res) => res.json())
       .then((data) => setIssueCount(data.count));
   }, []);
 
   useEffect(() => {
-    fetch('http://localhost:3000/api/milestone/total')
+    fetch('http://115.85.182.96:3000/api/milestone/total')
       .then((res) => res.json())
       .then((data) => setMilestoneCount(data.count));
   }, []);

@@ -11,7 +11,7 @@ function IssueSection() {
   const [issueList, setIssueList] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:3000/api/issue')
+    fetch('http://115.85.182.96:3000/api/issue')
       .then((res) => res.json())
       .then((data) => setIssueList(data));
   }, []);
