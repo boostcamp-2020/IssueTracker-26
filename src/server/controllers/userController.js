@@ -2,6 +2,12 @@ const passport = require('passport');
 const userService = require('../services/userService');
 const { makeToken, randomString } = require('../util');
 
+const getUserInfo = (req, res) => {
+  const { userName } = req.user;
+  if (userName) return res.status(200).json({ userName });
+  return res.status(401).end();
+};
+
 const signUp = async (req, res) => {
   const { userName, password } = req.body;
   if (!userName || !password) {
@@ -60,4 +66,5 @@ module.exports = {
   signIn,
   gitHubAuth,
   failGitHubAuth,
+  getUserInfo,
 };
