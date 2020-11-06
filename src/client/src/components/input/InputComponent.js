@@ -11,19 +11,20 @@ const InputTag = styled.input`
   min-height: ${(props) => props.height};
   padding: 0 0.5rem;
   ${(props) =>
-    props.outlineColor
-      ? SharedStyle.warningOutlineStyle
-      : SharedStyle.inputOutlineStyle}
+    props.outlineColor === 'warining' ? SharedStyle.warningOutlineStyle : null}
+  ${(props) =>
+    props.outlineColor === 'default' ? SharedStyle.inputOutlineStyle : null}
   ${(props) =>
     props.border === 'none'
       ? css`
           border: none;
           outline: none;
+          &:hover {
+            box-shadow: none;
+            border: none;
+          }
         `
-      : css`
-          border: 1px solid props.theme.currentColor.border;
-          outline-color: props.theme.Color.inputOutline;
-        `}
+      : null}
 
     border-radius: 3px;
   width: ${(props) => props.width || '150px'};
@@ -39,7 +40,7 @@ function Input(props) {
     width = '100%',
     height = '42px',
     fontSize = '18px',
-    outlineColor,
+    outlineColor = 'default',
     border,
   } = props;
 
@@ -68,7 +69,7 @@ Input.propTypes = {
   height: PropTypes.string,
   fontSize: PropTypes.string,
   name: PropTypes.string,
-  outlineColor: PropTypes.bool,
+  outlineColor: PropTypes.string,
   border: PropTypes.string,
 };
 
