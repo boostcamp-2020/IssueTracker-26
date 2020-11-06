@@ -82,26 +82,6 @@
 
 ### 2. API 문서
 
-- 회원가입 API
-
-  POST : http://127.0.0.1:3000/api/user
-
-  BODY : { userName, password }
-
-- 중복체크 API
-
-  POST : http://127.0.0.1:3000/api/userName
-
-  BODY : { userName }
-
-- 이슈목록 보기 API
-
-  GET : http://127.0.0.1:3000/api/issue
-
-- 마일스톤 생성 API
-
-  POST : http://127.0.0.1:3000/api/milestone
-
-  BODY : { title, dueDate(optional), description(optional) }
+https://www.notion.so/API-1bf048d5b9ae4834baf85d215ca97372
 
 ## 🔵 Client
