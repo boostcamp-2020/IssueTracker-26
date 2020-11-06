@@ -334,3 +334,16 @@ describe('label을 삭제하는 api', () => {
     });
   });
 });
+
+/* 슈퍼 테스트 */
+describe('Get /issue/total은', () => {
+  describe('성공시', () => {
+
+    test('레이블의 총 개수를 불러올 경우 성공적하면 200을 반환한다.', async (done) => {
+      const response = await request(app)
+      .get('/api/label/total').send();
+      expect(response.status).toEqual(200);
+      done();
+    })
+  })
+})

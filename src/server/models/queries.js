@@ -8,6 +8,7 @@ const LABEL = {
   GETLABELLIST: `select id, title, description, color from label`,
   UPDATELABEL: `update label set title = ?, description = ?, color = ? where id = ?`,
   DELETELABEL: `delete from label where id = ?`,
+  GETLABELTOTAL: 'select count(*) as count from label',
 };
 
 const MILESTONE = {
