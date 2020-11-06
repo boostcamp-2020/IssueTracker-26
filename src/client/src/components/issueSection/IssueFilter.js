@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 import InputComponent from '../input/InputComponent';
 import drop from '../../../public/images/drop.png';
 import search from '../../../public/images/search-outline.svg';
@@ -77,6 +76,7 @@ function IssueFilter() {
           outlineColor={'none'}
           value={searchVal}
           onChange={setSearchVal}
+          bgColor={'#f6f8fa'}
         />
       </SectionDiv>
     </FilterDiv>
