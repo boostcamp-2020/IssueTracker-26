@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import Button from '../Button';
 import image from '../../../public/images/user.png';
+import UserContext from '../Context/UserContext';
 
 const TitleDiv = styled.div`
   font-size: 1.7rem;
@@ -41,9 +42,12 @@ const UserDiv = styled.div`
   }
 `;
 
-function Header(props) {
-  const { userName } = props;
-
+function Header() {
+  const { state, setState } = useContext(UserContext);
+  const handleSignOut = () => {
+    localStorage.removeItem('jwt');
+    setState({ ...state, isLoggedIn: false, token: null });
+  };
   return (
     <HeaderDiv>
       <TitleDiv>
@@ -52,12 +56,13 @@ function Header(props) {
 
       <UserDiv>
         <img src={image} />
-        <span>닉네임</span>
+        <span>{state.userName}</span>
         <Button
           width={'70px'}
           color={'ghostwhite'}
           hoverColor={'#eaeaea'}
           fontColor={'#000000'}
+          handler={handleSignOut}
         >
           로그아웃
         </Button>

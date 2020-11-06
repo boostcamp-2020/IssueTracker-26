@@ -45,7 +45,8 @@ const initPassport = () => {
 
   passport.use(
     new JWTStrategy(JWTOption, (payload, done) => {
-      const { user } = payload;
+      const { id, userName } = payload;
+      const user = { id, userName };
       if (!user) return done(null, undefined);
       return done(null, user);
     }),

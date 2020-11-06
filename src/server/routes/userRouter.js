@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const passport = require('passport');
 const userController = require('../controllers/userController');
+const { passportJWTAuth } = require('../util/middleware');
 
 // public routes
 router.post('/user/signIn', userController.signIn);
@@ -22,6 +23,6 @@ router.get(
 );
 
 // private routes
-router.get('/user', userController.getUserInfo);
+router.get('/user', passportJWTAuth, userController.getUserInfo);
 
 module.exports = router;
