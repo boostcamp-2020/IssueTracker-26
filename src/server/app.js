@@ -14,7 +14,7 @@ app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use('/static/', express.static(path.join(__dirname, '../client/dist')));
 app.use(initPassport());
 
 app.use('/', indexRouter);
