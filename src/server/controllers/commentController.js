@@ -20,7 +20,7 @@ const read = async (req, res) => {
   }
   const comments = await commentService.read(issueId);
   if (comments) {
-    return res.status(200).end();
+    return res.status(200).json({ comments });
   }
   return res.status(204).end();
 };
