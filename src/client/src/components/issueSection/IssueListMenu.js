@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 const ContentDiv = styled.div`
   display: flex;
+  border-radius: 10px;
   height: 50px;
   padding-top: 15px;
   padding-right: 15px;

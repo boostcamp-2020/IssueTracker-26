@@ -10,7 +10,6 @@ const HeaderDiv = styled.div`
   display: flex;
   align-items: center;
   padding-top: 100px;
-
   div:first-child {
     width: 100%;
   }

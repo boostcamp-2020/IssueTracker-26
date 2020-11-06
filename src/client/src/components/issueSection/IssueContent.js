@@ -2,7 +2,14 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import Time from '../../util/time';
+import OpenIssue from '../../../public/images/open-issue.svg';
+import MilestoneImg from '../../../public/images/issue-milestone.svg';
 
+const ImgStyled = styled.img`
+  vertical-align: middle;
+  margin-top: -3px;
+  margin-right: 7px;
+`;
 const ContentDiv = styled.div`
   display: flex;
   height: 60px;
@@ -49,7 +56,7 @@ const TitleDiv = styled.div`
 `;
 
 const SubTitleDiv = styled.div`
-  margin-top: 7px;
+  margin-top: 5px;
   font-size: 0.7rem;
   color: #586069;
 `;
@@ -64,6 +71,15 @@ const LabelSpan = styled.span`
   padding: 2px 7px 2px 7px;
 `;
 
+const MilestoneImgStyled = styled.img`
+  filter: invert(78%) sepia(1%) saturate(958%) hue-rotate(23deg) brightness(86%)
+    contrast(88%);
+  margin-left: 5px;
+  margin-right: 3px;
+  margin-bottom: -5px;
+  width: 14px;
+`;
+
 function IssueContent(props) {
   const { issueList } = props;
   console.log(issueList);
@@ -74,6 +90,7 @@ function IssueContent(props) {
       </div>
       <TitleDiv>
         <div>
+          <ImgStyled src={OpenIssue} />
           <TitleSpan>{issue.title}</TitleSpan>
           {issue.label.map((label, indexs) => (
             <LabelSpan key={indexs} color={label.color}>
@@ -83,7 +100,13 @@ function IssueContent(props) {
         </div>
         <SubTitleDiv>
           <span>
-            #{issue.id} opened {Time(issue.createdat)} by {issue.username}
+            #{issue.id} opened {Time(issue.createdat)} by {issue.username}{' '}
+            {(() => {
+              if (issue.milestonename)
+                return <MilestoneImgStyled src={MilestoneImg} />;
+              return null;
+            })()}
+            {issue.milestonename}
           </span>
         </SubTitleDiv>
       </TitleDiv>
