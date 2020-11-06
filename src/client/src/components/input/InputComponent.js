@@ -10,6 +10,7 @@ const InputTag = styled.input`
   width: ${(props) => props.width};
   min-height: ${(props) => props.height};
   padding: 0 0.5rem;
+  background-color: ${(props) => props.bgColor};
   ${(props) =>
     props.outlineColor === 'warining' ? SharedStyle.warningOutlineStyle : null}
   ${(props) =>
@@ -27,6 +28,7 @@ const InputTag = styled.input`
       : null}
 
     border-radius: 3px;
+
   width: ${(props) => props.width || '150px'};
 `;
 
@@ -42,6 +44,7 @@ function Input(props) {
     fontSize = '18px',
     outlineColor = 'default',
     border,
+    bgColor = 'none',
   } = props;
 
   return (
@@ -56,6 +59,7 @@ function Input(props) {
       onChange={onChange}
       name={name}
       outlineColor={outlineColor}
+      bgColor={bgColor}
     />
   );
 }
@@ -71,6 +75,7 @@ Input.propTypes = {
   name: PropTypes.string,
   outlineColor: PropTypes.string,
   border: PropTypes.string,
+  bgColor: PropTypes.string,
 };
 
 export default Input;

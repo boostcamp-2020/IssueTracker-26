@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import IssueFilter from './IssueFilter';
@@ -16,13 +16,32 @@ const HeaderDiv = styled.div`
 `;
 
 function IssueHeader() {
+  const [issueCount, setIssueCount] = useState([]);
+  const [milestoneCount, setMilestoneCount] = useState([]);
+
+  useEffect(() => {
+    fetch('http://localhost:3000/api/label/total')
+      .then((res) => res.json())
+      .then((data) => setIssueCount(data.count));
+  }, []);
+
+  useEffect(() => {
+    fetch('http://localhost:3000/api/milestone/total')
+      .then((res) => res.json())
+      .then((data) => setMilestoneCount(data.count));
+  }, []);
+
   return (
     <HeaderDiv>
       <div>
         <IssueFilter />
       </div>
       <div>
-        <LabelMilestoneButton page={'issue'} labelCnt={3} milestoneCnt={12} />
+        <LabelMilestoneButton
+          page={'issue'}
+          labelCnt={parseInt(issueCount, 10)}
+          milestoneCnt={parseInt(milestoneCount, 10)}
+        />
       </div>
       <div>
         <Link to={'/issue-create'}>

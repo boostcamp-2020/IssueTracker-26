@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Time from '../../util/time';
 import OpenIssue from '../../../public/images/open-issue.svg';
 import MilestoneImg from '../../../public/images/issue-milestone.svg';
+import CommentImg from '../../../public/images/comment.svg';
 
 const ImgStyled = styled.img`
   vertical-align: middle;
@@ -80,6 +81,19 @@ const MilestoneImgStyled = styled.img`
   width: 14px;
 `;
 
+const CommentImgStyled = styled.img`
+  filter: invert(39%) sepia(2%) saturate(3035%) hue-rotate(172deg)
+    brightness(89%) contrast(82%);
+  width: 14px;
+  margin-top:5px;
+`;
+
+const CommentSpan = styled.span`
+  color: #586069;
+  font-size: 0.7rem;
+  font-weight: bold;
+`;
+
 function IssueContent(props) {
   const { issueList } = props;
   console.log(issueList);
@@ -118,7 +132,15 @@ function IssueContent(props) {
           <span key={aIndex}>{assignee.username}</span>
         ))}
       </div>
-      <div></div>
+      <div>
+        {(() => {
+          if (issue.commentCount) return <CommentImgStyled src={CommentImg} />;
+          return null;
+        })()}
+        <CommentSpan>
+          {issue.commentCount ? issue.commentCount : ''}
+        </CommentSpan>
+      </div>
     </ContentDiv>
   ));
 
