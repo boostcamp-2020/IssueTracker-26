@@ -11,6 +11,7 @@ const TitleDiv = styled.div`
 `;
 
 const HeaderDiv = styled.div`
+  z-index: 100;
   display: flex;
   position: fixed;
   justify-content: center;
@@ -51,7 +52,7 @@ function Header(props) {
 
       <UserDiv>
         <img src={image} />
-        <span>{userName}</span>
+        <span>닉네임</span>
         <Button
           width={'70px'}
           color={'ghostwhite'}

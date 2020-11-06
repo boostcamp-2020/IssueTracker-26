@@ -10,7 +10,7 @@ const theme = {
     button: '#2ea44f',
     buttonHover: '#22863a',
     lightGrayBackground: '#fafbfc',
-    grayBackground: '#fafbfc',
+    grayBackground: '#f6f8fa',
   },
 };
 

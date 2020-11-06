@@ -49,12 +49,17 @@ const SectionDiv = styled.div`
   &:focus-within {
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
-    box-shadow: 0 0 0 2px ${(props) => props.theme.Color.inputOutline};
+    box-shadow: 0 0 0 2px ${(props) => props.theme.Color.inputShadow};
+  }
+  & {
+    input {
+      border-top-right-radius: 10px;
+      border-bottom-right-radius: 10px;
+    }
   }
 `;
 
-function IssueFilter(props) {
-  const { open } = props;
+function IssueFilter() {
   const [searchVal, setSearchVal] = useState('');
   return (
     <FilterDiv>
@@ -66,8 +71,10 @@ function IssueFilter(props) {
         <img src={search} />
         <InputComponent
           width={'100%'}
+          height={'32px'}
           placeholder={'Search all issues'}
           border={'none'}
+          outlineColor={'none'}
           value={searchVal}
           onChange={setSearchVal}
         />

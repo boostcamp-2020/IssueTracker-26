@@ -3,8 +3,8 @@ const userRouter = require('./userRouter');
 const labelRouter = require('./labelRouter');
 const milestoneRouter = require('./milestoneRouter');
 const issueRouter = require('./issueRouter');
-
 const commentRouter = require('./commentRouter');
+
 /* GET home page. */
 router.get('/', (req, res) => {
   res.send('index');

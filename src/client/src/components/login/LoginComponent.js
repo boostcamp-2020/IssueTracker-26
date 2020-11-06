@@ -169,7 +169,7 @@ function Login({ history }) {
               <Label>비밀번호 확인</Label>
               <Layer>
                 <Input
-                  outlineColor={correct}
+                  outlineColor={correct ? 'default' : 'warning'}
                   name="checkPassword"
                   type="password"
                   value={input.checkPassword}
