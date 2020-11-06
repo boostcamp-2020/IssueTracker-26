@@ -109,7 +109,7 @@ function Login({ history }) {
       .then((res) => res.json())
       .then(({ token }) => {
         if (token) {
-          setState({ ...state, isLoggedIn: true });
+          setState({ ...state, token, isLoggedIn: true });
           localStorage.setItem('jwt', token);
           history.replace('/');
           return;
@@ -137,7 +137,7 @@ function Login({ history }) {
       .then((res) => res.json())
       .then(({ token }) => {
         if (token) {
-          setState({ ...state, isLoggedIn: true });
+          setState({ ...state, token, isLoggedIn: true });
           localStorage.setItem('jwt', token);
           history.replace('/');
           return;
