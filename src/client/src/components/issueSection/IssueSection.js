@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import IssueHeader from './IssueHeader';
 import IssueList from './IssueList';
+import Http from '../../util/http-common';
 
 const IssueContainer = styled.div`
   padding: 0px 200px;
@@ -11,7 +12,7 @@ function IssueSection() {
   const [issueList, setIssueList] = useState([]);
 
   useEffect(() => {
-    fetch('http://115.85.182.96:3000/api/issue')
+    fetch(`${Http}api/issue`)
       .then((res) => res.json())
       .then((data) => setIssueList(data));
   }, []);

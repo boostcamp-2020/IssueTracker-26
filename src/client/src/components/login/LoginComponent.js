@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import Input from '../input/InputComponent';
 import Button from '../Button';
 import UserContext from '../Context/UserContext';
+import Http from '../../util/http-common';
 
 const LoginComponent = styled.div`
   max-width: 960px;
@@ -98,7 +99,7 @@ function Login({ history }) {
   const handleSignin = (e) => {
     e.preventDefault();
     const { id, password } = input;
-    fetch('http://115.85.182.96:3000/api/user/signIn', {
+    fetch(`${Http}api/user/signIn`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -126,7 +127,7 @@ function Login({ history }) {
       return;
     }
 
-    fetch('http://115.85.182.96:3000/api/user', {
+    fetch(`${Http}api/user`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

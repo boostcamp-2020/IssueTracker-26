@@ -7,6 +7,7 @@ import MilestonePage from '../pages/MilestonePage';
 import UserContext from './Context/UserContext';
 import IssueCreatePage from '../pages/IssueCreatePage';
 import Header from './header/Header';
+import Http from '../util/http-common';
 
 function App() {
   const [state, setState] = useState({
@@ -17,7 +18,7 @@ function App() {
   const { isLoggedIn } = state;
   useEffect(() => {
     if (isLoggedIn) {
-      fetch('http://115.85.182.96:3000/api/user', {
+      fetch(`${Http}api/user`, {
         headers: {
           Authorization: `Bearer ${state.token}`,
         },
