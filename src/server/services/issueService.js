@@ -1,3 +1,4 @@
+const e = require('express');
 const issueModel = require('../models/issueModel');
 
 const getIssueList = async () => {
@@ -52,11 +53,11 @@ const createIssue = async (issueInfo) => {
 
     labels.forEach((labelId) => {
       promiseList.push(issueModel.createIssueHasLbel(issueId, labelId));
-    })
+    });
 
     assignees.forEach((assigneeId) => {
       promiseList.push(issueModel.createAssignee(assigneeId, issueId));
-    })
+    });
 
     await Promise.all(promiseList);
     return issueId;
@@ -66,9 +67,13 @@ const createIssue = async (issueInfo) => {
 };
 
 const stateChange = async (state, id) => {
+  let issue;
   try {
-    state = state === 1 ? 0 : 1;
-    const issue = await issueModel.stateChange(state, id);
+    if (state === 'Open') {
+      issue = await issueModel.stateChange(1, id);
+    } else {
+      issue = await issueModel.stateChange(0, id);
+    }
 
     return issue;
   } catch (err) {
@@ -99,10 +104,10 @@ const contentUpdate = async (id, content) => {
 const assigneesUpdate = async (id, assignees) => {
   try {
     const issue = await issueModel.assigneesDelete(id);
-    const promiseList = assignees.map(assigneeId => {
+    const promiseList = assignees.map((assigneeId) => {
       return issueModel.assigneesUpdate(id, assigneeId);
     });
-    
+
     await Promise.all(promiseList);
 
     return issue;
@@ -114,10 +119,10 @@ const assigneesUpdate = async (id, assignees) => {
 const labelsUpdate = async (id, labels) => {
   try {
     const issue = await issueModel.labelsDelete(id);
-    const promiseList = labels.map(labelId => {
+    const promiseList = labels.map((labelId) => {
       return issueModel.labelUpdate(id, labelId);
     });
-    
+
     await Promise.all(promiseList);
 
     return issue;

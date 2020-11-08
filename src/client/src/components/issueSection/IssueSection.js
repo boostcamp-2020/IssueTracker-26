@@ -26,6 +26,7 @@ function IssueSection() {
       <IssueHeader />
       <IssueList
         issueList={issueList}
+        setIssueList={setIssueList}
         checkList={checkList}
         setChecked={setChecked}
       />

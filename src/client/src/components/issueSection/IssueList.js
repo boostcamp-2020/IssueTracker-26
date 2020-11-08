@@ -11,16 +11,16 @@ const ContainerDiv = styled.div`
 `;
 
 function IssueList(props) {
-  const { issueList, checkList, setChecked } = props;
-  const [headerCheck, setHeaerCheck] = useState({ state: '', count: 0 });
+  const { issueList, checkList, setChecked, setIssueList } = props;
+  const [headerCheck, setHeaderCheck] = useState({ state: '', count: 0 });
 
   const handleAllCheck = () => {
     if (headerCheck.state === '') {
       setChecked(checkList.map(() => 'checked'));
-      setHeaerCheck({ state: 'checked', count: issueList.length });
+      setHeaderCheck({ state: 'checked', count: issueList.length });
     } else {
       setChecked(checkList.map(() => ''));
-      setHeaerCheck({ state: '', count: 0 });
+      setHeaderCheck({ state: '', count: 0 });
     }
   };
 
@@ -29,12 +29,15 @@ function IssueList(props) {
       checkList.map((check, i) => {
         if (index === i) {
           if (check === 'checked') {
-            setHeaerCheck({ state: '', count: headerCheck.count - 1 });
+            setHeaderCheck({ state: '', count: headerCheck.count - 1 });
           } else {
             let headerState = '';
             if (headerCheck.count + 1 === checkList.length)
               headerState = 'checked';
-            setHeaerCheck({ state: headerState, count: headerCheck.count + 1 });
+            setHeaderCheck({
+              state: headerState,
+              count: headerCheck.count + 1,
+            });
           }
           return check === '' ? 'checked' : '';
         }
@@ -48,6 +51,11 @@ function IssueList(props) {
       <IssueListMenu
         handleAllCheck={handleAllCheck}
         headerCheck={headerCheck}
+        issueList={issueList}
+        checkList={checkList}
+        setIssueList={setIssueList}
+        setChecked={setChecked}
+        setHeaderCheck={setHeaderCheck}
       />
       <IssueListContent
         issueList={issueList}
@@ -62,6 +70,7 @@ IssueList.propTypes = {
   issueList: PropTypes.array,
   checkList: PropTypes.array,
   setChecked: PropTypes.func,
+  setIssueList: PropTypes.func,
 };
 
 export default IssueList;
