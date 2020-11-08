@@ -85,7 +85,7 @@ const CommentImgStyled = styled.img`
   filter: invert(39%) sepia(2%) saturate(3035%) hue-rotate(172deg)
     brightness(89%) contrast(82%);
   width: 14px;
-  margin-top:5px;
+  margin-top: 5px;
 `;
 
 const CommentSpan = styled.span`
@@ -95,12 +95,16 @@ const CommentSpan = styled.span`
 `;
 
 function IssueContent(props) {
-  const { issueList } = props;
-  console.log(issueList);
+  const { issueList, checkList, handleSingleCheck } = props;
+
   const list = issueList.map((issue, index) => (
     <ContentDiv key={index}>
       <div>
-        <input type="checkbox" />
+        <input
+          type="checkbox"
+          checked={checkList[index] || ''}
+          onChange={() => handleSingleCheck(index)}
+        />
       </div>
       <TitleDiv>
         <div>
@@ -149,6 +153,8 @@ function IssueContent(props) {
 
 IssueContent.propTypes = {
   issueList: PropTypes.array,
+  checkList: PropTypes.array,
+  handleSingleCheck: PropTypes.func,
 };
 
 export default IssueContent;

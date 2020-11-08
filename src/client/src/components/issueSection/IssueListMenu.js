@@ -1,11 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 const ContentDiv = styled.div`
   display: flex;
   border-radius: 10px;
   height: 50px;
-  padding-top: 15px;
+  padding-top: 18px;
   padding-right: 15px;
   font-size: 0.8rem;
   background: ${(props) => props.theme.Color.grayBackground};
@@ -33,13 +34,26 @@ const ContentDiv = styled.div`
   }
 `;
 
-function IssueListMenu() {
+const SelectedStyled = styled.span`
+  text-align: left;
+  margin-top: -2px;
+  color: #586069;
+`;
+
+function IssueListMenu({ handleAllCheck, headerCheck }) {
   return (
     <ContentDiv>
       <div>
-        <input type="checkbox" />
+        <input
+          type="checkbox"
+          onChange={handleAllCheck}
+          checked={headerCheck.state}
+        />
       </div>
       <div>
+        <SelectedStyled>
+          {headerCheck.count !== 0 ? `${headerCheck.count} selected` : ''}
+        </SelectedStyled>
         <div></div>
         <div></div>
       </div>
@@ -61,5 +75,10 @@ function IssueListMenu() {
     </ContentDiv>
   );
 }
+
+IssueListMenu.propTypes = {
+  handleAllCheck: PropTypes.func,
+  headerCheck: PropTypes.object,
+};
 
 export default IssueListMenu;
