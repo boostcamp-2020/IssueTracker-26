@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import InputComponent from '../input/InputComponent';
@@ -72,8 +72,9 @@ function IssueFilter({
   setChecked,
   setHeaderCheck,
   setSelectFilter,
+  searchVal,
+  setSearchVal,
 }) {
-  const [searchVal, setSearchVal] = useState('is:issue is:open');
   const { state } = useContext(UserContext);
 
   const handleFilters = (e) => {
@@ -83,13 +84,13 @@ function IssueFilter({
         setSearchVal('is:issue is:open');
         break;
       case 'Your issues':
-        setSearchVal('is:open is:issue author:@me');
+        setSearchVal('is:issue is:open author:@me');
         break;
       case 'Everything assigned to you':
-        setSearchVal('is:open assignee:@me');
+        setSearchVal('is:issue is:open assignee:@me');
         break;
       case 'Everything mentioning you':
-        setSearchVal('is:open mentions:@me');
+        setSearchVal('is:issue is:open mentions:@me');
         break;
       case 'Closed issues':
         setSearchVal('is:issue is:close');
@@ -159,6 +160,8 @@ IssueFilter.propTypes = {
   setChecked: PropTypes.func,
   setHeaderCheck: PropTypes.func,
   setSelectFilter: PropTypes.func,
+  setSearchVal: PropTypes.func,
+  searchVal: PropTypes.string,
 };
 
 export default IssueFilter;

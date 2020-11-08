@@ -12,6 +12,7 @@ const HeaderDiv = styled.div`
   display: flex;
   align-items: center;
   padding-top: 100px;
+  margin-bottom: -10px;
   div:first-child {
     width: 100%;
   }
@@ -22,6 +23,8 @@ function IssueHeader({
   setChecked,
   setHeaderCheck,
   setSelectFilter,
+  searchVal,
+  setSearchVal,
 }) {
   const [issueCount, setIssueCount] = useState([]);
   const [milestoneCount, setMilestoneCount] = useState([]);
@@ -53,6 +56,8 @@ function IssueHeader({
           handleFilterMenu={handleFilterMenu}
           stateFilterMenu={stateFilterMenu}
           setSelectFilter={setSelectFilter}
+          setSearchVal={setSearchVal}
+          searchVal={searchVal}
         />
       </div>
       <div>
@@ -76,6 +81,8 @@ IssueHeader.propTypes = {
   setChecked: PropTypes.func,
   setHeaderCheck: PropTypes.func,
   setSelectFilter: PropTypes.func,
+  setSearchVal: PropTypes.func,
+  searchVal: PropTypes.string,
 };
 
 export default IssueHeader;
