@@ -11,6 +11,8 @@ const IssueContainer = styled.div`
 function IssueSection() {
   const [issueList, setIssueList] = useState([]);
   const [checkList, setChecked] = useState([]);
+  const [selectFilter, setSelectFilter] = useState('Open issues');
+  const [headerCheck, setHeaderCheck] = useState({ state: '', count: 0 });
 
   useEffect(() => {
     fetch(`${Http}api/issue`)
@@ -23,12 +25,20 @@ function IssueSection() {
 
   return (
     <IssueContainer>
-      <IssueHeader />
+      <IssueHeader
+        setSelectFilter={setSelectFilter}
+        setIssueList={setIssueList}
+        setChecked={setChecked}
+        setHeaderCheck={setHeaderCheck}
+      />
       <IssueList
+        selectFilter={selectFilter}
         issueList={issueList}
         setIssueList={setIssueList}
         checkList={checkList}
         setChecked={setChecked}
+        setHeaderCheck={setHeaderCheck}
+        headerCheck={headerCheck}
       />
     </IssueContainer>
   );

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import IssueFilter from './IssueFilter';
 import LabelMilestoneButton from '../LabelMilestoneButton';
 import Button from '../Button';
@@ -16,7 +17,12 @@ const HeaderDiv = styled.div`
   }
 `;
 
-function IssueHeader() {
+function IssueHeader({
+  setIssueList,
+  setChecked,
+  setHeaderCheck,
+  setSelectFilter,
+}) {
   const [issueCount, setIssueCount] = useState([]);
   const [milestoneCount, setMilestoneCount] = useState([]);
   const [stateFilterMenu, setStateFilterMenu] = useState(false);
@@ -41,8 +47,12 @@ function IssueHeader() {
     <HeaderDiv>
       <div>
         <IssueFilter
+          setHeaderCheck={setHeaderCheck}
+          setChecked={setChecked}
+          setIssueList={setIssueList}
           handleFilterMenu={handleFilterMenu}
           stateFilterMenu={stateFilterMenu}
+          setSelectFilter={setSelectFilter}
         />
       </div>
       <div>
@@ -61,6 +71,11 @@ function IssueHeader() {
   );
 }
 
-IssueHeader.propTypes = {};
+IssueHeader.propTypes = {
+  setIssueList: PropTypes.func,
+  setChecked: PropTypes.func,
+  setHeaderCheck: PropTypes.func,
+  setSelectFilter: PropTypes.func,
+};
 
 export default IssueHeader;

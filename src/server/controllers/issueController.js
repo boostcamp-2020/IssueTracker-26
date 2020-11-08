@@ -108,6 +108,18 @@ const milestoneUpdate = async (req, res) => {
   return res.status(500).end();
 };
 
+const getFilterIssueList = async (req, res) => {
+  const id = parseInt(req.params.id, 10);
+  const { type } = req.params;
+  if (Number.isNaN(id)) return res.status(400).end();
+
+  const issueList = await issueService.getFilterIssueList(id, type);
+  if (issueList) {
+    return res.status(200).json(issueList);
+  }
+  return res.status(500).end();
+};
+
 module.exports = {
   getIssueList,
   getIssueDetail,
@@ -118,4 +130,5 @@ module.exports = {
   assigneesUpdate,
   labelsUpdate,
   milestoneUpdate,
+  getFilterIssueList,
 };

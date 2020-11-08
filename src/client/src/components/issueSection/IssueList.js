@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import IssueListMenu from './IssueListMenu';
@@ -11,8 +11,15 @@ const ContainerDiv = styled.div`
 `;
 
 function IssueList(props) {
-  const { issueList, checkList, setChecked, setIssueList } = props;
-  const [headerCheck, setHeaderCheck] = useState({ state: '', count: 0 });
+  const {
+    issueList,
+    checkList,
+    setChecked,
+    setIssueList,
+    headerCheck,
+    setHeaderCheck,
+    selectFilter,
+  } = props;
 
   const handleAllCheck = () => {
     if (headerCheck.state === '') {
@@ -56,6 +63,7 @@ function IssueList(props) {
         setIssueList={setIssueList}
         setChecked={setChecked}
         setHeaderCheck={setHeaderCheck}
+        selectFilter={selectFilter}
       />
       <IssueListContent
         issueList={issueList}
@@ -71,6 +79,9 @@ IssueList.propTypes = {
   checkList: PropTypes.array,
   setChecked: PropTypes.func,
   setIssueList: PropTypes.func,
+  headerCheck: PropTypes.object,
+  setHeaderCheck: PropTypes.func,
+  selectFilter: PropTypes.string,
 };
 
 export default IssueList;

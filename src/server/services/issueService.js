@@ -1,4 +1,3 @@
-const e = require('express');
 const issueModel = require('../models/issueModel');
 
 const getIssueList = async () => {
@@ -133,10 +132,65 @@ const labelsUpdate = async (id, labels) => {
 
 const milestoneUpdate = async (id, milestoneId) => {
   try {
-    milestoneId = milestoneId || null;
-    await issueModel.milestoneUpdate(id, milestoneId);
+    const mid = milestoneId || null;
+    await issueModel.milestoneUpdate(id, mid);
     const milestone = await issueModel.getMilestone(id);
     return milestone;
+  } catch (err) {
+    return undefined;
+  }
+};
+
+const getFilterIssueList = async (id, type) => {
+  try {
+    let issueList;
+    switch (type) {
+      case 'Open issues':
+        issueList = await issueModel.getIssueList();
+        break;
+      case 'Your issues':
+        issueList = await issueModel.getIssueListById(id);
+        break;
+      case 'Everything assigned to you': {
+        issueList = await issueModel.getIssueListByAssignee(id);
+        const promiseList = issueList.map((issue) => {
+          return issueModel.getIssueListByIssueId(issue.issue_id);
+        });
+        issueList = await Promise.all(promiseList);
+        break;
+      }
+      case 'Everything mentioning you': {
+        issueList = await issueModel.getIssueListByComment(id);
+        const promiseList = issueList.map((issue) => {
+          return issueModel.getIssueListByIssueId(issue.issue_id);
+        });
+        issueList = await Promise.all(promiseList);
+        break;
+      }
+      case 'Closed issues':
+        issueList = await issueModel.getIssueListByClose();
+        break;
+      default:
+        break;
+    }
+
+    const promiseList = [];
+    issueList.forEach((issue) => {
+      const label = issueModel.getIssueLabel(issue.id);
+      const assignee = issueModel.getIssueAssignee(issue.id);
+      promiseList.push(label);
+      promiseList.push(assignee);
+    });
+
+    await Promise.all(promiseList).then((item) => {
+      let index = -2;
+      issueList = issueList.map((issue) => {
+        index += 2;
+        return { ...issue, label: item[index], assignee: item[index + 1] };
+      });
+    });
+
+    return issueList;
   } catch (err) {
     return undefined;
   }
@@ -152,4 +206,5 @@ module.exports = {
   assigneesUpdate,
   labelsUpdate,
   milestoneUpdate,
+  getFilterIssueList,
 };

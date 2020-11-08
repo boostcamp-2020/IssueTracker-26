@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import InputComponent from '../input/InputComponent';
 import drop from '../../../public/images/drop.png';
 import DropBox from '../DropBox';
 import search from '../../../public/images/search-outline.svg';
+import Http from '../../util/http-common';
+import UserContext from '../Context/UserContext';
 
 const FilterDiv = styled.div`
   display: flex;
@@ -63,25 +65,47 @@ const SectionDiv = styled.div`
   }
 `;
 
-function IssueFilter({ handleFilterMenu, stateFilterMenu }) {
+function IssueFilter({
+  handleFilterMenu,
+  stateFilterMenu,
+  setIssueList,
+  setChecked,
+  setHeaderCheck,
+  setSelectFilter,
+}) {
   const [searchVal, setSearchVal] = useState('is:issue is:open');
+  const { state } = useContext(UserContext);
 
   const handleFilters = (e) => {
     const selected = e.target.innerText;
     switch (selected) {
       case 'Open issues':
-        return setSearchVal('is:issue is:open');
+        setSearchVal('is:issue is:open');
+        break;
       case 'Your issues':
-        return setSearchVal('is:open is:issue author:@me');
+        setSearchVal('is:open is:issue author:@me');
+        break;
       case 'Everything assigned to you':
-        return setSearchVal('is:open assignee:@me');
+        setSearchVal('is:open assignee:@me');
+        break;
       case 'Everything mentioning you':
-        return setSearchVal('is:open mentions:@me');
+        setSearchVal('is:open mentions:@me');
+        break;
       case 'Closed issues':
-        return setSearchVal('is:issue is:close');
+        setSearchVal('is:issue is:close');
+        break;
       default:
-        return setSearchVal('');
+        setSearchVal('');
+        break;
     }
+    setSelectFilter(selected);
+    fetch(`${Http}api/issue/filter/${state.userId}/${selected}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setIssueList(data);
+        setChecked(data.map(() => ''));
+        setHeaderCheck({ state: '', count: 0 });
+      });
   };
 
   const handleInput = (e) => {
@@ -131,6 +155,10 @@ function IssueFilter({ handleFilterMenu, stateFilterMenu }) {
 IssueFilter.propTypes = {
   handleFilterMenu: PropTypes.func,
   stateFilterMenu: PropTypes.bool,
+  setIssueList: PropTypes.func,
+  setChecked: PropTypes.func,
+  setHeaderCheck: PropTypes.func,
+  setSelectFilter: PropTypes.func,
 };
 
 export default IssueFilter;
