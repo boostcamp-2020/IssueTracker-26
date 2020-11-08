@@ -175,6 +175,7 @@ function IssueListMenu({
             data={['Open', 'Closed']}
             handler={handleMarkMenu}
             handleCloseMenu={handleCloseMenu}
+            right={0}
           ></DropBox>
         )}
       </div>

@@ -19,6 +19,11 @@ const HeaderDiv = styled.div`
 function IssueHeader() {
   const [issueCount, setIssueCount] = useState([]);
   const [milestoneCount, setMilestoneCount] = useState([]);
+  const [stateFilterMenu, setStateFilterMenu] = useState(false);
+
+  const handleFilterMenu = () => {
+    setStateFilterMenu(!stateFilterMenu);
+  };
 
   useEffect(() => {
     fetch(`${Http}api/label/total`)
@@ -35,7 +40,10 @@ function IssueHeader() {
   return (
     <HeaderDiv>
       <div>
-        <IssueFilter />
+        <IssueFilter
+          handleFilterMenu={handleFilterMenu}
+          stateFilterMenu={stateFilterMenu}
+        />
       </div>
       <div>
         <LabelMilestoneButton

@@ -27,6 +27,7 @@ const changeStyle = css`
 `;
 
 const StyleDiv = styled.div`
+  cursor: default;
   z-index: 10;
   position: fixed !important;
   max-width: 100%;
@@ -40,9 +41,13 @@ const StyleDiv = styled.div`
 `;
 
 const StyleUl = styled.ul`
+  cursor: default;
   position: absolute;
   margin-top: 7px;
-  right: 0;
+  top: ${(props) => props.top}px;
+  bottom: ${(props) => props.bottom}px;
+  left: ${(props) => props.left}px;
+  right: ${(props) => props.right}px;
   z-index: 1000;
   width: ${(props) => props.width};
   border: ${(props) => props.theme.Color.border} 1px solid;
@@ -68,6 +73,10 @@ function DropBox({
   width = '300px',
   handler,
   handleCloseMenu,
+  top,
+  bottom,
+  left,
+  right,
 }) {
   const list = data.map((info, index) => (
     <StyleLi key={index} width={width} onClick={handler}>
@@ -77,7 +86,13 @@ function DropBox({
   return (
     <Fragment>
       <StyleDiv onClick={handleCloseMenu}></StyleDiv>
-      <StyleUl width={width}>
+      <StyleUl
+        width={width}
+        top={top}
+        bottom={bottom}
+        left={left}
+        right={right}
+      >
         <StyleLi title={title}>{title}</StyleLi>
         {list}
       </StyleUl>
@@ -91,6 +106,10 @@ DropBox.propTypes = {
   width: PropTypes.string,
   handler: PropTypes.func.isRequired,
   handleCloseMenu: PropTypes.func.isRequired,
+  top: PropTypes.number,
+  bottom: PropTypes.number,
+  left: PropTypes.number,
+  right: PropTypes.number,
 };
 
 export default DropBox;
