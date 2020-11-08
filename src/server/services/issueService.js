@@ -170,6 +170,9 @@ const getFilterIssueList = async (id, type) => {
       case 'Closed issues':
         issueList = await issueModel.getIssueListByClose();
         break;
+      case 'All':
+        issueList = await issueModel.getIssueListByAll();
+        break;
       default:
         break;
     }

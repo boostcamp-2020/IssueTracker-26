@@ -45,6 +45,7 @@ function Input(props) {
     outlineColor = 'default',
     border,
     bgColor = 'none',
+    onKeyPress,
   } = props;
 
   return (
@@ -60,6 +61,7 @@ function Input(props) {
       name={name}
       outlineColor={outlineColor}
       bgColor={bgColor}
+      onKeyPress={onKeyPress}
     />
   );
 }
@@ -76,6 +78,7 @@ Input.propTypes = {
   outlineColor: PropTypes.string,
   border: PropTypes.string,
   bgColor: PropTypes.string,
+  onKeyPress: PropTypes.func,
 };
 
 export default Input;

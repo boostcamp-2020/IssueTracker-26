@@ -76,6 +76,9 @@ const ISSUE = {
 
   GETISSUELISTBYCLOSE: `select i.id, i.title, i.state, i.content, i.user_id, u.username, i.createdat, i.milestone_id, m.title as milestonename, count(c.id) as commentCount 
   from issue i left join user u on i.user_id=u.id left join milestone m on i.milestone_id=m.id left join comment c on i.id=c.issue_id where i.state=0 group by i.id`,
+
+  GETISSUELISTBYALL: `select i.id, i.title, i.state, i.content, i.user_id, u.username, i.createdat, i.milestone_id, m.title as milestonename, count(c.id) as commentCount 
+  from issue i left join user u on i.user_id=u.id left join milestone m on i.milestone_id=m.id left join comment c on i.id=c.issue_id group by i.id`,
 };
 
 const COMMENT = {

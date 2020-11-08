@@ -111,7 +111,54 @@ function IssueFilter({
 
   const handleInput = (e) => {
     const { value } = e.target;
+    if (value !== 'is:issue is:open') {
+      setSelectFilter('');
+    } else {
+      setSelectFilter('Open issues');
+    }
     setSearchVal(value);
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.charCode === 13) {
+      const FILTERNAME = [
+        'is:issue',
+        'is:open',
+        'author:@me',
+        'assignee:@me',
+        'mentions:@me',
+        'is:close',
+      ];
+      const FILTER = [false, false, false, false, false, false];
+      const filterArray = searchVal.split(' ');
+      filterArray.forEach((info) => {
+        const index = FILTERNAME.indexOf(info);
+        if (index !== -1) {
+          FILTER[index] = true;
+        }
+      });
+      let selected = '';
+      if (FILTER[0] && FILTER[1] && FILTER[2]) {
+        selected = 'Your issues';
+      } else if (FILTER[0] && FILTER[1] && FILTER[3]) {
+        selected = 'Everything assigned to you';
+      } else if (FILTER[0] && FILTER[1] && FILTER[4]) {
+        selected = 'Everything mentioning you';
+      } else if (FILTER[0] && FILTER[5]) {
+        selected = 'Closed issues';
+      } else if (FILTER[0] && FILTER[1]) {
+        selected = 'Open issues';
+      } else {
+        selected = 'All';
+      }
+      fetch(`${Http}api/issue/filter/${state.userId}/${selected}`)
+        .then((res) => res.json())
+        .then((data) => {
+          setIssueList(data);
+          setChecked(data.map(() => ''));
+          setHeaderCheck({ state: '', count: 0 });
+        });
+    }
   };
 
   return (
@@ -147,6 +194,7 @@ function IssueFilter({
           outlineColor={'none'}
           onChange={handleInput}
           bgColor={'#f6f8fa'}
+          onKeyPress={handleKeyPress}
         />
       </SectionDiv>
     </FilterDiv>
