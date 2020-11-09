@@ -41,7 +41,11 @@ function LabelSection() {
         <ContentsContainer>
           <ContentsListHeader>{labelList.length} labels</ContentsListHeader>
           {labelList.map((label, index) => (
-            <LabelList handler={handleRerender} label={label} key={index} />
+            <LabelList
+              handleRender={handleRerender}
+              label={label}
+              key={index}
+            />
           ))}
         </ContentsContainer>
       ) : null}

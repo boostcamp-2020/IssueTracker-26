@@ -11,14 +11,14 @@ import {
 } from './labelStyle';
 
 function LabelList(props) {
-  const { label, handler } = props;
+  const { label, handleRender } = props;
   const width = '80px';
   const [activeEdit, setAcitveEdit] = useState(false);
 
   const handleEditLabel = () => setAcitveEdit(!activeEdit);
 
   useEffect(() => {
-    handler();
+    handleRender();
   }, [activeEdit]);
 
   return (
@@ -51,7 +51,7 @@ function LabelList(props) {
 
 LabelList.propTypes = {
   label: PropTypes.object,
-  handler: PropTypes.func.isRequired,
+  handleRender: PropTypes.func.isRequired,
 };
 
 export default LabelList;
