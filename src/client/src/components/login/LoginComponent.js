@@ -7,7 +7,6 @@ import UserContext from '../Context/UserContext';
 import userAPI from '../../util/api/user';
 import util from '../../util/index';
 import FlashMessage from '../FlashMessage';
-import { checkDuplicated } from '../../../../server/models/userModel';
 
 const LoginComponent = styled.div`
   max-width: 960px;
