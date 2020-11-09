@@ -9,6 +9,7 @@ import {
   Layer,
   EmptyDiv,
   EditButton,
+  Div,
 } from './labelStyle';
 
 function TouchLabel(props) {
@@ -60,35 +61,35 @@ function TouchLabel(props) {
     <WorkContainer isEdit={isEdit}>
       <Layer>
         <LabelSpan color={randColor}>
-          {title === '' ? 'Label preview' : title}
+          {input.name === '' ? 'Label preview' : input.name}
         </LabelSpan>
         <div></div>
       </Layer>
       <Layer>
-        <div>
+        <Div width="140px">
           Label name
           <Input
             name="name"
             value={input.name}
             placeholder="Label name"
             height="30px"
-            width="80%"
+            width="100%"
             fontSize="14px"
             onChange={handleInput}
           />
-        </div>
-        <div>
+        </Div>
+        <Div width="200px">
           Description
           <Input
             name="description"
             value={input.description}
             placeholder="Description(optional)"
             height="30px"
-            width="110%"
+            width="100%"
             fontSize="14px"
             onChange={handleInput}
           />
-        </div>
+        </Div>
         <div>
           <div>color</div>
           <EditButton onClick={handleRandom}>change</EditButton>
