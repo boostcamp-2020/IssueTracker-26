@@ -3,6 +3,7 @@ import Http from '../../util/http-common';
 import LabelMilestoneButton from '../LabelMilestoneButton';
 import LabelList from './LabelList';
 import Button from '../Button';
+import TouchLabel from './TouchLabel';
 import {
   ButtonBox,
   Container,
@@ -23,7 +24,11 @@ const effecter = (setLabelList) => {
 
 function LabelSection() {
   const [labelList, setLabelList] = useState([]);
+  const [activeNew, setActiveNew] = useState(false);
+  const [activeEdit, setAcitveEdit] = useState(false);
 
+  const handleNewLabel = () => setActiveNew(!activeNew);
+  const handleEditLabel = () => setAcitveEdit(!activeEdit);
   effecter(setLabelList);
 
   return (
@@ -31,14 +36,15 @@ function LabelSection() {
       <Header>
         <LabelMilestoneButton page="label" left={true} />
         <ButtonBox>
-          <Button>new Label</Button>
+          <Button handler={handleNewLabel}>new Label</Button>
         </ButtonBox>
       </Header>
+      {activeNew && <TouchLabel handler={handleNewLabel}></TouchLabel>}
       {labelList.length ? (
         <ContentsContainer>
           <ContentsListHeader>{labelList.length} labels</ContentsListHeader>
           {labelList.map((label, index) => (
-            <LabelList label={label} key={index}></LabelList>
+            <LabelList handleEdit={handleEditLabel} label={label} key={index} />
           ))}
         </ContentsContainer>
       ) : null}
