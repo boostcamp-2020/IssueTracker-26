@@ -89,6 +89,7 @@ function Login() {
 
   const handleValidInput = (e) => {
     const { value, name } = e.target;
+    validInput();
     if (value === '') return;
     if (!util.validInput(e.target.value)) {
       if (name === 'id')
@@ -106,9 +107,7 @@ function Login() {
     if (name === 'checkPassword' && value !== input.password) {
       setCorrect(false);
       setMessage({ key: 5, message: '비밀번호, 비밀번호 확인이 다릅니다.' });
-      return;
     }
-    validInput();
   };
 
   const handleInput = (e) => {
