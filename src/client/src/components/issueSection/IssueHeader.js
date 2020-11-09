@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import IssueFilter from './IssueFilter';
 import LabelMilestoneButton from '../LabelMilestoneButton';
 import Button from '../Button';
@@ -11,14 +12,27 @@ const HeaderDiv = styled.div`
   display: flex;
   align-items: center;
   padding-top: 100px;
+  margin-bottom: -10px;
   div:first-child {
     width: 100%;
   }
 `;
 
-function IssueHeader() {
+function IssueHeader({
+  setIssueList,
+  setChecked,
+  setHeaderCheck,
+  setSelectFilter,
+  searchVal,
+  setSearchVal,
+}) {
   const [issueCount, setIssueCount] = useState([]);
   const [milestoneCount, setMilestoneCount] = useState([]);
+  const [stateFilterMenu, setStateFilterMenu] = useState(false);
+
+  const handleFilterMenu = () => {
+    setStateFilterMenu(!stateFilterMenu);
+  };
 
   useEffect(() => {
     fetch(`${Http}api/label/total`)
@@ -35,7 +49,16 @@ function IssueHeader() {
   return (
     <HeaderDiv>
       <div>
-        <IssueFilter />
+        <IssueFilter
+          setHeaderCheck={setHeaderCheck}
+          setChecked={setChecked}
+          setIssueList={setIssueList}
+          handleFilterMenu={handleFilterMenu}
+          stateFilterMenu={stateFilterMenu}
+          setSelectFilter={setSelectFilter}
+          setSearchVal={setSearchVal}
+          searchVal={searchVal}
+        />
       </div>
       <div>
         <LabelMilestoneButton
@@ -53,6 +76,13 @@ function IssueHeader() {
   );
 }
 
-IssueHeader.propTypes = {};
+IssueHeader.propTypes = {
+  setIssueList: PropTypes.func,
+  setChecked: PropTypes.func,
+  setHeaderCheck: PropTypes.func,
+  setSelectFilter: PropTypes.func,
+  setSearchVal: PropTypes.func,
+  searchVal: PropTypes.string,
+};
 
 export default IssueHeader;

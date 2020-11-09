@@ -1,9 +1,10 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useContext } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import DropBox from '../DropBox';
 import drop from '../../../public/images/drop.png';
 import Http from '../../util/http-common';
+import UserContext from '../Context/UserContext';
 
 const ContentDiv = styled.div`
   display: flex;
@@ -67,8 +68,10 @@ function IssueListMenu({
   setIssueList,
   setChecked,
   setHeaderCheck,
+  selectFilter,
 }) {
   const MENU = ['Author', 'Lavel', 'Milstones', 'Assignee', 'Mark as'];
+  const { state } = useContext(UserContext);
   const [dropMenuList, setdropMenuList] = useState([
     MENU.map(() => {
       return false;
@@ -97,17 +100,16 @@ function IssueListMenu({
       }
       return null;
     });
-
     Promise.all(promiseList).then(() => {
-      fetch(`${Http}api/issue`)
+      fetch(`${Http}api/issue/filter/${state.userId}/${selectFilter}`)
         .then((res) => res.json())
         .then((data) => {
           setIssueList(data);
           setChecked(data.map(() => ''));
           setHeaderCheck({ state: '', count: 0 });
-          setdropMenuList(MENU.map(() => false));
         });
     });
+    setdropMenuList(MENU.map(() => false));
   };
 
   const handleCloseMenu = () => {
@@ -175,6 +177,7 @@ function IssueListMenu({
             data={['Open', 'Closed']}
             handler={handleMarkMenu}
             handleCloseMenu={handleCloseMenu}
+            right={0}
           ></DropBox>
         )}
       </div>
@@ -190,6 +193,7 @@ IssueListMenu.propTypes = {
   setIssueList: PropTypes.func,
   setChecked: PropTypes.func,
   setHeaderCheck: PropTypes.func,
+  selectFilter: PropTypes.string,
 };
 
 export default IssueListMenu;

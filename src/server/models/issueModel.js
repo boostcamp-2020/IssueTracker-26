@@ -171,6 +171,60 @@ const milestoneUpdate = async (id, milestoneId) => {
   }
 };
 
+const getIssueListById = async (id) => {
+  try {
+    const [issueList] = await pool.execute(ISSUE.GETISSUELISTBYID, [id]);
+    return issueList;
+  } catch (err) {
+    return undefined;
+  }
+};
+
+const getIssueListByAssignee = async (id) => {
+  try {
+    const [issueList] = await pool.execute(ISSUE.GETISSUELISTBYASSIGNEE, [id]);
+    return issueList;
+  } catch (err) {
+    return undefined;
+  }
+};
+
+const getIssueListByIssueId = async (id) => {
+  try {
+    const [issueList] = await pool.execute(ISSUE.GETISSUELISTBYISSUEID, [id]);
+    return issueList[0];
+  } catch (err) {
+    return undefined;
+  }
+};
+
+const getIssueListByComment = async (id) => {
+  try {
+    const [issueList] = await pool.execute(ISSUE.GETISSUELISTBYCOMMENT, [id]);
+    return issueList;
+  } catch (err) {
+    return undefined;
+  }
+};
+
+const getIssueListByClose = async () => {
+  try {
+    const [issueList] = await pool.execute(ISSUE.GETISSUELISTBYCLOSE, []);
+    return issueList;
+  } catch (err) {
+    return undefined;
+  }
+};
+
+const getIssueListByAll = async () => {
+  try {
+    const [issueList] = await pool.execute(ISSUE.GETISSUELISTBYALL, []);
+    return issueList;
+  } catch (err) {
+    return undefined;
+  }
+};
+
 module.exports = {
   getIssueList,
   getIssueLabel,
@@ -189,4 +243,10 @@ module.exports = {
   labelsDelete,
   labelUpdate,
   milestoneUpdate,
+  getIssueListById,
+  getIssueListByAssignee,
+  getIssueListByIssueId,
+  getIssueListByComment,
+  getIssueListByClose,
+  getIssueListByAll,
 };

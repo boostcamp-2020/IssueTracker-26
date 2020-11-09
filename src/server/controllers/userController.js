@@ -3,8 +3,8 @@ const userService = require('../services/userService');
 const { makeToken, randomString } = require('../util');
 
 const getUserInfo = (req, res) => {
-  const { userName } = req.user;
-  if (userName) return res.status(200).json({ userName });
+  const { userName, id } = req.user;
+  if (userName) return res.status(200).json({ userName, userId: id });
   return res.status(401).end();
 };
 
@@ -41,7 +41,7 @@ const signIn = (req, res, next) =>
     const { id, userName } = user;
     return res
       .status(200)
-      .json({ userName, token: makeToken({ id, userName }) });
+      .json({ userId: id, userName, token: makeToken({ id, userName }) });
   })(req, res, next);
 
 const failGitHubAuth = (req, res) => {
@@ -57,7 +57,7 @@ const gitHubAuth = async (req, res) => {
   }
   const newUserId = await userService.signUp(user, randomString());
   const token = makeToken({ id: newUserId, userName: user });
-  return res.status(200).json({ userName: user, token });
+  return res.status(200).json({ userId: newUserId, userName: user, token });
 };
 
 module.exports = {

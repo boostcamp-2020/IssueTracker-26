@@ -31,8 +31,8 @@ function App() {
           }
           return res.json();
         })
-        .then(({ userName }) => {
-          setState({ ...state, isLoggedIn: true, userName });
+        .then(({ userName, userId }) => {
+          setState({ ...state, isLoggedIn: true, userName, userId });
         });
     }
   }, [state.token]);
