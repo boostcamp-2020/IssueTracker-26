@@ -1,6 +1,9 @@
 const USER = {
   SIGNUP: `insert into user(username, password) values(?,?)`,
   FINDUSER: `select * from user where username = ?`,
+  FIND_SOCIAL_USER: `select * from user where username = ? and social = 1`,
+  CREATE_SOCIAL_USER: `insert into user(username, password, profile, social) values (?,?,?,?)`,
+  UPDATE: `update user set profile=? where id=?`,
 };
 
 const LABEL = {

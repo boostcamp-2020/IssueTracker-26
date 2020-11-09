@@ -1,7 +1,6 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const passportJWT = require('passport-jwt');
-const GitHubStrategy = require('passport-github2').Strategy;
 const userService = require('../services/userService');
 const { comparePassword } = require('../util/index');
 
@@ -50,22 +49,6 @@ const initPassport = () => {
       if (!user) return done(null, undefined);
       return done(null, user);
     }),
-  );
-
-  const GitHubOption = {
-    clientID: process.env.GITHUB_CLIENT_ID,
-    clientSecret: process.env.GITHUB_CLIENT_SECRET,
-    callbackURL: `${process.env.HOST}/api/auth/github/callback`,
-  };
-
-  passport.use(
-    new GitHubStrategy(
-      GitHubOption,
-      (accessToken, refreshToken, profile, done) => {
-        const { username } = profile;
-        done(null, username);
-      },
-    ),
   );
 
   return passport.initialize();
