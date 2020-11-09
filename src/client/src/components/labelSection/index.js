@@ -17,6 +17,7 @@ function LabelSection() {
   const [activeNew, setActiveNew] = useState(false);
   const [rerender, setRerender] = useState(false);
 
+  const handleLabelList = (labels) => setLabelList(labels);
   const handleNewLabel = () => setActiveNew(!activeNew);
   const handleRerender = () => setRerender(!rerender);
 
@@ -24,7 +25,7 @@ function LabelSection() {
     fetch(`${Http}api/label`)
       .then((res) => res.json())
       .then((labels) => {
-        setLabelList(labels);
+        handleLabelList(labels);
       });
   }, [activeNew, rerender]);
 
