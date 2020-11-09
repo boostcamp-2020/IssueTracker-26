@@ -22,14 +22,17 @@ const checkDuplicated = async (userName) => {
 const findOrCreateUser = async (userInfo) => {
   try {
     const { userName, profile } = userInfo;
-    const [user] = await userModel.findSocialUser(userName);
-    if (user.length)
+    const user = await userModel.findSocialUser(userName);
+    if (user.length || !user) {
+      const selectedUser = user[0];
+      await userModel.updateUser(selectedUser.id, profile);
       return {
-        id: user.id,
-        userName: user.userName,
-        profile: user.profile,
+        id: selectedUser.id,
+        userName: selectedUser.userName,
+        profile: selectedUser.profile,
         social: 1,
       };
+    }
     const newUser = await userModel.createSocialUser(userInfo);
     return { id: newUser, userName, profile, social: 1 };
   } catch (err) {

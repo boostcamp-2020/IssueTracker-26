@@ -30,7 +30,6 @@ const findSocialUser = async (userName) => {
     const [data] = await pool.execute(USER.FIND_SOCIAL_USER, [userName]);
     return data;
   } catch (err) {
-    console.log(err);
     return undefined;
   }
 };
@@ -46,7 +45,15 @@ const createSocialUser = async (userInfo) => {
     ]);
     return insertId;
   } catch (err) {
-    console.log(err);
+    return undefined;
+  }
+};
+
+const updateUser = async (id, profile) => {
+  try {
+    const [rows] = await pool.execute(USER.UPDATE, [profile, id]);
+    return rows.affectedRows ? id : undefined;
+  } catch (e) {
     return undefined;
   }
 };
@@ -56,4 +63,5 @@ module.exports = {
   checkDuplicated,
   findSocialUser,
   createSocialUser,
+  updateUser,
 };
