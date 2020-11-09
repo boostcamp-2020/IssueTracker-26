@@ -78,7 +78,17 @@ function Login() {
   const [isDuplicated, setDuplicated] = useState(false);
   const [messageState, setMessage] = useState({ key: undefined, message: '' });
 
-  const validInput = () => {
+  const validInput = (duplicated) => {
+    if (duplicated) {
+      setDuplicated(true);
+      setSubmit(
+        util.validInput(input.id) &&
+          util.validInput(input.password) &&
+          input.password === input.checkPassword,
+        true,
+      );
+      return;
+    }
     setSubmit(
       util.validInput(input.id) &&
         util.validInput(input.password) &&
@@ -137,6 +147,9 @@ function Login() {
       password: '',
       checkPassword: '',
     });
+    setCorrect(false);
+    setSubmit(false);
+    setDuplicated(false);
     setIsLogin(bool);
   };
   const handleCheckDuplicated = () => {
@@ -151,8 +164,8 @@ function Login() {
         setMessage({ key: 7, message: msg });
         return;
       }
-      setDuplicated(true);
-      setMessage({ key: 7, message: '사용 가능한 아이디입니다.' });
+      validInput(true);
+      setMessage({ key: 8, message: '사용 가능한 아이디입니다.' });
     });
   };
   const handleSignin = (e) => {

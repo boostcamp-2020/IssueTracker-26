@@ -37,7 +37,7 @@ function FlashMessage({ messageState, duration = 2, handleMessage }) {
 
 FlashMessage.propTypes = {
   handleMessage: PropTypes.func.isRequired,
-  messageState: PropTypes.string,
+  messageState: PropTypes.object,
   duration: PropTypes.number,
 };
 

@@ -15,7 +15,7 @@ function ProgressBar({ duration }) {
   return <Container duration={duration}></Container>;
 }
 
-ProgressBar.PropTypes = {
+ProgressBar.propTypes = {
   duration: PropTypes.number.isRequired,
 };
 
