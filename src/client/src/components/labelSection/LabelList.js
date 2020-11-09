@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import TouchLabel from './TouchLabel';
+import Http from '../../util/http-common';
 import {
   LabelBox,
   LabelSpan,
@@ -14,13 +15,28 @@ function LabelList(props) {
   const { label, handleRender } = props;
   const width = '80px';
   const [activeEdit, setAcitveEdit] = useState(false);
+  const [deleted, setDeleted] = useState(false);
 
   const handleEditLabel = () => setAcitveEdit(!activeEdit);
+  const handleDelete = () => {
+    fetch(`${Http}api/label/${label.id}`, {
+      method: 'DELETE',
+    })
+      .then((res) => res.status)
+      .then((status) => {
+        if (status === 205) {
+          setDeleted(true);
+        } else {
+          alert('fail');
+        }
+      });
+  };
 
   useEffect(() => {
     handleRender();
   }, [activeEdit]);
 
+  if (deleted) return null;
   return (
     <>
       {activeEdit ? (
@@ -41,7 +57,7 @@ function LabelList(props) {
           <div></div>
           <EditDeleteBox width={width}>
             <TextContents onClick={handleEditLabel}>Edit</TextContents>
-            <TextContents>Delete</TextContents>
+            <TextContents onClick={handleDelete}>Delete</TextContents>
           </EditDeleteBox>
         </ContentsList>
       )}
@@ -51,7 +67,8 @@ function LabelList(props) {
 
 LabelList.propTypes = {
   label: PropTypes.object,
-  handleRender: PropTypes.func.isRequired,
+  handleRender: PropTypes.func,
+  handleDelete: PropTypes.func,
 };
 
 export default LabelList;
