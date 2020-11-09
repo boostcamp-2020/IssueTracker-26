@@ -5,6 +5,7 @@ import DropBox from '../DropBox';
 import drop from '../../../public/images/drop.png';
 import Http from '../../util/http-common';
 import UserContext from '../Context/UserContext';
+import Author from '../listDropBox/Author';
 
 const ContentDiv = styled.div`
   display: flex;
@@ -72,11 +73,11 @@ function IssueListMenu({
 }) {
   const MENU = ['Author', 'Lavel', 'Milstones', 'Assignee', 'Mark as'];
   const { state } = useContext(UserContext);
-  const [dropMenuList, setdropMenuList] = useState([
+  const [dropMenuList, setdropMenuList] = useState(
     MENU.map(() => {
       return false;
     }),
-  ]);
+  );
 
   const handleDropMenu = (menu) => {
     const menuList = [...dropMenuList];
@@ -116,6 +117,11 @@ function IssueListMenu({
     setdropMenuList(MENU.map(() => false));
   };
 
+  const handleAuthorMenu = (e) => {
+    console.log(e.target.childNodes[2].dataset.id)
+    setdropMenuList(MENU.map(() => false));
+  };
+
   return (
     <ContentDiv>
       <div>
@@ -135,9 +141,16 @@ function IssueListMenu({
       {headerCheck.count === 0 ? (
         <Fragment>
           <div>
-            <span>
+            <span onClick={() => handleDropMenu('Author')}>
               Author <img src={drop} />
             </span>
+            {dropMenuList[MENU.indexOf('Author')] && (
+              <Author
+                handleCloseMenu={handleCloseMenu}
+                handleAuthorMenu={handleAuthorMenu}
+                right={0}
+              ></Author>
+            )}
           </div>
           <div>
             <span>
