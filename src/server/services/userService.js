@@ -19,7 +19,17 @@ const checkDuplicated = async (userName) => {
   }
 };
 
+const getUserByAll = async () => {
+  try {
+    const userList = await userModel.getUserByAll();
+    return userList;
+  } catch (err) {
+    return undefined;
+  }
+};
+
 module.exports = {
   signUp,
   checkDuplicated,
+  getUserByAll,
 };

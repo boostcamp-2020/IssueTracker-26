@@ -25,7 +25,20 @@ const checkDuplicated = async (userName) => {
   }
 };
 
+const getUserByAll = async () => {
+  try {
+    const [userList] = await pool.execute(
+      'select id, userName, profile from user',
+      [],
+    );
+    return userList;
+  } catch (err) {
+    return undefined;
+  }
+};
+
 module.exports = {
   signUp,
   checkDuplicated,
+  getUserByAll,
 };

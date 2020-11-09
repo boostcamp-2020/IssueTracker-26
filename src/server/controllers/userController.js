@@ -60,6 +60,14 @@ const gitHubAuth = async (req, res) => {
   return res.status(200).json({ userId: newUserId, userName: user, token });
 };
 
+const getUserByAll = async (req, res) => {
+  const userList = await userService.getUserByAll();
+  if (userList) {
+    return res.status(200).json(userList);
+  }
+  return res.status(500).end();
+};
+
 module.exports = {
   signUp,
   checkDuplicated,
@@ -67,4 +75,5 @@ module.exports = {
   gitHubAuth,
   failGitHubAuth,
   getUserInfo,
+  getUserByAll,
 };

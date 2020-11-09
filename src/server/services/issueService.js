@@ -150,6 +150,9 @@ const getFilterIssueList = async (id, type) => {
         break;
       case 'Your issues':
         issueList = await issueModel.getIssueListById(id);
+      // eslint-disable-next-line no-fallthrough
+      case 'Author':
+        issueList = await issueModel.getIssueListById(id);
         break;
       case 'Everything assigned to you': {
         issueList = await issueModel.getIssueListByAssignee(id);

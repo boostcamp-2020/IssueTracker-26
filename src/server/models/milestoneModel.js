@@ -62,6 +62,15 @@ const getMilestoneTotal = async () => {
   }
 };
 
+const getMilestoneAll = async () => {
+  try {
+    const [list] = await pool.execute(MILESTONE.GET_MILESTONE_LIST);
+    return list;
+  } catch (e) {
+    return undefined;
+  }
+};
+
 module.exports = {
   createMilestone,
   updateMilestone,
@@ -69,4 +78,5 @@ module.exports = {
   getMilestoneList,
   getIssueListByMilestoneId,
   getMilestoneTotal,
+  getMilestoneAll,
 };

@@ -7,6 +7,7 @@ const { passportJWTAuth } = require('../util/middleware');
 router.post('/user/signIn', userController.signIn);
 router.post('/user', userController.signUp);
 router.post('/userName', userController.checkDuplicated);
+router.get('/user/all', userController.getUserByAll);
 router.get('/user/auth/github/fail', userController.failGitHubAuth);
 router.get(
   '/auth/github',
