@@ -25,10 +25,8 @@ const effecter = (setLabelList) => {
 function LabelSection() {
   const [labelList, setLabelList] = useState([]);
   const [activeNew, setActiveNew] = useState(false);
-  const [activeEdit, setAcitveEdit] = useState(false);
 
   const handleNewLabel = () => setActiveNew(!activeNew);
-  const handleEditLabel = () => setAcitveEdit(!activeEdit);
   effecter(setLabelList);
 
   return (
@@ -44,7 +42,7 @@ function LabelSection() {
         <ContentsContainer>
           <ContentsListHeader>{labelList.length} labels</ContentsListHeader>
           {labelList.map((label, index) => (
-            <LabelList handleEdit={handleEditLabel} label={label} key={index} />
+            <LabelList label={label} key={index} />
           ))}
         </ContentsContainer>
       ) : null}
