@@ -1,10 +1,12 @@
 import React, { useState, useContext } from 'react';
-import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
+import { useHistory } from 'react-router-dom';
 import Input from '../input/InputComponent';
 import Button from '../Button';
 import UserContext from '../Context/UserContext';
 import userAPI from '../../util/api/user';
+import util from '../../util/index';
+import FlashMessage from '../FlashMessage';
 
 const LoginComponent = styled.div`
   max-width: 960px;
@@ -67,6 +69,16 @@ function Login() {
   });
   const [isLogin, setIsLogin] = useState(true);
   const [correct, setCorrect] = useState(false);
+  const [canSubmit, setSubmit] = useState(false);
+  const [messageState, setMessage] = useState({ key: undefined, message: '' });
+
+  const validInput = () => {
+    setSubmit(
+      util.validInput(input.id) &&
+        util.validInput(input.password) &&
+        input.password === input.checkPassword,
+    );
+  };
 
   const width = '400px';
   const buttonProps = {
@@ -75,14 +87,35 @@ function Login() {
     height: '42px',
   };
 
+  const handleValidInput = (e) => {
+    const { value, name } = e.target;
+    if (value === '') return;
+    if (!util.validInput(e.target.value)) {
+      if (name === 'id')
+        setMessage({
+          key: 3,
+          message: '아이디는 최소 6~12자리 숫자를 입력해주세요.',
+        });
+      if (name === 'password')
+        setMessage({
+          key: 4,
+          message: '패스워드는 최소 6~12자리 숫자를 입력해주세요.',
+        });
+      return;
+    }
+    if (name === 'checkPassword' && value !== input.password) {
+      setCorrect(false);
+      setMessage({ key: 5, message: '비밀번호, 비밀번호 확인이 다릅니다.' });
+      return;
+    }
+    validInput();
+  };
+
   const handleInput = (e) => {
     const { value, name } = e.target;
     if (name === 'checkPassword') {
-      if (input.password === value) {
-        setCorrect(true);
-      } else {
-        setCorrect(false);
-      }
+      if (input.password === value) setCorrect(true);
+      else setCorrect(false);
     }
     setInput({
       ...input,
@@ -97,7 +130,6 @@ function Login() {
     });
     setIsLogin(bool);
   };
-
   const handleSignin = (e) => {
     e.preventDefault();
     const { id, password } = input;
@@ -108,12 +140,13 @@ function Login() {
         history.replace('/');
         return;
       }
-      alert('로그인 실패');
+      setMessage({ key: 1, message: '로그인 실패. 다시 시도해주세요.' });
       setInput({ id: '', password: '', checkPassword: '' });
     });
   };
   const handleSignup = (e) => {
     e.preventDefault();
+    if (!canSubmit) return;
     const { id, password } = input;
     userAPI.signUp(id, password).then(({ token, userId, userName }) => {
       if (token) {
@@ -122,7 +155,7 @@ function Login() {
         history.replace('/');
         return;
       }
-      alert('회원가입 실패');
+      setMessage({ key: 2, message: '회원가입 실패. 다시 시도해주세요.' });
     });
   };
 
@@ -135,12 +168,24 @@ function Login() {
 
   return (
     <LoginComponent>
+      {messageState.message ? (
+        <FlashMessage
+          key={messageState.key}
+          handleMessage={setMessage}
+          messageState={messageState}
+        />
+      ) : null}
       <FormContainer width={width}>
         <Title>{isLogin ? '이슈 트래커' : '이슈 트래커 - 회원가입'}</Title>
         <Form onSubmit={isLogin ? handleSignin : handleSignup}>
           <Label>아이디</Label>
           <Layer>
-            <Input name="id" value={input.id} onChange={handleInput} />
+            <Input
+              name="id"
+              value={input.id}
+              onChange={handleInput}
+              onBlur={handleValidInput}
+            />
           </Layer>
           <Label>비밀번호</Label>
           <Layer>
@@ -149,6 +194,7 @@ function Login() {
               type="password"
               value={input.password}
               onChange={handleInput}
+              onBlur={handleValidInput}
             />
           </Layer>
           {isLogin ? null : (
@@ -161,6 +207,7 @@ function Login() {
                   type="password"
                   value={input.checkPassword}
                   onChange={handleInput}
+                  onBlur={handleValidInput}
                 />
               </Layer>
             </>
@@ -182,7 +229,12 @@ function Login() {
                 </Button>
               </ButtonGroup>
             ) : (
-              <Button {...buttonProps}>Sign up</Button>
+              <Button
+                {...buttonProps}
+                active={canSubmit ? undefined : 'disable'}
+              >
+                Sign up
+              </Button>
             )}
           </Layer>
         </Form>
