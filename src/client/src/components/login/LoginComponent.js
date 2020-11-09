@@ -7,6 +7,7 @@ import UserContext from '../Context/UserContext';
 import userAPI from '../../util/api/user';
 import util from '../../util/index';
 import FlashMessage from '../FlashMessage';
+import { checkDuplicated } from '../../../../server/models/userModel';
 
 const LoginComponent = styled.div`
   max-width: 960px;
@@ -51,6 +52,11 @@ const ButtonGroup = styled.div`
   gap: 1rem 0;
 `;
 
+const ButtonWrapper = styled.div`
+  width: 30%;
+  padding: 0 0 0 1rem;
+`;
+
 const Sign = styled.div`
   color: ${(props) => props.theme.Color.blue};
   cursor: pointer;
@@ -70,13 +76,15 @@ function Login() {
   const [isLogin, setIsLogin] = useState(true);
   const [correct, setCorrect] = useState(false);
   const [canSubmit, setSubmit] = useState(false);
+  const [isDuplicated, setDuplicated] = useState(false);
   const [messageState, setMessage] = useState({ key: undefined, message: '' });
 
   const validInput = () => {
     setSubmit(
       util.validInput(input.id) &&
         util.validInput(input.password) &&
-        input.password === input.checkPassword,
+        input.password === input.checkPassword &&
+        isDuplicated,
     );
   };
 
@@ -116,6 +124,9 @@ function Login() {
       if (input.password === value) setCorrect(true);
       else setCorrect(false);
     }
+    if (name === 'id') {
+      setDuplicated(false);
+    }
     setInput({
       ...input,
       [name]: value,
@@ -128,6 +139,22 @@ function Login() {
       checkPassword: '',
     });
     setIsLogin(bool);
+  };
+  const handleCheckDuplicated = () => {
+    userAPI.checkDuplicated(input.id).then(({ err, msg }) => {
+      if (err) {
+        setInput({ ...input, id: '' });
+        setMessage({ key: 6, message: err });
+        return;
+      }
+      if (msg) {
+        setInput({ ...input, id: '' });
+        setMessage({ key: 7, message: msg });
+        return;
+      }
+      setDuplicated(true);
+      setMessage({ key: 7, message: '사용 가능한 아이디입니다.' });
+    });
   };
   const handleSignin = (e) => {
     e.preventDefault();
@@ -185,6 +212,21 @@ function Login() {
               onChange={handleInput}
               onBlur={handleValidInput}
             />
+            {isLogin ? null : (
+              <ButtonWrapper>
+                <Button
+                  active={util.validInput(input.id) ? undefined : 'disable'}
+                  handler={
+                    util.validInput(input.id) ? handleCheckDuplicated : null
+                  }
+                  width={'100%'}
+                  height={'42px'}
+                  fontSize={'13px'}
+                >
+                  {isDuplicated ? '완료' : '중복 확인'}
+                </Button>
+              </ButtonWrapper>
+            )}
           </Layer>
           <Label>비밀번호</Label>
           <Layer>
