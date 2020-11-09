@@ -20,6 +20,7 @@ function LabelList(props) {
     <>
       {activeEdit ? (
         <TouchLabel
+          id={label.id}
           title={label.title}
           description={label.description}
           color={label.color}
