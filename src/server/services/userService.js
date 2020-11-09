@@ -19,7 +19,26 @@ const checkDuplicated = async (userName) => {
   }
 };
 
+const findOrCreateUser = async (userInfo) => {
+  try {
+    const { userName, profile } = userInfo;
+    const [user] = await userModel.findSocialUser(userName);
+    if (user.length)
+      return {
+        id: user.id,
+        userName: user.userName,
+        profile: user.profile,
+        social: 1,
+      };
+    const newUser = await userModel.createSocialUser(userInfo);
+    return { id: newUser, userName, profile, social: 1 };
+  } catch (err) {
+    return undefined;
+  }
+};
+
 module.exports = {
   signUp,
   checkDuplicated,
+  findOrCreateUser,
 };
