@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`milestone` (
   `state` TINYINT NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 5
+AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`user` (
   `social` TINYINT NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 12
+AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`issue` (
     FOREIGN KEY (`user_id`)
     REFERENCES `mydb`.`user` (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 4
+AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -86,7 +86,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`assignee` (
     FOREIGN KEY (`user_id`)
     REFERENCES `mydb`.`user` (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 4
+AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -108,7 +108,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`comment` (
     FOREIGN KEY (`user_id`)
     REFERENCES `mydb`.`user` (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 3
+AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -122,7 +122,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`label` (
   `color` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 7
+AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -143,7 +143,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`issueHasLabel` (
     FOREIGN KEY (`label_id`)
     REFERENCES `mydb`.`label` (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 5
+AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = utf8;
 
 
