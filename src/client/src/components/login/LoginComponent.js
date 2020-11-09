@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import Input from '../input/InputComponent';
 import Button from '../Button';
@@ -57,7 +57,8 @@ const Sign = styled.div`
   }
 `;
 
-function Login({ history }) {
+function Login() {
+  const history = useHistory();
   const { state, setState } = useContext(UserContext);
   const [input, setInput] = useState({
     id: '',
@@ -211,9 +212,5 @@ function Login({ history }) {
     </LoginComponent>
   );
 }
-
-Login.propTypes = {
-  history: PropTypes.object,
-};
 
 export default Login;
