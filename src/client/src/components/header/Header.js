@@ -46,7 +46,13 @@ function Header() {
   const { state, setState } = useContext(UserContext);
   const handleSignOut = () => {
     localStorage.removeItem('jwt');
-    setState({ ...state, isLoggedIn: false, token: null });
+    setState({
+      ...state,
+      isLoggedIn: false,
+      token: null,
+      profile: undefined,
+      userName: undefined,
+    });
   };
   return (
     <HeaderDiv>

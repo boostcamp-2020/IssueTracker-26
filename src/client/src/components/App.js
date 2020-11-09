@@ -14,7 +14,6 @@ function App() {
   const [state, setState] = useState({
     token: localStorage.getItem('jwt'),
     isLoggedIn: !!localStorage.getItem('jwt'),
-    userName: '',
   });
   const { isLoggedIn } = state;
   useEffect(() => {
@@ -36,7 +35,7 @@ function App() {
           setState({ ...state, isLoggedIn: true, userName, userId });
         });
     }
-  }, [state.token]);
+  }, []);
   return (
     <UserContext.Provider
       value={{
