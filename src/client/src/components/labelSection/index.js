@@ -12,22 +12,19 @@ import {
   ContentsListHeader,
 } from './labelStyle';
 
-const effecter = (setLabelList) => {
+function LabelSection() {
+  const [labelList, setLabelList] = useState([]);
+  const [activeNew, setActiveNew] = useState(false);
+
+  const handleNewLabel = () => setActiveNew(!activeNew);
+
   useEffect(() => {
     fetch(`${Http}api/label`)
       .then((res) => res.json())
       .then((labels) => {
         setLabelList(labels);
       });
-  }, []);
-};
-
-function LabelSection() {
-  const [labelList, setLabelList] = useState([]);
-  const [activeNew, setActiveNew] = useState(false);
-
-  const handleNewLabel = () => setActiveNew(!activeNew);
-  effecter(setLabelList);
+  }, [activeNew]);
 
   return (
     <Container>

@@ -43,7 +43,10 @@ function TouchLabel(props) {
       }),
     })
       .then((res) => res.status)
-      .then((status) => console.log(status));
+      .then((status) => {
+        if (status === 201) handler();
+        else alert('fail');
+      });
   };
 
   const handleRandom = () => setRandColor(getRandomColor());
