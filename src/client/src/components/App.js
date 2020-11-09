@@ -8,6 +8,7 @@ import UserContext from './Context/UserContext';
 import IssueCreatePage from '../pages/IssueCreatePage';
 import Header from './header/Header';
 import Http from '../util/http-common';
+import GitHubLogin from './login/GitHubLogin';
 
 function App() {
   const [state, setState] = useState({
@@ -52,6 +53,7 @@ function PublicRoute() {
   return (
     <Switch>
       <Route path="/login" component={LoginPage} />
+      <Route path="/github" component={GitHubLogin} />
       <Route path="/">
         <Redirect to="/login" />
       </Route>
