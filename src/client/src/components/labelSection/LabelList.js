@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import TouchLabel from './TouchLabel';
 import {
@@ -11,10 +11,15 @@ import {
 } from './labelStyle';
 
 function LabelList(props) {
-  const { label } = props;
+  const { label, handler } = props;
   const width = '80px';
   const [activeEdit, setAcitveEdit] = useState(false);
+
   const handleEditLabel = () => setAcitveEdit(!activeEdit);
+
+  useEffect(() => {
+    handler();
+  }, [activeEdit]);
 
   return (
     <>
@@ -46,6 +51,7 @@ function LabelList(props) {
 
 LabelList.propTypes = {
   label: PropTypes.object,
+  handler: PropTypes.func.isRequired,
 };
 
 export default LabelList;

@@ -15,8 +15,10 @@ import {
 function LabelSection() {
   const [labelList, setLabelList] = useState([]);
   const [activeNew, setActiveNew] = useState(false);
+  const [rerender, setRerender] = useState(false);
 
   const handleNewLabel = () => setActiveNew(!activeNew);
+  const handleRerender = () => setRerender(!rerender);
 
   useEffect(() => {
     fetch(`${Http}api/label`)
@@ -24,7 +26,7 @@ function LabelSection() {
       .then((labels) => {
         setLabelList(labels);
       });
-  }, [activeNew]);
+  }, [activeNew, rerender]);
 
   return (
     <Container>
@@ -39,7 +41,7 @@ function LabelSection() {
         <ContentsContainer>
           <ContentsListHeader>{labelList.length} labels</ContentsListHeader>
           {labelList.map((label, index) => (
-            <LabelList label={label} key={index} />
+            <LabelList handler={handleRerender} label={label} key={index} />
           ))}
         </ContentsContainer>
       ) : null}
