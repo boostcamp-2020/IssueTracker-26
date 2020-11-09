@@ -12,8 +12,16 @@ import {
 } from './labelStyle';
 
 function TouchLabel(props) {
-  const { title = 'Label preview', description, color, handler } = props;
-  const [randColor, setRandColor] = useState(false);
+  const {
+    title = 'Label preview',
+    description,
+    color,
+    handler,
+    isEdit,
+  } = props;
+  const getRandomColor = () =>
+    `#${Math.floor(Math.random() * 16777215).toString(16)}`;
+  const [randColor, setRandColor] = useState(getRandomColor());
   const [input, setInput] = useState({ name: '', description: '' });
 
   const handleInput = ({ target }) => {
@@ -37,15 +45,11 @@ function TouchLabel(props) {
       .then((res) => res.status)
       .then((status) => console.log(status));
   };
-  const getRandomColor = () => {
-    const newColor = `#${Math.floor(Math.random() * 16777215).toString(16)}`;
-    setRandColor(newColor);
-  };
 
-  if (!randColor) getRandomColor();
+  const handleRandom = () => setRandColor(getRandomColor());
 
   return (
-    <WorkContainer>
+    <WorkContainer isEdit={isEdit}>
       <Layer>
         <LabelSpan color={color || randColor}>{title}</LabelSpan>
         <div></div>
@@ -77,7 +81,7 @@ function TouchLabel(props) {
         </div>
         <div>
           <div>color</div>
-          <EditButton onClick={getRandomColor}>change</EditButton>
+          <EditButton onClick={handleRandom}>change</EditButton>
           <EditButton width="80px">{randColor}</EditButton>
         </div>
         <div>
@@ -95,6 +99,7 @@ TouchLabel.propTypes = {
   description: PropTypes.string,
   color: PropTypes.string,
   handler: PropTypes.func,
+  isEdit: PropTypes.bool,
 };
 
 export default TouchLabel;
