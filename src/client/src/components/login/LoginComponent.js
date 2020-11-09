@@ -108,9 +108,9 @@ function Login({ history }) {
       }),
     })
       .then((res) => res.json())
-      .then(({ token, userId }) => {
+      .then(({ token, userId, userName }) => {
         if (token) {
-          setState({ ...state, userId, token, isLoggedIn: true });
+          setState({ ...state, userId, token, userName, isLoggedIn: true });
           localStorage.setItem('jwt', token);
           history.replace('/');
           return;
@@ -136,15 +136,22 @@ function Login({ history }) {
       }),
     })
       .then((res) => res.json())
-      .then(({ token, userId }) => {
+      .then(({ token, userId, userName }) => {
         if (token) {
-          setState({ ...state, userId, token, isLoggedIn: true });
+          setState({ ...state, userId, userName, token, isLoggedIn: true });
           localStorage.setItem('jwt', token);
           history.replace('/');
           return;
         }
         alert('회원가입 실패');
       });
+  };
+
+  const handleOpenGitHub = () => {
+    window.open(
+      'https://github.com/login/oauth/authorize?response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fgithub&client_id=2430ccbbfb13e515ed98',
+      '_self',
+    );
   };
 
   return (
@@ -187,7 +194,11 @@ function Login({ history }) {
             {isLogin ? (
               <ButtonGroup>
                 <Button {...buttonProps}>Sign in</Button>
-                <Button type="button" {...buttonProps}>
+                <Button
+                  type="button"
+                  {...buttonProps}
+                  handler={handleOpenGitHub}
+                >
                   Sign in with GitHub
                 </Button>
               </ButtonGroup>
