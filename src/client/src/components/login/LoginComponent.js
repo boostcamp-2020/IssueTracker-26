@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import Input from '../input/InputComponent';
 import Button from '../Button';
 import UserContext from '../Context/UserContext';
-import Http from '../../util/http-common';
+import userAPI from '../../util/api/user';
 
 const LoginComponent = styled.div`
   max-width: 960px;
@@ -97,55 +97,33 @@ function Login() {
     });
     setIsLogin(bool);
   };
+
   const handleSignin = (e) => {
     e.preventDefault();
     const { id, password } = input;
-    fetch(`${Http}api/user/signIn`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        userName: id,
-        password,
-      }),
-    })
-      .then((res) => res.json())
-      .then(({ token, userId, userName }) => {
-        if (token) {
-          setState({ ...state, userId, token, userName, isLoggedIn: true });
-          localStorage.setItem('jwt', token);
-          history.replace('/');
-          return;
-        }
-        alert('로그인 실패');
-        setInput({ id: '', password: '', checkPassword: '' });
-      });
+    userAPI.signIn(id, password).then(({ token, userId, userName }) => {
+      if (token) {
+        setState({ ...state, userId, token, userName, isLoggedIn: true });
+        localStorage.setItem('jwt', token);
+        history.replace('/');
+        return;
+      }
+      alert('로그인 실패');
+      setInput({ id: '', password: '', checkPassword: '' });
+    });
   };
   const handleSignup = (e) => {
     e.preventDefault();
-    const { id, password, checkPassword } = input;
-    if (password !== checkPassword) {
-      alert('비밀번호가 일치하지 않습니다.');
-      return;
-    }
-
-    fetch(`${Http}api/user`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        userName: id,
-        password,
-      }),
-    })
-      .then((res) => res.json())
-      .then(({ token, userId, userName }) => {
-        if (token) {
-          setState({ ...state, userId, userName, token, isLoggedIn: true });
-          localStorage.setItem('jwt', token);
-          history.replace('/');
-          return;
-        }
-        alert('회원가입 실패');
-      });
+    const { id, password } = input;
+    userAPI.signUp(id, password).then(({ token, userId, userName }) => {
+      if (token) {
+        setState({ ...state, userId, userName, token, isLoggedIn: true });
+        localStorage.setItem('jwt', token);
+        history.replace('/');
+        return;
+      }
+      alert('회원가입 실패');
+    });
   };
 
   const handleOpenGitHub = () => {
