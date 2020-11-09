@@ -12,17 +12,14 @@ import {
 } from './labelStyle';
 
 function TouchLabel(props) {
-  const {
-    title = 'Label preview',
-    description,
-    color,
-    handler,
-    isEdit,
-  } = props;
+  const { id, title = '', description = '', color, handler, isEdit } = props;
   const getRandomColor = () =>
     `#${Math.floor(Math.random() * 16777215).toString(16)}`;
-  const [randColor, setRandColor] = useState(getRandomColor());
-  const [input, setInput] = useState({ name: '', description: '' });
+
+  const [randColor, setRandColor] = isEdit
+    ? useState(color)
+    : useState(getRandomColor());
+  const [input, setInput] = useState({ name: title, description });
 
   const handleInput = ({ target }) => {
     const { value, name } = target;
@@ -31,7 +28,7 @@ function TouchLabel(props) {
       [name]: value,
     });
   };
-  const handleSubmit = (e) => {
+  const handleCreate = (e) => {
     e.preventDefault();
     fetch(`${Http}api/label`, {
       method: 'POST',
@@ -49,12 +46,32 @@ function TouchLabel(props) {
       });
   };
 
+  const handleEdit = (e) => {
+    e.preventDefault();
+    fetch(`${Http}api/label/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        title: input.name,
+        description: input.description,
+        color: randColor,
+      }),
+    })
+      .then((res) => res.status)
+      .then((status) => {
+        if (status === 200) handler();
+        else alert('fail');
+      });
+  };
+
   const handleRandom = () => setRandColor(getRandomColor());
 
   return (
     <WorkContainer isEdit={isEdit}>
       <Layer>
-        <LabelSpan color={color || randColor}>{title}</LabelSpan>
+        <LabelSpan color={randColor}>
+          {title === '' ? 'Label preview' : title}
+        </LabelSpan>
         <div></div>
       </Layer>
       <Layer>
@@ -90,7 +107,9 @@ function TouchLabel(props) {
         <div>
           <EmptyDiv>empty element for align</EmptyDiv>
           <EditButton onClick={handler}>Cancle</EditButton>
-          <Button handler={handleSubmit}>Create label</Button>
+          <Button width="100px" handler={isEdit ? handleEdit : handleCreate}>
+            {isEdit ? 'Save changes' : 'Create label'}
+          </Button>
         </div>
       </Layer>
     </WorkContainer>
@@ -98,6 +117,7 @@ function TouchLabel(props) {
 }
 
 TouchLabel.propTypes = {
+  id: PropTypes.number,
   title: PropTypes.string,
   description: PropTypes.string,
   color: PropTypes.string,
