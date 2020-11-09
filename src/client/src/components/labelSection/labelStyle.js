@@ -95,7 +95,12 @@ const EditButton = styled.button`
   }
 `;
 
+const Div = styled.div`
+  width: ${(props) => props.width};
+`;
+
 export {
+  Div,
   Header,
   Layer,
   Container,
