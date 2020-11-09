@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import TextArea from '../Textarea';
+import Button from '../Button';
 
 const DivStyled = styled.div`
   border: #e1e4e8 1px solid;
   flex-grow: 1;
   height: 100%;
-  max-width: 848px;
-  margin-left: auto;
+  max-width: 830px;
+  margin-right: auto;
 
   position: relative;
   border: 1px solid #e1e4e8;
@@ -77,6 +78,7 @@ const DivDetailStyled = styled.div`
   padding: 10px;
   border-top: 1px solid #e1e4e8;
   display: flex;
+  flex-direction: column;
 `;
 
 const InputTitleStyled = styled.input`
@@ -92,6 +94,22 @@ const InputTitleStyled = styled.input`
     box-shadow: 0 0 0 3px #79b8ff;
   }
 `;
+
+const DivFooterStyled = styled.div`
+  display: flex;
+  margin-top: 12px;
+  line-height: 40px;
+`;
+
+const SapnCancelStyled = styled.span`
+  vertical-align: middle;
+  margin-right: auto;
+  font-weight: bold;
+  color: #586069;
+  font-size: 1.2rem;
+  margin-left: 10px;
+`;
+
 function IssueForm() {
   const [textAreaVal, setTextAreaVal] = useState('');
 
@@ -114,7 +132,12 @@ function IssueForm() {
             placeholder={'Leave a comment'}
             handleInput={handleTextArea}
           />
-          <div></div>
+          <DivFooterStyled>
+            <SapnCancelStyled>Cancel</SapnCancelStyled>
+            <Button width={'160px'} height={'40px'} fontSize="1rem">
+              Submit new issue
+            </Button>
+          </DivFooterStyled>
         </DivDetailStyled>
       </DivContentStyled>
     </DivStyled>

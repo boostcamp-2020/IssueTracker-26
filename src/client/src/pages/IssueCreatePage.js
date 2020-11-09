@@ -11,13 +11,11 @@ const DivStyled = styled.div`
   max-width: 1248px;
   width: 100%;
   height: 660px;
-  border: red 1px solid;
   padding-top: 170px;
 `;
 
 const DivProfilStyled = styled.div`
   display: flex;
-  border: red 1px solid;
   flex-basis: 80px;
 `;
 

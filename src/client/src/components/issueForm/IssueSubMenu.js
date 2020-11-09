@@ -1,26 +1,26 @@
 import React from 'react';
 import styled from 'styled-components';
 import searchImg from '../../../public/images/setting.svg';
+import sideImg from '../../../public/images/github.png';
 
 const DivStyled = styled.div`
-  border: red 1px solid;
   flex-basis: 312px;
   display: flex;
   flex-direction: column;
 `;
 
 const DivSubStyled = styled.div`
-  border-bottom: red 1px solid;
+  border-bottom: #e1e4e8 1px solid;
   display: flex;
   flex-direction: column;
-  flex-basis: 100px;
+  flex-basis: 90px;
   padding: 20px 15px 20px 15px;
+  text-align: center;
 `;
 
 const DivTitleStyled = styled.div`
   display: flex;
   color: #586069;
-  border: red 1px solid;
   font-size: 12px;
   flex-grow: 1;
   line-height: 29.5px;
@@ -36,7 +36,6 @@ const DivTitleStyled = styled.div`
 
 const DivContentStyled = styled.div`
   display: flex;
-  border: red 1px solid;
   font-size: 12px;
   flex-grow: 1;
   line-height: 29.5px;
@@ -51,6 +50,11 @@ const SpanTitleStyled = styled.span`
 const ImgStyled = styled.img`
   filter: invert(34%) sepia(6%) saturate(925%) hue-rotate(171deg)
     brightness(103%) contrast(86%);
+`;
+
+const ImgSideStyled = styled.img`
+  width: 200px;
+  margin: 0 auto;
 `;
 
 function IssueSubMenu() {
@@ -83,6 +87,7 @@ function IssueSubMenu() {
           <span>No milestone</span>
         </DivContentStyled>
       </DivSubStyled>
+      <ImgSideStyled src={sideImg} />
     </DivStyled>
   );
 }
