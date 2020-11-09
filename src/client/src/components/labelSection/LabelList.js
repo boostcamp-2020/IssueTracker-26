@@ -10,7 +10,7 @@ import {
 } from './labelStyle';
 
 function LabelList(props) {
-  const { label } = props;
+  const { label, handleEdit } = props;
   const width = '80px';
   return (
     <ContentsList>
@@ -20,7 +20,7 @@ function LabelList(props) {
       <Description>{label.description}</Description>
       <div></div>
       <EditDeleteBox width={width}>
-        <TextContents>Edit</TextContents>
+        <TextContents onClick={handleEdit}>Edit</TextContents>
         <TextContents>Delete</TextContents>
       </EditDeleteBox>
     </ContentsList>
@@ -29,6 +29,7 @@ function LabelList(props) {
 
 LabelList.propTypes = {
   label: PropTypes.object,
+  handleEdit: PropTypes.func,
 };
 
 export default LabelList;
