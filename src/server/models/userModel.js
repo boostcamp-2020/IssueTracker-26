@@ -25,7 +25,35 @@ const checkDuplicated = async (userName) => {
   }
 };
 
+const findSocialUser = async (userName) => {
+  try {
+    const [data] = await pool.execute(USER.FIND_SOCIAL_USER, [userName]);
+    return data;
+  } catch (err) {
+    console.log(err);
+    return undefined;
+  }
+};
+
+const createSocialUser = async (userInfo) => {
+  try {
+    const { userName, password, profile, social = 1 } = userInfo;
+    const [{ insertId }] = await pool.execute(USER.CREATE_SOCIAL_USER, [
+      userName,
+      password,
+      profile,
+      social,
+    ]);
+    return insertId;
+  } catch (err) {
+    console.log(err);
+    return undefined;
+  }
+};
+
 module.exports = {
   signUp,
   checkDuplicated,
+  findSocialUser,
+  createSocialUser,
 };
