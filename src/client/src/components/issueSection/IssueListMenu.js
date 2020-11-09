@@ -1,5 +1,9 @@
-import React from 'react';
+import React, { Fragment, useState } from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
+import DropBox from '../DropBox';
+import drop from '../../../public/images/drop.png';
+import Http from '../../util/http-common';
 
 const ContentDiv = styled.div`
   display: flex;
@@ -7,11 +11,20 @@ const ContentDiv = styled.div`
   height: 50px;
   padding-top: 15px;
   padding-right: 15px;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   background: ${(props) => props.theme.Color.grayBackground};
   text-align: center;
+  color: #586069;
   div {
-    width: 120px;
+    position: relative;
+    width: 150px;
+
+    span {
+      &:hover {
+        color: black;
+        cursor: pointer;
+      }
+    }
   }
 
   div:first-child {
@@ -31,35 +44,152 @@ const ContentDiv = styled.div`
       flex-grow: 0.7;
     }
   }
+
+  img {
+    width: 7px;
+    margin-left: -2px;
+    filter: invert(38%) sepia(4%) saturate(1346%) hue-rotate(172deg)
+      brightness(91%) contrast(84%);
+  }
 `;
 
-function IssueListMenu() {
+const SelectedStyled = styled.span`
+  text-align: left;
+  margin-top: -2px;
+  color: #586069;
+`;
+
+function IssueListMenu({
+  handleAllCheck,
+  headerCheck,
+  issueList,
+  checkList,
+  setIssueList,
+  setChecked,
+  setHeaderCheck,
+}) {
+  const MENU = ['Author', 'Lavel', 'Milstones', 'Assignee', 'Mark as'];
+  const [dropMenuList, setdropMenuList] = useState([
+    MENU.map(() => {
+      return false;
+    }),
+  ]);
+
+  const handleDropMenu = (menu) => {
+    const menuList = [...dropMenuList];
+    const selectIndex = MENU.indexOf(menu);
+    menuList[selectIndex] = !dropMenuList[selectIndex];
+    setdropMenuList(menuList);
+  };
+
+  const handleMarkMenu = (e) => {
+    const selected = e.target.innerText;
+
+    const promiseList = issueList.map((issue, index) => {
+      if (checkList[index]) {
+        return fetch(`${Http}api/issue/state/${issue.id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            state: selected,
+          }),
+        });
+      }
+      return null;
+    });
+
+    Promise.all(promiseList).then(() => {
+      fetch(`${Http}api/issue`)
+        .then((res) => res.json())
+        .then((data) => {
+          setIssueList(data);
+          setChecked(data.map(() => ''));
+          setHeaderCheck({ state: '', count: 0 });
+          setdropMenuList(MENU.map(() => false));
+        });
+    });
+  };
+
+  const handleCloseMenu = () => {
+    setdropMenuList(MENU.map(() => false));
+  };
+
   return (
     <ContentDiv>
       <div>
-        <input type="checkbox" />
+        <input
+          type="checkbox"
+          onChange={handleAllCheck}
+          checked={headerCheck.state}
+        />
       </div>
       <div>
+        <SelectedStyled>
+          {headerCheck.count !== 0 ? `${headerCheck.count} selected` : ''}
+        </SelectedStyled>
         <div></div>
         <div></div>
       </div>
+      {headerCheck.count === 0 ? (
+        <Fragment>
+          <div>
+            <span>
+              Author <img src={drop} />
+            </span>
+          </div>
+          <div>
+            <span>
+              Lavel <img src={drop} />
+            </span>
+          </div>
+          <div>
+            <span>
+              Milstones <img src={drop} />
+            </span>
+          </div>
+          <div>
+            <span>
+              Assignee <img src={drop} />
+            </span>
+          </div>
+        </Fragment>
+      ) : (
+        <Fragment>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </Fragment>
+      )}
       <div>
-        <span>Author</span>
-      </div>
-      <div>
-        <span>Lavel</span>
-      </div>
-      <div>
-        <span>Milstones</span>
-      </div>
-      <div>
-        <span>Assignee</span>
-      </div>
-      <div>
-        <span>Comment</span>
+        {headerCheck.count === 0 ? (
+          <span>Comment</span>
+        ) : (
+          <span onClick={() => handleDropMenu('Mark as')}>
+            Mark as <img src={drop} />
+          </span>
+        )}
+        {dropMenuList[MENU.indexOf('Mark as')] && (
+          <DropBox
+            title={'Actions'}
+            data={['Open', 'Closed']}
+            handler={handleMarkMenu}
+            handleCloseMenu={handleCloseMenu}
+          ></DropBox>
+        )}
       </div>
     </ContentDiv>
   );
 }
+
+IssueListMenu.propTypes = {
+  handleAllCheck: PropTypes.func,
+  headerCheck: PropTypes.object,
+  issueList: PropTypes.array,
+  checkList: PropTypes.array,
+  setIssueList: PropTypes.func,
+  setChecked: PropTypes.func,
+  setHeaderCheck: PropTypes.func,
+};
 
 export default IssueListMenu;

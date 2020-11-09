@@ -10,17 +10,26 @@ const IssueContainer = styled.div`
 
 function IssueSection() {
   const [issueList, setIssueList] = useState([]);
+  const [checkList, setChecked] = useState([]);
 
   useEffect(() => {
     fetch(`${Http}api/issue`)
       .then((res) => res.json())
-      .then((data) => setIssueList(data));
+      .then((data) => {
+        setIssueList(data);
+        setChecked(data.map(() => ''));
+      });
   }, []);
 
   return (
     <IssueContainer>
       <IssueHeader />
-      <IssueList issueList={issueList} />
+      <IssueList
+        issueList={issueList}
+        setIssueList={setIssueList}
+        checkList={checkList}
+        setChecked={setChecked}
+      />
     </IssueContainer>
   );
 }

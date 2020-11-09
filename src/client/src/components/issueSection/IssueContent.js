@@ -13,14 +13,14 @@ const ImgStyled = styled.img`
 `;
 const ContentDiv = styled.div`
   display: flex;
-  height: 60px;
+  height: 65px;
   text-align: center;
   padding-right: 15px;
   border-top: ${(props) => props.theme.Color.border} 1px solid;
   align-items: center;
 
   div {
-    width: 120px;
+    width: 150px;
   }
 
   div:first-child {
@@ -49,7 +49,7 @@ const ContentDiv = styled.div`
 const TitleSpan = styled.span`
   text-align: left;
   font-weight: bold;
-  font-size: 0.9rem;
+  font-size: 1rem;
 `;
 
 const TitleDiv = styled.div`
@@ -58,7 +58,7 @@ const TitleDiv = styled.div`
 
 const SubTitleDiv = styled.div`
   margin-top: 5px;
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   color: #586069;
 `;
 
@@ -77,7 +77,7 @@ const MilestoneImgStyled = styled.img`
     contrast(88%);
   margin-left: 5px;
   margin-right: 3px;
-  margin-bottom: -5px;
+  margin-bottom: -4px;
   width: 14px;
 `;
 
@@ -85,7 +85,7 @@ const CommentImgStyled = styled.img`
   filter: invert(39%) sepia(2%) saturate(3035%) hue-rotate(172deg)
     brightness(89%) contrast(82%);
   width: 14px;
-  margin-top:5px;
+  margin-top: 5px;
 `;
 
 const CommentSpan = styled.span`
@@ -95,12 +95,16 @@ const CommentSpan = styled.span`
 `;
 
 function IssueContent(props) {
-  const { issueList } = props;
-  console.log(issueList);
+  const { issueList, checkList, handleSingleCheck } = props;
+
   const list = issueList.map((issue, index) => (
     <ContentDiv key={index}>
       <div>
-        <input type="checkbox" />
+        <input
+          type="checkbox"
+          checked={checkList[index] || ''}
+          onChange={() => handleSingleCheck(index)}
+        />
       </div>
       <TitleDiv>
         <div>
@@ -149,6 +153,8 @@ function IssueContent(props) {
 
 IssueContent.propTypes = {
   issueList: PropTypes.array,
+  checkList: PropTypes.array,
+  handleSingleCheck: PropTypes.func,
 };
 
 export default IssueContent;
