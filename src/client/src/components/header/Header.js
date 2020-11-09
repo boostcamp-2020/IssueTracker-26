@@ -61,7 +61,7 @@ function Header() {
       </TitleDiv>
 
       <UserDiv>
-        <img src={image} />
+        <img src={state.profile ? state.profile : image} />
         <span>{state.userName}</span>
         <Button
           width={'70px'}
