@@ -56,7 +56,7 @@ const StyleUl = styled.ul`
 `;
 
 const StyleLi = styled.li`
-  height: ${(props) => props.height};
+  padding: 8px 0 8px 0;
   list-style-type: none;
   font-size: 0.8rem;
   font-weight: bold;
@@ -69,7 +69,6 @@ const StyleLi = styled.li`
     filter: none !important;
     margin-right: 10px;
   }
-
   ${changeStyle}
 `;
 

@@ -4,7 +4,7 @@ import DropBox from '../DropBox';
 import userImage from '../../../public/images/user.png';
 import Http from '../../util/http-common';
 
-function Author({ handleCloseMenu, handleAuthorMenu, right }) {
+function Assignee({ handleCloseMenu, handleAssigneeMenu, right }) {
   const [userList, setUseruList] = useState([]);
   useEffect(() => {
     fetch(`${Http}api/user/all`)
@@ -26,21 +26,21 @@ function Author({ handleCloseMenu, handleAuthorMenu, right }) {
 
   return (
     <DropBox
-      title={'Filter by author'}
+      title={'Filter by who`s assigned'}
       data={userList}
       width={'300px'}
       height={'35px'}
       right={right}
       handleCloseMenu={handleCloseMenu}
-      handler={handleAuthorMenu}
+      handler={handleAssigneeMenu}
     ></DropBox>
   );
 }
 
-Author.propTypes = {
+Assignee.propTypes = {
   handleCloseMenu: PropTypes.func,
-  handleAuthorMenu: PropTypes.func,
+  handleAssigneeMenu: PropTypes.func,
   right: PropTypes.number,
 };
 
-export default Author;
+export default Assignee;

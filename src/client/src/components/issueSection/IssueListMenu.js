@@ -6,6 +6,9 @@ import drop from '../../../public/images/drop.png';
 import Http from '../../util/http-common';
 import UserContext from '../Context/UserContext';
 import Author from '../listDropBox/Author';
+import Label from '../listDropBox/Label';
+import Assignee from '../listDropBox/Assignee';
+import Milstone from '../listDropBox/Milstone';
 
 const ContentDiv = styled.div`
   display: flex;
@@ -71,7 +74,7 @@ function IssueListMenu({
   setHeaderCheck,
   selectFilter,
 }) {
-  const MENU = ['Author', 'Lavel', 'Milstones', 'Assignee', 'Mark as'];
+  const MENU = ['Author', 'Label', 'Milstones', 'Assignee', 'Mark as'];
   const { state } = useContext(UserContext);
   const [dropMenuList, setdropMenuList] = useState(
     MENU.map(() => {
@@ -118,7 +121,23 @@ function IssueListMenu({
   };
 
   const handleAuthorMenu = (e) => {
-    console.log(e.target.childNodes[2].dataset.id)
+    const { id } = e.target.childNodes[2].dataset;
+    console.lopg(id, '클릭');
+    setdropMenuList(MENU.map(() => false));
+  };
+
+  const handleLabelMenu = () => {
+    console.log('라벨클릭!');
+    setdropMenuList(MENU.map(() => false));
+  };
+
+  const handleAssigneeMenu = () => {
+    console.log('어사인 클릭!');
+    setdropMenuList(MENU.map(() => false));
+  };
+
+  const handleMilstonsMenu = () => {
+    console.log('마일스톤 클릭!');
     setdropMenuList(MENU.map(() => false));
   };
 
@@ -153,19 +172,40 @@ function IssueListMenu({
             )}
           </div>
           <div>
-            <span>
-              Lavel <img src={drop} />
+            <span onClick={() => handleDropMenu('Label')}>
+              Label <img src={drop} />
             </span>
+            {dropMenuList[MENU.indexOf('Label')] && (
+              <Label
+                handleCloseMenu={handleCloseMenu}
+                handleLabelMenu={handleLabelMenu}
+                right={0}
+              ></Label>
+            )}
           </div>
           <div>
-            <span>
+            <span onClick={() => handleDropMenu('Milstones')}>
               Milstones <img src={drop} />
             </span>
+            {dropMenuList[MENU.indexOf('Milstones')] && (
+              <Milstone
+                handleCloseMenu={handleCloseMenu}
+                handleMilstonsMenu={handleMilstonsMenu}
+                right={0}
+              ></Milstone>
+            )}
           </div>
           <div>
-            <span>
+            <span onClick={() => handleDropMenu('Assignee')}>
               Assignee <img src={drop} />
             </span>
+            {dropMenuList[MENU.indexOf('Assignee')] && (
+              <Assignee
+                handleCloseMenu={handleCloseMenu}
+                handleAssigneeMenu={handleAssigneeMenu}
+                right={0}
+              ></Assignee>
+            )}
           </div>
         </Fragment>
       ) : (
