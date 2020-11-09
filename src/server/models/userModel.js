@@ -25,14 +25,28 @@ const checkDuplicated = async (userName) => {
   }
 };
 
+
 const findSocialUser = async (userName) => {
   try {
     const [data] = await pool.execute(USER.FIND_SOCIAL_USER, [userName]);
     return data;
+    } catch (err) {
+    return undefined;
+  }
+};
+
+const getUserByAll = async () => {
+  try {
+    const [userList] = await pool.execute(
+      'select id, userName, profile from user',
+      [],
+    );
+    return userList;
   } catch (err) {
     return undefined;
   }
 };
+
 
 const createSocialUser = async (userInfo) => {
   try {
@@ -64,4 +78,5 @@ module.exports = {
   findSocialUser,
   createSocialUser,
   updateUser,
+  getUserByAll,
 };

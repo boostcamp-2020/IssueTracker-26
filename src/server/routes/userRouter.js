@@ -7,6 +7,7 @@ router.post('/user/signIn', userController.signIn);
 router.post('/user', userController.signUp);
 router.post('/userName', userController.checkDuplicated);
 router.post('/auth/github', userController.gitHubAuth);
+router.get('/user/all', userController.getUserByAll);
 
 // private routes
 router.get('/user', passportJWTAuth, userController.getUserInfo);

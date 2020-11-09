@@ -35,6 +35,16 @@ const findOrCreateUser = async (userInfo) => {
     }
     const newUser = await userModel.createSocialUser(userInfo);
     return { id: newUser, userName, profile, social: 1 };
+  }
+  catch (err) {
+    return undefined;
+  }
+};
+    
+const getUserByAll = async () => {
+  try {
+    const userList = await userModel.getUserByAll();
+    return userList;
   } catch (err) {
     return undefined;
   }
@@ -44,4 +54,5 @@ module.exports = {
   signUp,
   checkDuplicated,
   findOrCreateUser,
+  getUserByAll,
 };

@@ -32,4 +32,9 @@ router.get(
   milestoneController.getMilestoneTotal.bind(milestoneController),
 );
 
+router.get(
+  '/milestone/all',
+  milestoneController.getMilestoneAll.bind(milestoneController),
+);
+
 module.exports = router;

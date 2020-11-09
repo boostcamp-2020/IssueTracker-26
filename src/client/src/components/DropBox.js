@@ -56,14 +56,19 @@ const StyleUl = styled.ul`
 `;
 
 const StyleLi = styled.li`
-  height: 30px;
+  padding: 8px 0 8px 0;
   list-style-type: none;
   font-size: 0.8rem;
   font-weight: bold;
   display: flex;
   flex-direction: row;
   align-items: center;
-
+  img {
+    border-radius: 10px;
+    width: 20px !important;
+    filter: none !important;
+    margin-right: 10px;
+  }
   ${changeStyle}
 `;
 
@@ -71,6 +76,7 @@ function DropBox({
   title = '제목없음',
   data,
   width = '300px',
+  height = '30px',
   handler,
   handleCloseMenu,
   top,
@@ -79,7 +85,7 @@ function DropBox({
   right,
 }) {
   const list = data.map((info, index) => (
-    <StyleLi key={index} width={width} onClick={handler}>
+    <StyleLi key={index} width={width} onClick={handler} height={height}>
       {info}
     </StyleLi>
   ));
@@ -93,7 +99,9 @@ function DropBox({
         left={left}
         right={right}
       >
-        <StyleLi title={title}>{title}</StyleLi>
+        <StyleLi title={title} height={height}>
+          {title}
+        </StyleLi>
         {list}
       </StyleUl>
     </Fragment>
@@ -104,6 +112,7 @@ DropBox.propTypes = {
   title: PropTypes.string,
   data: PropTypes.array,
   width: PropTypes.string,
+  height: PropTypes.string,
   handler: PropTypes.func.isRequired,
   handleCloseMenu: PropTypes.func.isRequired,
   top: PropTypes.number,
