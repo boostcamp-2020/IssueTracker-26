@@ -78,9 +78,9 @@ function Login({ history }) {
     const { value, name } = e.target;
     if (name === 'checkPassword') {
       if (input.password === value) {
-        setCorrect(false);
-      } else {
         setCorrect(true);
+      } else {
+        setCorrect(false);
       }
     }
     setInput({

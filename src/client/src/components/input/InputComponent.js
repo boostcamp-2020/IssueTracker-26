@@ -12,10 +12,10 @@ const InputTag = styled.input`
   padding: 0 0.5rem;
   background-color: ${(props) => props.bgColor};
   ${(props) =>
-    props.outlineColor === 'warining' ? SharedStyle.warningOutlineStyle : null}
+    props.outlineColor === 'warning' ? SharedStyle.warningOutlineStyle : null}
   ${(props) =>
     props.outlineColor === 'default' ? SharedStyle.inputOutlineStyle : null}
-  ${(props) =>
+   ${(props) =>
     props.border === 'none'
       ? css`
           border: none;
@@ -27,7 +27,7 @@ const InputTag = styled.input`
         `
       : null}
 
-    border-radius: 3px;
+  border-radius: 3px;
 
   width: ${(props) => props.width || '150px'};
 `;
