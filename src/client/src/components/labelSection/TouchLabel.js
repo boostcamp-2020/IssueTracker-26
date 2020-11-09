@@ -28,28 +28,18 @@ function TouchLabel(props) {
       [name]: value,
     });
   };
-  const handleCreate = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    fetch(`${Http}api/label`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        title: input.name,
-        description: input.description,
-        color: randColor,
-      }),
-    })
-      .then((res) => res.status)
-      .then((status) => {
-        if (status === 201) handler();
-        else alert('fail');
-      });
-  };
+    let path = `${Http}api/label`;
+    let method = 'POST';
 
-  const handleEdit = (e) => {
-    e.preventDefault();
-    fetch(`${Http}api/label/${id}`, {
-      method: 'PUT',
+    if (isEdit) {
+      path = `${Http}api/label/${id}`;
+      method = 'PUT';
+    }
+
+    fetch(path, {
+      method,
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         title: input.name,
@@ -59,7 +49,7 @@ function TouchLabel(props) {
     })
       .then((res) => res.status)
       .then((status) => {
-        if (status === 200) handler();
+        if (status === 201 || status === 200) handler();
         else alert('fail');
       });
   };
@@ -107,7 +97,7 @@ function TouchLabel(props) {
         <div>
           <EmptyDiv>empty element for align</EmptyDiv>
           <EditButton onClick={handler}>Cancle</EditButton>
-          <Button width="100px" handler={isEdit ? handleEdit : handleCreate}>
+          <Button width="100px" handler={handleSubmit}>
             {isEdit ? 'Save changes' : 'Create label'}
           </Button>
         </div>
