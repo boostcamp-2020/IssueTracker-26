@@ -141,7 +141,8 @@ CREATE TABLE IF NOT EXISTS `mydb`.`issueHasLabel` (
     REFERENCES `mydb`.`issue` (`id`),
   CONSTRAINT `fk_table1_label1`
     FOREIGN KEY (`label_id`)
-    REFERENCES `mydb`.`label` (`id`))
+    REFERENCES `mydb`.`label` (`id`)
+    ON DELETE CASCADE)
 ENGINE = InnoDB
 AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = utf8;
