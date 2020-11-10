@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import Time from '../../util/time';
+import { TransferTime } from '../../util/time';
 import OpenIssue from '../../../public/images/open-issue.svg';
 import CloseIssue from '../../../public/images/close-issue.svg';
 import MilestoneImg from '../../../public/images/issue-milestone.svg';
@@ -122,7 +122,8 @@ function IssueContent(props) {
         </div>
         <SubTitleDiv>
           <span>
-            #{issue.id} opened {Time(issue.createdat)} by {issue.username}{' '}
+            #{issue.id} opened {TransferTime(issue.createdat)} by{' '}
+            {issue.username}
             {(() => {
               if (issue.milestonename)
                 return <MilestoneImgStyled src={MilestoneImg} />;

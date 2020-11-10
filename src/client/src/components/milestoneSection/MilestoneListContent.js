@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import calendarImg from '../../../public/images/calendar.svg';
+import { getFormatDate } from '../../util/time';
 
 const ContentDiv = styled.div`
   display: flex;
@@ -63,31 +64,8 @@ const ControlDiv = styled.div`
   }
 `;
 
-const MONTH = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December',
-];
-
 function MilestoneListContent(props) {
   const { milestones, setMilestones, isOpenView } = props;
-
-  const getFormatDate = (date) => {
-    const year = date.getFullYear();
-    const month = date.getMonth();
-    let day = date.getDate();
-    day = day >= 10 ? day : `0${day}`;
-    return `${MONTH[month]} ${day}, ${year}`;
-  };
 
   const getIssueStatus = (milestone) => {
     console.log(milestone);
