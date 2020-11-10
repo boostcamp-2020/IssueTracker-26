@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 import IssueForm from '../components/issueForm/IssueForm';
 import IssueSubMenu from '../components/issueForm/IssueSubMenu';
@@ -28,7 +28,7 @@ const ImgProfilStyled = styled.img`
 
 function IssueCreatePage() {
   const { state } = useContext(UserContext);
-
+  const [selectMiliestone, setSelectMiliestone] = useState({});
   return (
     <DivStyled>
       <DivProfilStyled>
@@ -39,7 +39,10 @@ function IssueCreatePage() {
         )}
       </DivProfilStyled>
       <IssueForm />
-      <IssueSubMenu />
+      <IssueSubMenu
+        setSelectMiliestone={setSelectMiliestone}
+        selectMiliestone={selectMiliestone}
+      />
     </DivStyled>
   );
 }

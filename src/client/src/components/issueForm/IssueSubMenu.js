@@ -1,10 +1,11 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import searchImg from '../../../public/images/setting.svg';
 import sideImg from '../../../public/images/github.png';
 import Assignee from '../listDropBox/Assignee';
 import Label from '../listDropBox/Label';
-import UserContext from '../Context/UserContext';
+import Http from '../../util/http-common';
 import Milestone from '../listDropBox/Milstone';
 
 const DivStyled = styled.div`
@@ -42,9 +43,13 @@ const DivTitleStyled = styled.div`
 
 const DivContentStyled = styled.div`
   display: flex;
+  flex-direction: column;
   font-size: 12px;
   flex-grow: 1;
   line-height: 29.5px;
+  span {
+    margin-right: auto;
+  }
 `;
 
 const SpanTitleStyled = styled.span`
@@ -64,9 +69,27 @@ const ImgSideStyled = styled.img`
   margin: 0 auto;
 `;
 
-function IssueSubMenu() {
+const DivBar = styled.div`
+  background: #e1e4e8;
+  height: 8px;
+  border-radius: 10px;
+`;
+
+const DivInBar = styled.div`
+  background: #28a745;
+  height: 8px;
+  width: ${(props) => props.width}%;
+  border-radius: 10px;
+`;
+
+const SpanStyled = styled.span`
+  font-weight: bold;
+  color: #586069;
+  font-size: 14px;
+`;
+
+function IssueSubMenu({ selectMiliestone, setSelectMiliestone }) {
   const MENU = ['Assignee', 'Label', 'Milstones'];
-  const { state } = useContext(UserContext);
   const [dropMenuList, setdropMenuList] = useState(
     MENU.map(() => {
       return false;
@@ -92,8 +115,16 @@ function IssueSubMenu() {
     console.log('dd');
   };
 
-  const handleMilstonsMenu = () => {
-    console.log('dd');
+  const handleMilstonsMenu = (info) => {
+    if (info) {
+      fetch(`${Http}api/milestone/ratio/${info.id}`)
+        .then((res) => res.json())
+        .then((data) => {
+          setSelectMiliestone(data);
+        });
+    } else {
+      setSelectMiliestone({});
+    }
   };
 
   return (
@@ -145,22 +176,36 @@ function IssueSubMenu() {
           {dropMenuList[MENU.indexOf('Milestone')] && (
             <Milestone
               title={'Set milestone'}
+              subtitle={'Clear this milestone'}
               handleCloseMenu={handleCloseMenu}
               handleMilstonsMenu={handleMilstonsMenu}
               right={0}
               top={30}
               width={'285px'}
-              height={'20px'}
             ></Milestone>
           )}
         </DivTitleStyled>
         <DivContentStyled>
-          <span>No milestone</span>
+          {selectMiliestone.title ? (
+            <>
+              <DivBar>
+                <DivInBar width={selectMiliestone.ratio}></DivInBar>
+              </DivBar>
+              <SpanStyled>{selectMiliestone.title}</SpanStyled>
+            </>
+          ) : (
+            <span>No milestone</span>
+          )}
         </DivContentStyled>
       </DivSubStyled>
       <ImgSideStyled src={sideImg} />
     </DivStyled>
   );
 }
+
+IssueSubMenu.propTypes = {
+  selectMiliestone: PropTypes.object,
+  setSelectMiliestone: PropTypes.func,
+};
 
 export default IssueSubMenu;
