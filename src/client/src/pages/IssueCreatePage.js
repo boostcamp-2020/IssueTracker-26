@@ -29,6 +29,7 @@ const ImgProfilStyled = styled.img`
 function IssueCreatePage() {
   const { state } = useContext(UserContext);
   const [selectMiliestone, setSelectMiliestone] = useState({});
+  const [selectLabel, setSelectLabel] = useState([]);
   return (
     <DivStyled>
       <DivProfilStyled>
@@ -42,6 +43,8 @@ function IssueCreatePage() {
       <IssueSubMenu
         setSelectMiliestone={setSelectMiliestone}
         selectMiliestone={selectMiliestone}
+        selectLabel={selectLabel}
+        setSelectLabel={setSelectLabel}
       />
     </DivStyled>
   );

@@ -88,7 +88,25 @@ const SpanStyled = styled.span`
   font-size: 14px;
 `;
 
-function IssueSubMenu({ selectMiliestone, setSelectMiliestone }) {
+const LabelStyled = styled.span`
+  line-height: 100%;
+  margin-right: 10px !important;
+  font-weight: bold;
+  color: black;
+  background: ${(props) => props.color};
+  font-size: 14px;
+  padding: 5px 10px;
+  display: inline-block;
+  border-radius: 20px;
+  margin-bottom: 5px;
+`;
+
+function IssueSubMenu({
+  selectMiliestone,
+  setSelectMiliestone,
+  selectLabel,
+  setSelectLabel,
+}) {
   const MENU = ['Assignee', 'Label', 'Milstones'];
   const [dropMenuList, setdropMenuList] = useState(
     MENU.map(() => {
@@ -111,8 +129,15 @@ function IssueSubMenu({ selectMiliestone, setSelectMiliestone }) {
     console.log('dd');
   };
 
-  const handleLabelMenu = () => {
-    console.log('dd');
+  const handleLabelMenu = (info) => {
+    if (!info) {
+      setSelectLabel([]);
+    } else {
+      const list = selectLabel.filter((label) => {
+        return label.id !== info.id;
+      });
+      setSelectLabel([...list, info]);
+    }
   };
 
   const handleMilstonsMenu = (info) => {
@@ -156,6 +181,7 @@ function IssueSubMenu({ selectMiliestone, setSelectMiliestone }) {
           {dropMenuList[MENU.indexOf('Label')] && (
             <Label
               title={'Apply labels to this issue'}
+              subtitle={'Clear this labels'}
               handleCloseMenu={handleCloseMenu}
               handleLabelMenu={handleLabelMenu}
               right={0}
@@ -166,7 +192,21 @@ function IssueSubMenu({ selectMiliestone, setSelectMiliestone }) {
           )}
         </DivTitleStyled>
         <DivContentStyled>
-          <span>None yet</span>
+          {selectLabel.length > 0 ? (
+            <>
+              <SpanStyled>
+                {selectLabel.map((label, index) => {
+                  return (
+                    <LabelStyled key={index} color={label.color}>
+                      {label.title}
+                    </LabelStyled>
+                  );
+                })}
+              </SpanStyled>
+            </>
+          ) : (
+            <span>None yet</span>
+          )}
         </DivContentStyled>
       </DivSubStyled>
       <DivSubStyled>
@@ -206,6 +246,8 @@ function IssueSubMenu({ selectMiliestone, setSelectMiliestone }) {
 IssueSubMenu.propTypes = {
   selectMiliestone: PropTypes.object,
   setSelectMiliestone: PropTypes.func,
+  selectLabel: PropTypes.array,
+  setSelectLabel: PropTypes.func,
 };
 
 export default IssueSubMenu;
