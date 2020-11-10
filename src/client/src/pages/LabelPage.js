@@ -1,7 +1,8 @@
 import React from 'react';
+import LabelSection from '../components/labelSection';
 
 function LabelPage() {
-  return <div>Label페이지입니당 :)</div>;
+  return <LabelSection />;
 }
 
 export default LabelPage;

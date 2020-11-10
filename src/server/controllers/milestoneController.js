@@ -47,6 +47,11 @@ const milestoneController = (service) => {
       if (total) return res.status(200).json(total);
       return res.status(404).end();
     },
+    async getMilestoneAll(req, res) {
+      const list = await this.service.getMilestoneAll();
+      if (list) return res.status(200).json(list);
+      return res.status(404).end();
+    },
   };
 };
 
