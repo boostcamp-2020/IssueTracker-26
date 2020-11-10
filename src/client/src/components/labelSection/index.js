@@ -12,24 +12,22 @@ import {
   ContentsListHeader,
 } from './labelStyle';
 
-const effecter = (setLabelList) => {
+function LabelSection() {
+  const [labelList, setLabelList] = useState([]);
+  const [activeNew, setActiveNew] = useState(false);
+  const [rerender, setRerender] = useState(false);
+
+  const handleLabelList = (labels) => setLabelList(labels);
+  const handleNewLabel = () => setActiveNew(!activeNew);
+  const handleRerender = () => setRerender(!rerender);
+
   useEffect(() => {
     fetch(`${Http}api/label`)
       .then((res) => res.json())
       .then((labels) => {
-        setLabelList(labels);
+        handleLabelList(labels);
       });
-  }, []);
-};
-
-function LabelSection() {
-  const [labelList, setLabelList] = useState([]);
-  const [activeNew, setActiveNew] = useState(false);
-  const [activeEdit, setAcitveEdit] = useState(false);
-
-  const handleNewLabel = () => setActiveNew(!activeNew);
-  const handleEditLabel = () => setAcitveEdit(!activeEdit);
-  effecter(setLabelList);
+  }, [activeNew, rerender]);
 
   return (
     <Container>
@@ -44,7 +42,11 @@ function LabelSection() {
         <ContentsContainer>
           <ContentsListHeader>{labelList.length} labels</ContentsListHeader>
           {labelList.map((label, index) => (
-            <LabelList handleEdit={handleEditLabel} label={label} key={index} />
+            <LabelList
+              handleRender={handleRerender}
+              label={label}
+              key={index}
+            />
           ))}
         </ContentsContainer>
       ) : null}
