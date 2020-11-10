@@ -58,6 +58,9 @@ const Description = styled.span`
 const TextContents = styled.span`
   color: gray;
   font-size: 14px;
+  &:hover {
+    color: black;
+  }
 `;
 
 const EditDeleteBox = styled.div`
