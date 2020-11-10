@@ -12,6 +12,10 @@ const ContainerDiv = styled.div`
 
 function MilestoneList() {
   const [milestones, setMilestones] = useState([]);
+  const [isOpenView, setIsOpenView] = useState(true);
+
+  const getTypeMilestone = (type) =>
+    milestones.filter((x) => (type ? x.state : !x.state));
 
   useEffect(() => {
     fetch(`${Http}api/milestone/`)
@@ -21,9 +25,14 @@ function MilestoneList() {
 
   return (
     <ContainerDiv>
-      <MilestoneListMenu milestones={milestones} />
-      <MilestoneListContent
+      <MilestoneListMenu
         milestones={milestones}
+        isOpenView={isOpenView}
+        setIsOpenView={setIsOpenView}
+      />
+      <MilestoneListContent
+        isOpenView={isOpenView}
+        milestones={getTypeMilestone(isOpenView)}
         setMilestones={setMilestones}
       />
     </ContainerDiv>

@@ -17,4 +17,27 @@ const TransferTime = (time) => {
   return `${Math.floor(result / (60 * 60 * 24))} day ago`;
 };
 
-export default TransferTime;
+const MONTH = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+];
+
+const getFormatDate = (date) => {
+  const year = date.getFullYear();
+  const month = date.getMonth();
+  let day = date.getDate();
+  day = day >= 10 ? day : `0${day}`;
+  return `${MONTH[month]} ${day}, ${year}`;
+};
+
+export { TransferTime, getFormatDate };

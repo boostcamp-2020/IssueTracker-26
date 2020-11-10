@@ -1,11 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import calendarImg from '../../../public/images/calendar.svg';
+import { getFormatDate } from '../../util/time';
 
 const ContentDiv = styled.div`
   display: flex;
-  height: 100px;
+  height: 120px;
   text-align: center;
   padding-right: 15px;
   border-top: ${(props) => props.theme.Color.border} 1px solid;
@@ -19,6 +21,10 @@ const ContentDiv = styled.div`
 `;
 
 const LeftDiv = styled.div`
+  height: 90px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
   div {
     color: #586069;
   }
@@ -30,7 +36,13 @@ const LeftDiv = styled.div`
       brightness(91%) contrast(84%);
   }
 `;
-const RightDiv = styled.div``;
+
+const RightDiv = styled.div`
+  height: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+`;
 
 const StatusDiv = styled.div`
   * {
@@ -41,43 +53,29 @@ const StatusDiv = styled.div`
 `;
 
 const ControlDiv = styled.div`
+  color: royalblue;
   * {
     margin-right: 15px;
     &:hover {
       cursor: pointer;
     }
   }
-  color: royalblue;
+
+  a {
+    color: royalblue;
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
   span:last-child {
     color: crimson;
   }
 `;
 
-const MONTH = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December',
-];
-
 function MilestoneListContent(props) {
-  const { milestones, setMilestones } = props;
-
-  const getFormatDate = (date) => {
-    const year = date.getFullYear();
-    const month = date.getMonth();
-    let day = date.getDate();
-    day = day >= 10 ? day : `0${day}`;
-    return `${MONTH[month]} ${day}, ${year}`;
-  };
+  const { milestones, setMilestones, isOpenView } = props;
 
   const getIssueStatus = (milestone) => {
     console.log(milestone);
@@ -89,10 +87,10 @@ function MilestoneListContent(props) {
         <h3>{milestone.title}</h3>
         <div>
           {milestone.duedate ? (
-            <>
+            <div>
               <img src={calendarImg} />
               Due by {getFormatDate(new Date(milestone.duedate))}
-            </>
+            </div>
           ) : (
             <br></br>
           )}
@@ -107,8 +105,8 @@ function MilestoneListContent(props) {
           <span>1 closed</span>
         </StatusDiv>
         <ControlDiv>
-          <span>Edit</span>
-          <span>Close</span>
+          <Link to={'/milestone-edit'}>Edit</Link>
+          {isOpenView ? <span>Close</span> : <span>Reopen</span>}
           <span>Delete</span>
         </ControlDiv>
       </RightDiv>
