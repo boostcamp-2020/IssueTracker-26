@@ -71,6 +71,15 @@ const getMilestoneAll = async () => {
   }
 };
 
+const stateChange = async (state, id) => {
+  try {
+    const [milestone] = await pool.execute(MILESTONE.CHANGE_STATE, [state, id]);
+    return milestone;
+  } catch (e) {
+    return undefined;
+  }
+};
+
 module.exports = {
   createMilestone,
   updateMilestone,
@@ -79,4 +88,5 @@ module.exports = {
   getIssueListByMilestoneId,
   getMilestoneTotal,
   getMilestoneAll,
+  stateChange,
 };

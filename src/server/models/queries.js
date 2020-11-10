@@ -26,9 +26,9 @@ const MILESTONE = {
   },
   DELETE: `delete from milestone where id=?`,
   GET_MILESTONE_LIST: `select id, title, duedate, description, state from milestone`,
-  // GET_ISSUE_LIST_BY_MILESTONE_ID: `select i.id, i.title, i.content, i.user_id, u.username, i.createdat, i.milestone_id from issue i left join user u on i.user_id=u.id where i.milestone_id=?`,
   GET_ISSUE_LIST_BY_MILESTONE_ID: `select i.id, i.state, i.milestone_id from issue i left join user u on i.user_id=u.id where i.milestone_id=?`,
   GETTOTAL: `select count(*) as count from milestone`,
+  CHANGE_STATE: `update milestone set state = ? where id = ?`,
 };
 
 const ISSUE = {
@@ -45,7 +45,7 @@ const ISSUE = {
   GETISSUECOMMENT: `select c.id, c.content, c.createdat, u.id, u.username from comment c, user u where u.id=c.user_id and c.issue_id = ?`,
 
   GETMILESTONE: `select m.id, m.title, (select count(*) from issue where milestone_id = (select milestone_id from issue where id = ?) and state = 1) / count(*) as ratio from issue i, milestone m 
-  where milestone_id = (select milestone_id from issue where id = ?) and i.milestone_id=m.id`,
+  where milestone_id = (select milestone_id from issue where id = ?) and i.milestone_id=m.id group by m.id`,
 
   CREATEISSUE: `insert into issue(title, content, user_id, milestone_id) values(?,?,?,?)`,
 

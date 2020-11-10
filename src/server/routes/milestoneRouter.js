@@ -37,4 +37,9 @@ router.get(
   milestoneController.getMilestoneAll.bind(milestoneController),
 );
 
+router.put(
+  '/milestone/state/:id',
+  milestoneController.stateChange.bind(milestoneController),
+);
+
 module.exports = router;
