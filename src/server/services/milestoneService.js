@@ -78,6 +78,14 @@ const milestoneService = (model) => {
         return undefined;
       }
     },
+    async getMilestoneWithRatio() {
+      try {
+        const milestone = await this.model.getMilestoneWithRatio();
+        return milestone;
+      } catch (e) {
+        return undefined;
+      }
+    },
   };
 };
 

@@ -89,6 +89,15 @@ const getMilestoneRatio = async (id) => {
   }
 };
 
+const getMilestoneWithRatio = async () => {
+  try {
+    const [list] = await pool.execute(MILESTONE.GET_MILESTONE_LIST_WITH_RATIO);
+    return list;
+  } catch (e) {
+    return undefined;
+  }
+};
+
 module.exports = {
   createMilestone,
   updateMilestone,
@@ -99,4 +108,5 @@ module.exports = {
   getMilestoneAll,
   stateChange,
   getMilestoneRatio,
+  getMilestoneWithRatio,
 };
