@@ -30,7 +30,14 @@ const StyleSpan = styled.span`
   margin-right: 10px;
 `;
 
-function Label({ handleCloseMenu, handleLabelMenu, right }) {
+function Label({
+  handleCloseMenu,
+  handleLabelMenu,
+  right,
+  top,
+  title = 'Filter by label',
+  width = '300px',
+}) {
   const [labelList, setLabeluList] = useState([]);
   useEffect(() => {
     fetch(`${Http}api/label`)
@@ -57,11 +64,12 @@ function Label({ handleCloseMenu, handleLabelMenu, right }) {
 
   return (
     <DropBox
-      title={'Filter by label'}
+      title={title}
       data={labelList}
-      width={'300px'}
+      width={width}
       height={'35px'}
       right={right}
+      top={top}
       handleCloseMenu={handleCloseMenu}
       handler={handleLabelMenu}
     ></DropBox>
@@ -72,6 +80,9 @@ Label.propTypes = {
   handleCloseMenu: PropTypes.func,
   handleLabelMenu: PropTypes.func,
   right: PropTypes.number,
+  top: PropTypes.number,
+  title: PropTypes.string,
+  width: PropTypes.string,
 };
 
 export default Label;

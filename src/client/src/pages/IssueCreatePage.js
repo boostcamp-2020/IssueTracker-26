@@ -32,7 +32,7 @@ function IssueCreatePage() {
   return (
     <DivStyled>
       <DivProfilStyled>
-        {state.profile === undefined ? (
+        {state.profile === null ? (
           <ImgProfilStyled src={ProfileImg} />
         ) : (
           <ImgProfilStyled src={state.profile} />

@@ -4,7 +4,16 @@ import DropBox from '../DropBox';
 import userImage from '../../../public/images/user.png';
 import Http from '../../util/http-common';
 
-function Assignee({ handleCloseMenu, handleAssigneeMenu, right }) {
+function Assignee({
+  handleCloseMenu,
+  handleAssigneeMenu,
+  right,
+  left,
+  top,
+  width = '300px',
+  title = 'Filter by who`s assigned',
+  height = '35px',
+}) {
   const [userList, setUseruList] = useState([]);
   useEffect(() => {
     fetch(`${Http}api/user/all`)
@@ -26,11 +35,13 @@ function Assignee({ handleCloseMenu, handleAssigneeMenu, right }) {
 
   return (
     <DropBox
-      title={'Filter by who`s assigned'}
+      title={title}
       data={userList}
-      width={'300px'}
-      height={'35px'}
+      width={width}
       right={right}
+      left={left}
+      top={top}
+      height={height}
       handleCloseMenu={handleCloseMenu}
       handler={handleAssigneeMenu}
     ></DropBox>
@@ -41,6 +52,11 @@ Assignee.propTypes = {
   handleCloseMenu: PropTypes.func,
   handleAssigneeMenu: PropTypes.func,
   right: PropTypes.number,
+  left: PropTypes.number,
+  top: PropTypes.number,
+  width: PropTypes.string,
+  height: PropTypes.string,
+  title: PropTypes.string,
 };
 
 export default Assignee;
