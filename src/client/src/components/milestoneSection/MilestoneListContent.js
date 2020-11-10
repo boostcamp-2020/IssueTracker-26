@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import calendarImg from '../../../public/images/calendar.svg';
 import { getFormatDate } from '../../util/time';
 
@@ -20,7 +21,7 @@ const ContentDiv = styled.div`
 `;
 
 const LeftDiv = styled.div`
-  height: 80px;
+  height: 90px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -52,13 +53,22 @@ const StatusDiv = styled.div`
 `;
 
 const ControlDiv = styled.div`
+  color: royalblue;
   * {
     margin-right: 15px;
     &:hover {
       cursor: pointer;
     }
   }
-  color: royalblue;
+
+  a {
+    color: royalblue;
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
   span:last-child {
     color: crimson;
   }
@@ -95,7 +105,7 @@ function MilestoneListContent(props) {
           <span>1 closed</span>
         </StatusDiv>
         <ControlDiv>
-          <span>Edit</span>
+          <Link to={'/milestone-edit'}>Edit</Link>
           {isOpenView ? <span>Close</span> : <span>Reopen</span>}
           <span>Delete</span>
         </ControlDiv>
