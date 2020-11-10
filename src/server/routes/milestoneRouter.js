@@ -42,4 +42,9 @@ router.put(
   milestoneController.stateChange.bind(milestoneController),
 );
 
+router.get(
+  '/milestone/ratio/:id',
+  milestoneController.getMilestoneRatio.bind(milestoneController),
+);
+
 module.exports = router;

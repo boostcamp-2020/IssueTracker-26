@@ -29,6 +29,8 @@ const MILESTONE = {
   GET_ISSUE_LIST_BY_MILESTONE_ID: `select i.id, i.state, i.milestone_id from issue i left join user u on i.user_id=u.id where i.milestone_id=?`,
   GETTOTAL: `select count(*) as count from milestone`,
   CHANGE_STATE: `update milestone set state = ? where id = ?`,
+  GETRATIO: `select *, (select count(*) from issue i, milestone m where i.milestone_id = m.id and m.id=? and i.state = 0) / 
+  (select count(*) from issue i, milestone m where i.milestone_id = m.id and m.id=?) * 100 as ratio from milestone where id = ?;`,
 };
 
 const ISSUE = {

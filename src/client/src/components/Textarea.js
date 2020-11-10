@@ -13,6 +13,9 @@ const TextArea = styled.textarea`
   max-width: 100%;
   min-height: ${(props) => props.height}px;
   max-height: ${(props) => props.height * 2}px;
+  border: #e1e4e8 1px solid;
+  font-size: 1.2rem;
+  padding: 20px;
   border-radius: 5px;
   padding: 0.5rem 0.5rem;
   ${sharedStyle.inputOutlineStyle}
@@ -37,10 +40,12 @@ function TextareaComponent({
   const spanRef = useRef(null);
   const handleCount = () => {
     const inputCount = value.length;
+    if (!spanRef.current) return;
     spanRef.current.innerText = `${
       inputCount ? `${inputCount} characters` : ' '
     }`;
     setTimeout(() => {
+      if (!spanRef.current) return;
       spanRef.current.innerText = '';
     }, 2000);
   };

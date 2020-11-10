@@ -68,6 +68,7 @@ const gitHubAuth = async (req, res) => {
         }),
       },
     ).then((response) => response.json());
+    console.log(error)
     if (error) return res.status(401).end();
     const { login, avatar_url: profile } = await fetch(
       `https://api.github.com/user`,
