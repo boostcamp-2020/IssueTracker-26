@@ -48,7 +48,13 @@ function Header() {
   const { state, setState } = useContext(UserContext);
   const handleSignOut = () => {
     localStorage.removeItem('jwt');
-    setState({ ...state, isLoggedIn: false, token: null });
+    setState({
+      ...state,
+      isLoggedIn: false,
+      token: null,
+      profile: undefined,
+      userName: undefined,
+    });
   };
   return (
     <HeaderDiv>
@@ -57,7 +63,7 @@ function Header() {
       </TitleLink>
 
       <UserDiv>
-        <img src={image} />
+        <img src={state.profile ? state.profile : image} />
         <span>{state.userName}</span>
         <Button
           width={'70px'}

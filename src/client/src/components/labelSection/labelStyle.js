@@ -68,7 +68,7 @@ const EditDeleteBox = styled.div`
 
 const WorkContainer = styled.div`
   padding: 1em;
-  margin: -1em 2em 1em 2em;
+  margin: ${(props) => (props.isEdit ? null : '-1em 2em 1em 2em')};
   background-color: ${theme.Color.grayBackground};
 `;
 
@@ -95,7 +95,12 @@ const EditButton = styled.button`
   }
 `;
 
+const Div = styled.div`
+  width: ${(props) => props.width};
+`;
+
 export {
+  Div,
   Header,
   Layer,
   Container,
