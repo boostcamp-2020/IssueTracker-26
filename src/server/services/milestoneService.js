@@ -9,31 +9,12 @@ const milestoneService = (model) => {
         return undefined;
       }
     },
-    async getMilestoneList(issueModel) {
+    async getMilestoneList() {
       let milestoneList = await this.model.getMilestoneList();
       const issuesListsPromise = milestoneList.map((milestone) => {
         return this.model.getIssueListByMilestoneId(milestone.id);
       });
-      let issuesLists = await Promise.all(issuesListsPromise);
-      const labelAndAssigneePromiseArr = issuesLists.map((issuesList) => {
-        return issuesList.reduce((promiseArr, issue) => {
-          promiseArr.push(issueModel.getIssueLabel(issue.id));
-          promiseArr.push(issueModel.getIssueAssignee(issue.id));
-          return promiseArr;
-        }, []);
-      });
-      const labelAndAssigneeArr = await Promise.all(
-        ...labelAndAssigneePromiseArr,
-      );
-      issuesLists = issuesLists.map((issuesList, index) => {
-        return issuesList.map((issue) => {
-          return {
-            ...issue,
-            label: labelAndAssigneeArr[index * 2],
-            assignee: labelAndAssigneeArr[index * 2 + 1],
-          };
-        });
-      });
+      const issuesLists = await Promise.all(issuesListsPromise);
       milestoneList = milestoneList.map((milestone, index) => ({
         ...milestone,
         issues: issuesLists[index],
