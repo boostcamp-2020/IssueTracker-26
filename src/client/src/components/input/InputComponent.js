@@ -46,6 +46,7 @@ function Input(props) {
     border,
     bgColor = 'none',
     onKeyPress,
+    onBlur,
   } = props;
 
   return (
@@ -62,6 +63,7 @@ function Input(props) {
       outlineColor={outlineColor}
       bgColor={bgColor}
       onKeyPress={onKeyPress}
+      onBlur={onBlur}
     />
   );
 }
@@ -79,6 +81,7 @@ Input.propTypes = {
   border: PropTypes.string,
   bgColor: PropTypes.string,
   onKeyPress: PropTypes.func,
+  onBlur: PropTypes.func,
 };
 
 export default Input;

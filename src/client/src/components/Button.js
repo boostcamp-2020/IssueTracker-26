@@ -3,10 +3,17 @@ import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
 
 const colorStyles = css`
-  ${({ theme, color, hoverColor, fontColor }) => {
+  ${({ active, theme, color, hoverColor, fontColor }) => {
     const selectedColor = color || theme.Color.button;
     const selectedHover = hoverColor || theme.Color.buttonHover;
     const selectFontColor = fontColor || 'white';
+
+    if (active === 'disable')
+      return css`
+        color: #afafaf;
+        background-color: ${theme.grayBackground};
+        cursor: default;
+      `;
 
     return css`
       color: ${selectFontColor};
@@ -64,6 +71,7 @@ function Button({
   type,
   hoverColor,
   fontColor,
+  active,
 }) {
   return (
     <StyledButton
@@ -76,6 +84,7 @@ function Button({
       fullWidth={fullWidth}
       onClick={handler}
       type={type}
+      active={active}
     >
       {children}
     </StyledButton>
@@ -93,6 +102,7 @@ Button.propTypes = {
   handler: PropTypes.func,
   type: PropTypes.string,
   fontColor: PropTypes.string,
+  active: PropTypes.string,
 };
 
 export default Button;
