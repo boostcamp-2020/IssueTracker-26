@@ -1,7 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import MilestoneHeader from './MilestoneHeader';
+import MilestoneList from './MilestoneList';
 
 const MilestoneContainer = styled.div`
   max-width: 100%;
@@ -13,6 +13,7 @@ function MilestoneSection() {
   return (
     <MilestoneContainer>
       <MilestoneHeader />
+      <MilestoneList />
     </MilestoneContainer>
   );
 }
