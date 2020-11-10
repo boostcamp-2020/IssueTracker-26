@@ -19,6 +19,19 @@ const checkDuplicated = async (userName) => {
   }
 };
 
+const findUserById = async (id) => {
+  try {
+    const user = await userModel.findUserById(id);
+    if (user.length || !user) {
+      const { id: userId, userName, profile } = user[0];
+      return { id: userId, userName, profile };
+    }
+    return {};
+  } catch (err) {
+    return undefined;
+  }
+};
+
 const findOrCreateUser = async (userInfo) => {
   try {
     const { userName, profile } = userInfo;
@@ -35,12 +48,11 @@ const findOrCreateUser = async (userInfo) => {
     }
     const newUser = await userModel.createSocialUser(userInfo);
     return { id: newUser, userName, profile, social: 1 };
-  }
-  catch (err) {
+  } catch (err) {
     return undefined;
   }
 };
-    
+
 const getUserByAll = async () => {
   try {
     const userList = await userModel.getUserByAll();
@@ -55,4 +67,5 @@ module.exports = {
   checkDuplicated,
   findOrCreateUser,
   getUserByAll,
+  findUserById,
 };
