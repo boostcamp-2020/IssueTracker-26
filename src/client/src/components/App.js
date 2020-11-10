@@ -9,6 +9,7 @@ import IssueCreatePage from '../pages/IssueCreatePage';
 import Header from './header/Header';
 import Http from '../util/http-common';
 import GitHubLogin from './login/GitHubLogin';
+import IssueDetailPage from '../pages/IssueDetailPage';
 
 function App() {
   const [state, setState] = useState({
@@ -70,15 +71,18 @@ function PrivateRoute() {
   return (
     <>
       <Header />
-      <Switch>
-        <Route exact path="/" component={MainPage} />
-        <Route exact path="/label" component={LabelPage} />
-        <Route exact path="/milestone" component={MilestonePage} />
-        <Route exact path="/login">
-          <Redirect to="/" />
-        </Route>
-        <Route exact path="/issue-create" component={IssueCreatePage} />
-      </Switch>
+      <div>
+        <Switch>
+          <Route exact path="/" component={MainPage} />
+          <Route path="/label" component={LabelPage} />
+          <Route path="/milestone" component={MilestonePage} />
+          <Route path="/:id" component={IssueDetailPage} />
+          <Route path="/issue-create" component={IssueCreatePage} />
+          <Route path="*">
+            <Redirect to="/" />
+          </Route>
+        </Switch>
+      </div>
     </>
   );
 }
