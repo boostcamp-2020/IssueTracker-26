@@ -2,22 +2,28 @@ import styled from 'styled-components';
 import theme from '../Theme';
 
 const Container = styled.div`
-  padding-top: 100px;
+  max-width: 100%;
+  width: 1200px;
+  margin: 0 40px;
+  margin-bottom: 40px;
 `;
 
 const Header = styled.div`
+  width: 100%;
   display: flex;
-  justify-content: space-between;
-`;
-
-const ButtonBox = styled.div`
-  margin: 1em;
-  padding: 1em;
+  align-items: center;
+  padding-top: 100px;
+  margin-bottom: -10px;
+  div:first-child {
+    width: 100%;
+  }
 `;
 
 const ContentsContainer = styled.div`
-  margin: 0 2em;
   border: 1px solid ${theme.Color.border};
+  overflow: hidden;
+  width: 100%;
+  border-radius: 10px;
 `;
 
 const ContentsListHeader = styled.div`
@@ -37,11 +43,12 @@ const ContentsList = styled.div`
 
 const LabelSpan = styled.span`
   font-weight: bold;
+  color: ${(props) => props.fontColor};
   font-size: 0.7rem;
   border-radius: 10px;
   background: ${(props) => props.color};
   display: inline-block;
-  padding: 4px 8px;
+  padding: 6px 8px;
   text-align: center;
 `;
 
@@ -58,6 +65,15 @@ const Description = styled.span`
 const TextContents = styled.span`
   color: gray;
   font-size: 14px;
+  &:hover {
+    color: black;
+    cursor: pointer;
+  }
+`;
+
+const DescriptText = styled.div`
+  font-weight: 600;
+  margin: 3px 0;
 `;
 
 const EditDeleteBox = styled.div`
@@ -67,9 +83,14 @@ const EditDeleteBox = styled.div`
 `;
 
 const WorkContainer = styled.div`
-  padding: 1em;
-  margin: ${(props) => (props.isEdit ? null : '-1em 2em 1em 2em')};
-  background-color: ${theme.Color.grayBackground};
+  width: 100%;
+  padding: 1em 1em 1.5em 1em;
+  margin-bottom: ${(props) => !props.isEdit && '15px'};
+  border: ${(props) => !props.isEdit && `1px solid ${theme.Color.border}`};
+  border-radius: ${(props) => !props.isEdit && `5px`};
+  border-top: ${(props) => props.isEdit && `1px solid ${theme.Color.border}`};
+  background-color: ${(props) =>
+    props.isEdit ? 'white' : theme.Color.grayBackground};
 `;
 
 const Layer = styled.div`
@@ -81,22 +102,34 @@ const EmptyDiv = styled.div`
   visibility: hidden;
 `;
 
-const EditButton = styled.button`
-  padding: 4px 8px;
-  outline: none;
-  border: red;
-  background-color: white;
-  margin-right: 5px;
-  border-radius: 2px;
-  width: ${(props) => props.width};
+const CancelButton = styled.button`
+  width: 80px;
   height: 30px;
+  padding: 4px 8px;
+  margin-right: 5px;
+  outline: none;
+  border: 1px solid ${theme.Color.border};
+  border-radius: 5px;
+  background-color: white;
   &:hover {
-    background-color: skyblue;
+    cursor: pointer;
+    background-color: #eeeff1;
   }
 `;
 
 const Div = styled.div`
   width: ${(props) => props.width};
+  margin: ${(props) => props.margin};
+`;
+
+const ChangeButton = styled.button`
+  width: 28px;
+  height: 28px;
+  margin-right: 5px;
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  background-color: ${(props) => props.color};
 `;
 
 export {
@@ -106,7 +139,6 @@ export {
   Container,
   LabelBox,
   LabelSpan,
-  ButtonBox,
   ContentsContainer,
   ContentsListHeader,
   ContentsList,
@@ -115,5 +147,7 @@ export {
   EditDeleteBox,
   WorkContainer,
   EmptyDiv,
-  EditButton,
+  CancelButton,
+  ChangeButton,
+  DescriptText,
 };

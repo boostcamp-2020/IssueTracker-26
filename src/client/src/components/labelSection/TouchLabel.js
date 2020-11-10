@@ -1,25 +1,38 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Input from '../input/InputComponent';
 import Button from '../Button';
 import Http from '../../util/http-common';
+import changeImg from '../../../public/images/changeLabel.svg';
+import getFontColor from './utils';
 import {
   LabelSpan,
   WorkContainer,
   Layer,
   EmptyDiv,
-  EditButton,
+  CancelButton,
   Div,
+  ChangeButton,
+  DescriptText,
 } from './labelStyle';
 
 function TouchLabel(props) {
   const { id, title = '', description = '', color, handler, isEdit } = props;
-  const getRandomColor = () =>
-    `#${Math.floor(Math.random() * 16777215).toString(16)}`;
+
+  const getRandomColor = () => {
+    let newColor = '#';
+    const hexNums = '0123456789ABCDEF';
+
+    for (let i = 0; i < 6; i += 1) {
+      newColor += hexNums[Math.floor(Math.random() * 16)];
+    }
+    return newColor;
+  };
 
   const [randColor, setRandColor] = isEdit
     ? useState(color)
     : useState(getRandomColor());
+  const [fontColor, setFontColor] = useState('#000000');
   const [input, setInput] = useState({ name: title, description });
 
   const handleInput = ({ target }) => {
@@ -56,18 +69,26 @@ function TouchLabel(props) {
   };
 
   const handleRandom = () => setRandColor(getRandomColor());
+  const handleTypingColor = (e) => setRandColor(e.target.value);
+
+  useEffect(() => {
+    const newFontColor = getFontColor(randColor);
+    setFontColor(newFontColor);
+  }, [randColor]);
 
   return (
     <WorkContainer isEdit={isEdit}>
       <Layer>
-        <LabelSpan color={randColor}>
-          {input.name === '' ? 'Label preview' : input.name}
-        </LabelSpan>
-        <div></div>
+        <Div margin="0 0 1.5em 0">
+          <LabelSpan color={randColor} fontColor={fontColor}>
+            {input.name === '' ? 'Label preview' : input.name}
+          </LabelSpan>
+        </Div>
+        <EmptyDiv></EmptyDiv>
       </Layer>
       <Layer>
         <Div width="140px">
-          Label name
+          <DescriptText>Label name</DescriptText>
           <Input
             name="name"
             value={input.name}
@@ -79,7 +100,7 @@ function TouchLabel(props) {
           />
         </Div>
         <Div width="200px">
-          Description
+          <DescriptText>Description</DescriptText>
           <Input
             name="description"
             value={input.description}
@@ -91,13 +112,23 @@ function TouchLabel(props) {
           />
         </Div>
         <div>
-          <div>color</div>
-          <EditButton onClick={handleRandom}>change</EditButton>
-          <EditButton width="80px">{randColor}</EditButton>
+          <DescriptText>Color</DescriptText>
+          <Layer>
+            <ChangeButton color={randColor} onClick={handleRandom}>
+              <img src={changeImg}></img>
+            </ChangeButton>
+            <Input
+              height="30px"
+              width="90px"
+              fontSize="14px"
+              value={randColor}
+              onChange={handleTypingColor}
+            ></Input>
+          </Layer>
         </div>
         <div>
           <EmptyDiv>empty element for align</EmptyDiv>
-          <EditButton onClick={handler}>Cancle</EditButton>
+          <CancelButton onClick={handler}>Cancel</CancelButton>
           <Button width="100px" handler={handleSubmit}>
             {isEdit ? 'Save changes' : 'Create label'}
           </Button>
