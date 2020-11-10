@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Input from '../input/InputComponent';
 import Button from '../Button';
@@ -17,12 +17,29 @@ import {
 
 function TouchLabel(props) {
   const { id, title = '', description = '', color, handler, isEdit } = props;
-  const getRandomColor = () =>
-    `#${Math.floor(Math.random() * 16777215).toString(16)}`;
+
+  const getRandomColor = () => {
+    let newColor = '#';
+    const hexNums = '0123456789ABCDEF';
+
+    for (let i = 0; i < 6; i += 1) {
+      newColor += hexNums[Math.floor(Math.random() * 16)];
+    }
+    return newColor;
+  };
+
+  function getFontColor(bgColor) {
+    const colorHex = bgColor.replace('#', '');
+    const r = parseInt(colorHex.substring(0, 2), 16);
+    const g = parseInt(colorHex.substring(2, 4), 16);
+    const b = parseInt(colorHex.substring(4, 6), 16);
+    return r * 0.299 + g * 0.587 + b * 0.114 > 186 ? '#000000' : '#FFFFFF';
+  }
 
   const [randColor, setRandColor] = isEdit
     ? useState(color)
     : useState(getRandomColor());
+  const [fontColor, setFontColor] = useState('#000000');
   const [input, setInput] = useState({ name: title, description });
 
   const handleInput = ({ target }) => {
@@ -61,11 +78,16 @@ function TouchLabel(props) {
   const handleRandom = () => setRandColor(getRandomColor());
   const handleTypingColor = (e) => setRandColor(e.target.value);
 
+  useEffect(() => {
+    const newFontColor = getFontColor(randColor);
+    setFontColor(newFontColor);
+  }, [randColor]);
+
   return (
     <WorkContainer isEdit={isEdit}>
       <Layer>
         <Div margin="0 0 1.5em 0">
-          <LabelSpan color={randColor}>
+          <LabelSpan color={randColor} fontColor={fontColor}>
             {input.name === '' ? 'Label preview' : input.name}
           </LabelSpan>
         </Div>

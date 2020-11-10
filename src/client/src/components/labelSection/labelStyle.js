@@ -42,6 +42,7 @@ const ContentsList = styled.div`
 
 const LabelSpan = styled.span`
   font-weight: bold;
+  color: ${(props) => props.fontColor};
   font-size: 0.7rem;
   border-radius: 10px;
   background: ${(props) => props.color};
