@@ -31,6 +31,7 @@ function MilestoneList() {
         setIsOpenView={setIsOpenView}
       />
       <MilestoneListContent
+        isOpenView={isOpenView}
         milestones={getTypeMilestone(isOpenView)}
         setMilestones={setMilestones}
       />

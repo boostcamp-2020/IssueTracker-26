@@ -79,7 +79,7 @@ const MONTH = [
 ];
 
 function MilestoneListContent(props) {
-  const { milestones, setMilestones } = props;
+  const { milestones, setMilestones, isOpenView } = props;
 
   const getFormatDate = (date) => {
     const year = date.getFullYear();
@@ -118,7 +118,7 @@ function MilestoneListContent(props) {
         </StatusDiv>
         <ControlDiv>
           <span>Edit</span>
-          <span>Close</span>
+          {isOpenView ? <span>Close</span> : <span>Reopen</span>}
           <span>Delete</span>
         </ControlDiv>
       </RightDiv>
