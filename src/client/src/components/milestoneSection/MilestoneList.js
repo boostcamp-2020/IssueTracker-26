@@ -17,10 +17,14 @@ function MilestoneList() {
   const getTypeMilestone = (type) =>
     milestones.filter((x) => (type ? x.state : !x.state));
 
-  useEffect(() => {
-    fetch(`${Http}api/milestone/`)
+  const fetchAllData = () => {
+    fetch(`${Http}api/milestone/ratio`)
       .then((res) => res.json())
-      .then((data) => setMilestones(data.milestones));
+      .then((data) => setMilestones(data));
+  };
+
+  useEffect(() => {
+    fetchAllData();
   }, []);
 
   return (
@@ -33,7 +37,7 @@ function MilestoneList() {
       <MilestoneListContent
         isOpenView={isOpenView}
         milestones={getTypeMilestone(isOpenView)}
-        setMilestones={setMilestones}
+        fetchAllData={fetchAllData}
       />
     </ContainerDiv>
   );

@@ -64,7 +64,7 @@ const milestoneService = (model) => {
     },
     async stateChange(state, id) {
       try {
-        const milestone = await this.model.stateChange(!state, id);
+        const milestone = await this.model.stateChange(state ? 0 : 1, id);
         return milestone;
       } catch (e) {
         return undefined;
