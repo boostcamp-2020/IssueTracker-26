@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import TextArea from '../Textarea';
 import Button from '../Button';
 
@@ -87,7 +89,7 @@ const InputTitleStyled = styled.input`
   height: 32px;
   width: 100%;
   padding-left: 10px;
-  color: #e1e4e8;
+  color: black;
   font-size: 1rem;
   &:focus {
     outline: none;
@@ -108,19 +110,53 @@ const SapnCancelStyled = styled.span`
   color: #586069;
   font-size: 1.2rem;
   margin-left: 10px;
+  &:hover {
+    cursor: pointer;
+  }
+  &:link {
+    color: red;
+    text-decoration: none;
+  }
+  &:visited {
+    color: black;
+    text-decoration: none;
+  }
+  &:hover {
+    color: blue;
+    text-decoration: underline;
+  }
 `;
 
-function IssueForm() {
-  const [textAreaVal, setTextAreaVal] = useState('');
+function IssueForm({
+  handlerForm,
+  textAreaVal,
+  setTextAreaVal,
+  inputVal,
+  setInputVal,
+}) {
+  const [stateButton, setStateButton] = useState('disabled');
 
   const handleTextArea = (e) => {
     setTextAreaVal(e.target.value);
   };
 
+  const handleInput = (e) => {
+    setInputVal(e.target.value);
+    if (e.target.value === '') {
+      setStateButton('disabled');
+    } else {
+      setStateButton('');
+    }
+  };
+
   return (
     <DivStyled>
       <DivSubStyled>
-        <InputTitleStyled placeholder="Title" />
+        <InputTitleStyled
+          onChange={handleInput}
+          value={inputVal}
+          placeholder="Title"
+        />
       </DivSubStyled>
       <DivContentStyled>
         <input type="radio" checked readOnly />
@@ -133,8 +169,16 @@ function IssueForm() {
             handleInput={handleTextArea}
           />
           <DivFooterStyled>
-            <SapnCancelStyled>Cancel</SapnCancelStyled>
-            <Button width={'160px'} height={'40px'} fontSize="1rem">
+            <SapnCancelStyled>
+              <Link to="/">Cancel</Link>
+            </SapnCancelStyled>
+            <Button
+              width={'160px'}
+              height={'40px'}
+              fontSize="1rem"
+              handler={handlerForm}
+              disabled={stateButton}
+            >
               Submit new issue
             </Button>
           </DivFooterStyled>
@@ -143,5 +187,13 @@ function IssueForm() {
     </DivStyled>
   );
 }
+
+IssueForm.propTypes = {
+  handlerForm: PropTypes.func,
+  textAreaVal: PropTypes.string,
+  setTextAreaVal: PropTypes.func,
+  inputVal: PropTypes.string,
+  setInputVal: PropTypes.func,
+};
 
 export default IssueForm;

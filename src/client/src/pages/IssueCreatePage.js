@@ -1,9 +1,11 @@
 import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
+import { useHistory } from 'react-router-dom';
 import IssueForm from '../components/issueForm/IssueForm';
 import IssueSubMenu from '../components/issueForm/IssueSubMenu';
 import UserContext from '../components/Context/UserContext';
 import ProfileImg from '../../public/images/user.png';
+import Http from '../util/http-common';
 
 const DivStyled = styled.div`
   margin: auto;
@@ -31,6 +33,28 @@ function IssueCreatePage() {
   const [selectMiliestone, setSelectMiliestone] = useState({});
   const [selectLabel, setSelectLabel] = useState([]);
   const [selectAssignee, setSelectAssignee] = useState([]);
+  const [textAreaVal, setTextAreaVal] = useState('');
+  const [inputVal, setInputVal] = useState('');
+  const history = useHistory();
+
+  const handlerForm = () => {
+    const issueInfo = {
+      userId: state.userId,
+      title: inputVal,
+      content: textAreaVal,
+      milestoneId: selectMiliestone.id,
+      labels: selectLabel,
+      assignees: selectAssignee,
+    };
+    fetch(`${Http}api/issue/`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(issueInfo),
+    }).then(() => {
+      history.replace('/');
+    });
+  };
+
   return (
     <DivStyled>
       <DivProfilStyled>
@@ -40,7 +64,13 @@ function IssueCreatePage() {
           <ImgProfilStyled src={state.profile} />
         )}
       </DivProfilStyled>
-      <IssueForm />
+      <IssueForm
+        handlerForm={handlerForm}
+        textAreaVal={textAreaVal}
+        setTextAreaVal={setTextAreaVal}
+        inputVal={inputVal}
+        setInputVal={setInputVal}
+      />
       <IssueSubMenu
         setSelectMiliestone={setSelectMiliestone}
         selectMiliestone={selectMiliestone}

@@ -49,13 +49,12 @@ const createIssue = async (issueInfo) => {
     const issueId = await issueModel.createIssue(issueInfo);
     const { assignees, labels } = issueInfo;
     const promiseList = [];
-
-    labels.forEach((labelId) => {
-      promiseList.push(issueModel.createIssueHasLbel(issueId, labelId));
+    labels.forEach((label) => {
+      promiseList.push(issueModel.createIssueHasLbel(issueId, label.id));
     });
 
-    assignees.forEach((assigneeId) => {
-      promiseList.push(issueModel.createAssignee(assigneeId, issueId));
+    assignees.forEach((assignee) => {
+      promiseList.push(issueModel.createAssignee(assignee.id, issueId));
     });
 
     await Promise.all(promiseList);

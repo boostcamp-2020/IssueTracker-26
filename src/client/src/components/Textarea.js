@@ -40,10 +40,12 @@ function TextareaComponent({
   const spanRef = useRef(null);
   const handleCount = () => {
     const inputCount = value.length;
+    if (!spanRef.current) return;
     spanRef.current.innerText = `${
       inputCount ? `${inputCount} characters` : ' '
     }`;
     setTimeout(() => {
+      if (!spanRef.current) return;
       spanRef.current.innerText = '';
     }, 2000);
   };
