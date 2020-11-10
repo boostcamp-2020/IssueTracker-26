@@ -13,17 +13,22 @@ const MenuDiv = styled.div`
   font-size: 0.9rem;
   background: ${(props) => props.theme.Color.grayBackground};
   text-align: center;
-  color: #586069;
 
   div {
     position: relative;
     width: 100px;
+    color: #586069;
 
     &:hover {
       color: black;
       cursor: pointer;
     }
   }
+
+  ${(props) =>
+    props.isOpenView
+      ? `div:first-child { color: black; }`
+      : `div:last-child { color: black; }`}
 
   img {
     width: 12px;
@@ -34,7 +39,7 @@ const MenuDiv = styled.div`
 `;
 
 function MilestoneListMenu(props) {
-  const { milestones } = props;
+  const { milestones, isOpenView, setIsOpenView } = props;
   const [openMilestoneCnt, setOpenMilestoneCnt] = useState(0);
   const [closeMilestoneCnt, setCloseMilestoneCnt] = useState(0);
 
@@ -56,12 +61,12 @@ function MilestoneListMenu(props) {
   }, [milestones]);
 
   return (
-    <MenuDiv>
-      <div>
+    <MenuDiv isOpenView={isOpenView}>
+      <div onClick={() => setIsOpenView(true)}>
         <img src={open} />
         {openMilestoneCnt} Open
       </div>
-      <div>
+      <div onClick={() => setIsOpenView(false)}>
         <img src={closed} />
         {closeMilestoneCnt} Closed
       </div>
@@ -71,6 +76,8 @@ function MilestoneListMenu(props) {
 
 MilestoneListMenu.propTypes = {
   milestones: PropTypes.array,
+  isOpenView: PropTypes.bool,
+  setIsOpenView: PropTypes.func,
 };
 
 export default MilestoneListMenu;
