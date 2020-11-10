@@ -222,7 +222,7 @@ function Login() {
               name="id"
               value={input.id}
               onChange={handleInput}
-              onBlur={handleValidInput}
+              onBlur={isLogin ? null : handleValidInput}
             />
             {isLogin ? null : (
               <ButtonWrapper>
@@ -247,7 +247,7 @@ function Login() {
               type="password"
               value={input.password}
               onChange={handleInput}
-              onBlur={handleValidInput}
+              onBlur={isLogin ? null : handleValidInput}
             />
           </Layer>
           {isLogin ? null : (
