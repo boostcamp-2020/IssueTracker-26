@@ -5,7 +5,7 @@ import calendarImg from '../../../public/images/calendar.svg';
 
 const ContentDiv = styled.div`
   display: flex;
-  height: 100px;
+  height: 120px;
   text-align: center;
   padding-right: 15px;
   border-top: ${(props) => props.theme.Color.border} 1px solid;
@@ -19,6 +19,10 @@ const ContentDiv = styled.div`
 `;
 
 const LeftDiv = styled.div`
+  height: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
   div {
     color: #586069;
   }
@@ -30,7 +34,13 @@ const LeftDiv = styled.div`
       brightness(91%) contrast(84%);
   }
 `;
-const RightDiv = styled.div``;
+
+const RightDiv = styled.div`
+  height: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+`;
 
 const StatusDiv = styled.div`
   * {
@@ -89,10 +99,10 @@ function MilestoneListContent(props) {
         <h3>{milestone.title}</h3>
         <div>
           {milestone.duedate ? (
-            <>
+            <div>
               <img src={calendarImg} />
               Due by {getFormatDate(new Date(milestone.duedate))}
-            </>
+            </div>
           ) : (
             <br></br>
           )}
