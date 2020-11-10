@@ -1,6 +1,7 @@
 const USER = {
   SIGNUP: `insert into user(username, password) values(?,?)`,
   FINDUSER: `select * from user where username = ?`,
+  FIND_USER_BY_ID: `select * from user where id=?`,
   FIND_SOCIAL_USER: `select * from user where username = ? and social = 1`,
   CREATE_SOCIAL_USER: `insert into user(username, password, profile, social) values (?,?,?,?)`,
   UPDATE: `update user set profile=? where id=?`,
@@ -24,8 +25,9 @@ const MILESTONE = {
     return `update milestone set ${fields.trim()} where id=${id}`;
   },
   DELETE: `delete from milestone where id=?`,
-  GET_MILESTONE_LIST: `select id, title, duedate, description from milestone`,
-  GET_ISSUE_LIST_BY_MILESTONE_ID: `select i.id, i.title, i.content, i.user_id, u.username, i.createdat, i.milestone_id from issue i left join user u on i.user_id=u.id where i.milestone_id=?`,
+  GET_MILESTONE_LIST: `select id, title, duedate, description, state from milestone`,
+  // GET_ISSUE_LIST_BY_MILESTONE_ID: `select i.id, i.title, i.content, i.user_id, u.username, i.createdat, i.milestone_id from issue i left join user u on i.user_id=u.id where i.milestone_id=?`,
+  GET_ISSUE_LIST_BY_MILESTONE_ID: `select i.id, i.state, i.milestone_id from issue i left join user u on i.user_id=u.id where i.milestone_id=?`,
   GETTOTAL: `select count(*) as count from milestone`,
 };
 

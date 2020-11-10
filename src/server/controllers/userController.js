@@ -3,10 +3,13 @@ const fetch = require('node-fetch');
 const userService = require('../services/userService');
 const { makeToken, randomString } = require('../util');
 
-const getUserInfo = (req, res) => {
+const getUserInfo = async (req, res) => {
   const { userName, id } = req.user;
-  if (userName) return res.status(200).json({ userName, userId: id });
-  return res.status(401).end();
+  const user = await userService.findUserById(id);
+  if (!user) return res.status(500).end();
+  const { id: userId, profile } = user;
+  if (userId) return res.status(200).json({ userName, userId: id, profile });
+  return res.status(406).end();
 };
 
 const signUp = async (req, res) => {

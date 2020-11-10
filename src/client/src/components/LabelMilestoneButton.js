@@ -60,7 +60,9 @@ const StyledLink = styled(Link)`
   &:hover {
     background-color: ${(props) => {
       if (props.page === 'milestone' && props.left) return 'whitesmoke';
+      if (props.page === 'milestone' && props.right) return 'royalblue';
       if (props.page === 'label' && props.right) return 'whitesmoke';
+      if (props.page === 'label' && props.left) return 'royalblue';
       return 'whitesmoke';
     }};
   }

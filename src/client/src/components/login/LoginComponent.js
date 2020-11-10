@@ -1,10 +1,12 @@
 import React, { useState, useContext } from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { useHistory } from 'react-router-dom';
 import Input from '../input/InputComponent';
 import Button from '../Button';
 import UserContext from '../Context/UserContext';
-import Http from '../../util/http-common';
+import userAPI from '../../util/api/user';
+import util from '../../util/index';
+import FlashMessage from '../FlashMessage';
 
 const LoginComponent = styled.div`
   max-width: 960px;
@@ -49,6 +51,11 @@ const ButtonGroup = styled.div`
   gap: 1rem 0;
 `;
 
+const ButtonWrapper = styled.div`
+  width: 30%;
+  padding: 0 0 0 1rem;
+`;
+
 const Sign = styled.div`
   color: ${(props) => props.theme.Color.blue};
   cursor: pointer;
@@ -57,7 +64,8 @@ const Sign = styled.div`
   }
 `;
 
-function Login({ history }) {
+function Login() {
+  const history = useHistory();
   const { state, setState } = useContext(UserContext);
   const [input, setInput] = useState({
     id: '',
@@ -66,6 +74,28 @@ function Login({ history }) {
   });
   const [isLogin, setIsLogin] = useState(true);
   const [correct, setCorrect] = useState(false);
+  const [canSubmit, setSubmit] = useState(false);
+  const [isDuplicated, setDuplicated] = useState(false);
+  const [messageState, setMessage] = useState({ key: undefined, message: '' });
+
+  const validInput = (duplicated) => {
+    if (duplicated) {
+      setDuplicated(true);
+      setSubmit(
+        util.validInput(input.id) &&
+          util.validInput(input.password) &&
+          input.password === input.checkPassword,
+        true,
+      );
+      return;
+    }
+    setSubmit(
+      util.validInput(input.id) &&
+        util.validInput(input.password) &&
+        input.password === input.checkPassword &&
+        isDuplicated,
+    );
+  };
 
   const width = '400px';
   const buttonProps = {
@@ -74,14 +104,37 @@ function Login({ history }) {
     height: '42px',
   };
 
+  const handleValidInput = (e) => {
+    const { value, name } = e.target;
+    validInput();
+    if (value === '') return;
+    if (!util.validInput(e.target.value)) {
+      if (name === 'id')
+        setMessage({
+          key: 3,
+          message: '아이디는 최소 6~12자리 숫자를 입력해주세요.',
+        });
+      if (name === 'password')
+        setMessage({
+          key: 4,
+          message: '패스워드는 최소 6~12자리 숫자를 입력해주세요.',
+        });
+      return;
+    }
+    if (name === 'checkPassword' && value !== input.password) {
+      setCorrect(false);
+      setMessage({ key: 5, message: '비밀번호, 비밀번호 확인이 다릅니다.' });
+    }
+  };
+
   const handleInput = (e) => {
     const { value, name } = e.target;
     if (name === 'checkPassword') {
-      if (input.password === value) {
-        setCorrect(true);
-      } else {
-        setCorrect(false);
-      }
+      if (input.password === value) setCorrect(true);
+      else setCorrect(false);
+    }
+    if (name === 'id') {
+      setDuplicated(false);
     }
     setInput({
       ...input,
@@ -94,57 +147,54 @@ function Login({ history }) {
       password: '',
       checkPassword: '',
     });
+    setCorrect(false);
+    setSubmit(false);
+    setDuplicated(false);
     setIsLogin(bool);
+  };
+  const handleCheckDuplicated = () => {
+    userAPI.checkDuplicated(input.id).then(({ err, msg }) => {
+      if (err) {
+        setInput({ ...input, id: '' });
+        setMessage({ key: 6, message: err });
+        return;
+      }
+      if (msg) {
+        setInput({ ...input, id: '' });
+        setMessage({ key: 7, message: msg });
+        return;
+      }
+      validInput(true);
+      setMessage({ key: 8, message: '사용 가능한 아이디입니다.' });
+    });
   };
   const handleSignin = (e) => {
     e.preventDefault();
     const { id, password } = input;
-    fetch(`${Http}api/user/signIn`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        userName: id,
-        password,
-      }),
-    })
-      .then((res) => res.json())
-      .then(({ token, userId, userName }) => {
-        if (token) {
-          setState({ ...state, userId, token, userName, isLoggedIn: true });
-          localStorage.setItem('jwt', token);
-          history.replace('/');
-          return;
-        }
-        alert('로그인 실패');
-        setInput({ id: '', password: '', checkPassword: '' });
-      });
+    userAPI.signIn(id, password).then(({ token, userId, userName }) => {
+      if (token) {
+        setState({ ...state, userId, token, userName, isLoggedIn: true });
+        localStorage.setItem('jwt', token);
+        history.replace('/');
+        return;
+      }
+      setMessage({ key: 1, message: '로그인 실패. 다시 시도해주세요.' });
+      setInput({ id: '', password: '', checkPassword: '' });
+    });
   };
   const handleSignup = (e) => {
     e.preventDefault();
-    const { id, password, checkPassword } = input;
-    if (password !== checkPassword) {
-      alert('비밀번호가 일치하지 않습니다.');
-      return;
-    }
-
-    fetch(`${Http}api/user`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        userName: id,
-        password,
-      }),
-    })
-      .then((res) => res.json())
-      .then(({ token, userId, userName }) => {
-        if (token) {
-          setState({ ...state, userId, userName, token, isLoggedIn: true });
-          localStorage.setItem('jwt', token);
-          history.replace('/');
-          return;
-        }
-        alert('회원가입 실패');
-      });
+    if (!canSubmit) return;
+    const { id, password } = input;
+    userAPI.signUp(id, password).then(({ token, userId, userName }) => {
+      if (token) {
+        setState({ ...state, userId, userName, token, isLoggedIn: true });
+        localStorage.setItem('jwt', token);
+        history.replace('/');
+        return;
+      }
+      setMessage({ key: 2, message: '회원가입 실패. 다시 시도해주세요.' });
+    });
   };
 
   const handleOpenGitHub = () => {
@@ -156,12 +206,39 @@ function Login({ history }) {
 
   return (
     <LoginComponent>
+      {messageState.message ? (
+        <FlashMessage
+          key={messageState.key}
+          handleMessage={setMessage}
+          messageState={messageState}
+        />
+      ) : null}
       <FormContainer width={width}>
         <Title>{isLogin ? '이슈 트래커' : '이슈 트래커 - 회원가입'}</Title>
         <Form onSubmit={isLogin ? handleSignin : handleSignup}>
           <Label>아이디</Label>
           <Layer>
-            <Input name="id" value={input.id} onChange={handleInput} />
+            <Input
+              name="id"
+              value={input.id}
+              onChange={handleInput}
+              onBlur={handleValidInput}
+            />
+            {isLogin ? null : (
+              <ButtonWrapper>
+                <Button
+                  active={util.validInput(input.id) ? undefined : 'disable'}
+                  handler={
+                    util.validInput(input.id) ? handleCheckDuplicated : null
+                  }
+                  width={'100%'}
+                  height={'42px'}
+                  fontSize={'13px'}
+                >
+                  {isDuplicated ? '완료' : '중복 확인'}
+                </Button>
+              </ButtonWrapper>
+            )}
           </Layer>
           <Label>비밀번호</Label>
           <Layer>
@@ -170,6 +247,7 @@ function Login({ history }) {
               type="password"
               value={input.password}
               onChange={handleInput}
+              onBlur={handleValidInput}
             />
           </Layer>
           {isLogin ? null : (
@@ -182,6 +260,7 @@ function Login({ history }) {
                   type="password"
                   value={input.checkPassword}
                   onChange={handleInput}
+                  onBlur={handleValidInput}
                 />
               </Layer>
             </>
@@ -203,7 +282,12 @@ function Login({ history }) {
                 </Button>
               </ButtonGroup>
             ) : (
-              <Button {...buttonProps}>Sign up</Button>
+              <Button
+                {...buttonProps}
+                active={canSubmit ? undefined : 'disable'}
+              >
+                Sign up
+              </Button>
             )}
           </Layer>
         </Form>
@@ -211,9 +295,5 @@ function Login({ history }) {
     </LoginComponent>
   );
 }
-
-Login.propTypes = {
-  history: PropTypes.object,
-};
 
 export default Login;

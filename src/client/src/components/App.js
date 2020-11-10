@@ -14,7 +14,6 @@ function App() {
   const [state, setState] = useState({
     token: localStorage.getItem('jwt'),
     isLoggedIn: !!localStorage.getItem('jwt'),
-    userName: '',
   });
   const { isLoggedIn } = state;
   useEffect(() => {
@@ -27,16 +26,22 @@ function App() {
         .then((res) => {
           if (res.status === 401) {
             localStorage.removeItem('jwt');
-            setState({ ...state, isLoggedIn: false, userName: '' });
+            setState({
+              ...state,
+              isLoggedIn: false,
+              userName: undefined,
+              profile: undefined,
+              token: null,
+            });
             return {};
           }
           return res.json();
         })
-        .then(({ userName, userId }) => {
-          setState({ ...state, isLoggedIn: true, userName, userId });
+        .then(({ userName, userId, profile }) => {
+          setState({ ...state, isLoggedIn: true, userName, userId, profile });
         });
     }
-  }, [state.token]);
+  }, []);
   return (
     <UserContext.Provider
       value={{
