@@ -1,14 +1,16 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import Button from '../Button';
 import image from '../../../public/images/user.png';
 import UserContext from '../Context/UserContext';
 
-const TitleDiv = styled.div`
+const TitleLink = styled(Link)`
   font-size: 1.7rem;
   font-weight: bold;
   color: white;
+  text-decoration: none;
 `;
 
 const HeaderDiv = styled.div`
@@ -50,9 +52,9 @@ function Header() {
   };
   return (
     <HeaderDiv>
-      <TitleDiv>
+      <TitleLink to={'/'}>
         <span>🎯ISSUE</span>
-      </TitleDiv>
+      </TitleLink>
 
       <UserDiv>
         <img src={image} />
