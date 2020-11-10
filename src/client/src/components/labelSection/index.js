@@ -5,7 +5,6 @@ import LabelList from './LabelList';
 import Button from '../Button';
 import TouchLabel from './TouchLabel';
 import {
-  ButtonBox,
   Container,
   Header,
   ContentsContainer,
@@ -32,10 +31,14 @@ function LabelSection() {
   return (
     <Container>
       <Header>
-        <LabelMilestoneButton page="label" left={true} />
-        <ButtonBox>
-          <Button handler={handleNewLabel}>new Label</Button>
-        </ButtonBox>
+        <div>
+          <LabelMilestoneButton page="label" left={true} />
+        </div>
+        <div>
+          <Button height={'32px'} width={'120px'} handler={handleNewLabel}>
+            new Label
+          </Button>
+        </div>
       </Header>
       {activeNew && <TouchLabel handler={handleNewLabel}></TouchLabel>}
       {labelList.length ? (

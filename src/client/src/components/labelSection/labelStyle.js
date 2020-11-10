@@ -2,22 +2,27 @@ import styled from 'styled-components';
 import theme from '../Theme';
 
 const Container = styled.div`
-  padding-top: 100px;
+  max-width: 100%;
+  width: 1200px;
+  margin: 0 40px;
 `;
 
 const Header = styled.div`
+  width: 100%;
   display: flex;
-  justify-content: space-between;
-`;
-
-const ButtonBox = styled.div`
-  margin: 1em;
-  padding: 1em;
+  align-items: center;
+  padding-top: 100px;
+  margin-bottom: -10px;
+  div:first-child {
+    width: 100%;
+  }
 `;
 
 const ContentsContainer = styled.div`
-  margin: 0 2em;
   border: 1px solid ${theme.Color.border};
+  overflow: hidden;
+  width: 100%;
+  border-radius: 10px;
 `;
 
 const ContentsListHeader = styled.div`
@@ -60,6 +65,7 @@ const TextContents = styled.span`
   font-size: 14px;
   &:hover {
     color: black;
+    cursor: pointer;
   }
 `;
 
@@ -70,9 +76,11 @@ const EditDeleteBox = styled.div`
 `;
 
 const WorkContainer = styled.div`
+  width: 100%;
   padding: 1em;
-  margin: ${(props) => (props.isEdit ? null : '-1em 2em 1em 2em')};
-  background-color: ${theme.Color.grayBackground};
+  border-top: ${(props) => props.isEdit && `1px solid ${theme.Color.border}`};
+  background-color: ${(props) =>
+    props.isEdit ? 'white' : theme.Color.grayBackground};
 `;
 
 const Layer = styled.div`
@@ -109,7 +117,6 @@ export {
   Container,
   LabelBox,
   LabelSpan,
-  ButtonBox,
   ContentsContainer,
   ContentsListHeader,
   ContentsList,
