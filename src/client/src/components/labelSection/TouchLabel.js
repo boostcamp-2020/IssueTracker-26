@@ -9,7 +9,7 @@ import {
   WorkContainer,
   Layer,
   EmptyDiv,
-  EditButton,
+  CancelButton,
   Div,
   ChangeButton,
   DescriptText,
@@ -69,7 +69,7 @@ function TouchLabel(props) {
             {input.name === '' ? 'Label preview' : input.name}
           </LabelSpan>
         </Div>
-        <div></div>
+        <EmptyDiv></EmptyDiv>
       </Layer>
       <Layer>
         <Div width="140px">
@@ -113,7 +113,7 @@ function TouchLabel(props) {
         </div>
         <div>
           <EmptyDiv>empty element for align</EmptyDiv>
-          <EditButton onClick={handler}>Cancle</EditButton>
+          <CancelButton onClick={handler}>Cancel</CancelButton>
           <Button width="100px" handler={handleSubmit}>
             {isEdit ? 'Save changes' : 'Create label'}
           </Button>

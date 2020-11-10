@@ -36,7 +36,7 @@ function LabelSection() {
         </div>
         <div>
           <Button height={'32px'} width={'120px'} handler={handleNewLabel}>
-            new Label
+            New label
           </Button>
         </div>
       </Header>

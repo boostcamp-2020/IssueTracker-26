@@ -46,7 +46,7 @@ const LabelSpan = styled.span`
   border-radius: 10px;
   background: ${(props) => props.color};
   display: inline-block;
-  padding: 4px 8px;
+  padding: 6px 8px;
   text-align: center;
 `;
 
@@ -100,17 +100,18 @@ const EmptyDiv = styled.div`
   visibility: hidden;
 `;
 
-const EditButton = styled.button`
-  padding: 4px 8px;
-  outline: none;
-  border: red;
-  background-color: white;
-  margin-right: 5px;
-  border-radius: 2px;
-  width: ${(props) => props.width};
+const CancelButton = styled.button`
+  width: 80px;
   height: 30px;
+  padding: 4px 8px;
+  margin-right: 5px;
+  outline: none;
+  border: 1px solid ${theme.Color.border};
+  border-radius: 5px;
+  background-color: white;
   &:hover {
-    background-color: skyblue;
+    cursor: pointer;
+    background-color: #eeeff1;
   }
 `;
 
@@ -144,7 +145,7 @@ export {
   EditDeleteBox,
   WorkContainer,
   EmptyDiv,
-  EditButton,
+  CancelButton,
   ChangeButton,
   DescriptText,
 };
