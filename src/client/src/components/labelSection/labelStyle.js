@@ -69,6 +69,11 @@ const TextContents = styled.span`
   }
 `;
 
+const DescriptText = styled.div`
+  font-weight: 600;
+  margin: 3px 0;
+`;
+
 const EditDeleteBox = styled.div`
   display: flex;
   justify-content: space-between;
@@ -77,7 +82,10 @@ const EditDeleteBox = styled.div`
 
 const WorkContainer = styled.div`
   width: 100%;
-  padding: 1em;
+  padding: 1em 1em 1.5em 1em;
+  margin-bottom: ${(props) => !props.isEdit && '15px'};
+  border: ${(props) => !props.isEdit && `1px solid ${theme.Color.border}`};
+  border-radius: ${(props) => !props.isEdit && `5px`};
   border-top: ${(props) => props.isEdit && `1px solid ${theme.Color.border}`};
   background-color: ${(props) =>
     props.isEdit ? 'white' : theme.Color.grayBackground};
@@ -108,6 +116,17 @@ const EditButton = styled.button`
 
 const Div = styled.div`
   width: ${(props) => props.width};
+  margin: ${(props) => props.margin};
+`;
+
+const ChangeButton = styled.button`
+  width: 28px;
+  height: 28px;
+  margin-right: 5px;
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  background-color: ${(props) => props.color};
 `;
 
 export {
@@ -126,4 +145,6 @@ export {
   WorkContainer,
   EmptyDiv,
   EditButton,
+  ChangeButton,
+  DescriptText,
 };

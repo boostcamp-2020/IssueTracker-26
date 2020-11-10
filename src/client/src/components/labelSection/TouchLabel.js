@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Input from '../input/InputComponent';
 import Button from '../Button';
 import Http from '../../util/http-common';
+import changeImg from '../../../public/images/changeLabel.svg';
 import {
   LabelSpan,
   WorkContainer,
@@ -10,6 +11,8 @@ import {
   EmptyDiv,
   EditButton,
   Div,
+  ChangeButton,
+  DescriptText,
 } from './labelStyle';
 
 function TouchLabel(props) {
@@ -56,18 +59,21 @@ function TouchLabel(props) {
   };
 
   const handleRandom = () => setRandColor(getRandomColor());
+  const handleTypingColor = (e) => setRandColor(e.target.value);
 
   return (
     <WorkContainer isEdit={isEdit}>
       <Layer>
-        <LabelSpan color={randColor}>
-          {input.name === '' ? 'Label preview' : input.name}
-        </LabelSpan>
+        <Div margin="0 0 1.5em 0">
+          <LabelSpan color={randColor}>
+            {input.name === '' ? 'Label preview' : input.name}
+          </LabelSpan>
+        </Div>
         <div></div>
       </Layer>
       <Layer>
         <Div width="140px">
-          Label name
+          <DescriptText>Label name</DescriptText>
           <Input
             name="name"
             value={input.name}
@@ -79,7 +85,7 @@ function TouchLabel(props) {
           />
         </Div>
         <Div width="200px">
-          Description
+          <DescriptText>Description</DescriptText>
           <Input
             name="description"
             value={input.description}
@@ -91,9 +97,19 @@ function TouchLabel(props) {
           />
         </Div>
         <div>
-          <div>color</div>
-          <EditButton onClick={handleRandom}>change</EditButton>
-          <EditButton width="80px">{randColor}</EditButton>
+          <DescriptText>Color</DescriptText>
+          <Layer>
+            <ChangeButton color={randColor} onClick={handleRandom}>
+              <img src={changeImg}></img>
+            </ChangeButton>
+            <Input
+              height="30px"
+              width="90px"
+              fontSize="14px"
+              value={randColor}
+              onChange={handleTypingColor}
+            ></Input>
+          </Layer>
         </div>
         <div>
           <EmptyDiv>empty element for align</EmptyDiv>
