@@ -44,12 +44,15 @@ const DivTitleStyled = styled.div`
 const DivContentStyled = styled.div`
   display: flex;
   flex-direction: column;
+  text-align: left;
+  margin-right: auto;
   font-size: 12px;
   flex-grow: 1;
   line-height: 29.5px;
   span {
     margin-right: auto;
   }
+  width: 100%;
 `;
 
 const SpanTitleStyled = styled.span`
@@ -100,12 +103,31 @@ const LabelStyled = styled.span`
   border-radius: 20px;
   margin-bottom: 5px;
 `;
+const DivProfileStyled = styled.div`
+  margin: 2px 0;
+  display: flex;
+  align-items: center;
+`;
+const ImgProfileStyled = styled.img`
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  margin-right: 5px;
+`;
+
+const SpanProfileStyled = styled.span`
+  font-weight: bold;
+  color: #586069;
+  font-size: 14px;
+`;
 
 function IssueSubMenu({
   selectMiliestone,
   setSelectMiliestone,
   selectLabel,
   setSelectLabel,
+  selectAssignee,
+  setSelectAssignee,
 }) {
   const MENU = ['Assignee', 'Label', 'Milstones'];
   const [dropMenuList, setdropMenuList] = useState(
@@ -125,8 +147,15 @@ function IssueSubMenu({
     setdropMenuList(menuList);
   };
 
-  const handleAssigneeMenu = () => {
-    console.log('dd');
+  const handleAssigneeMenu = (info) => {
+    if (!info) {
+      setSelectAssignee([]);
+    } else {
+      const list = selectAssignee.filter((assign) => {
+        return assign.id !== info.id;
+      });
+      setSelectAssignee([...list, info]);
+    }
   };
 
   const handleLabelMenu = (info) => {
@@ -167,11 +196,25 @@ function IssueSubMenu({
               top={30}
               width={'285px'}
               height={'20px'}
+              subtitle={'Clear assignees'}
             ></Assignee>
           )}
         </DivTitleStyled>
         <DivContentStyled>
-          <span>No one—assign yourself</span>
+          {selectAssignee.length > 0 ? (
+            <>
+              {selectAssignee.map((assign, index) => {
+                return (
+                  <DivProfileStyled key={index}>
+                    <ImgProfileStyled src={assign.profile} />
+                    <SpanProfileStyled>{assign.userName}</SpanProfileStyled>
+                  </DivProfileStyled>
+                );
+              })}
+            </>
+          ) : (
+            <span>No one—assign yourself</span>
+          )}
         </DivContentStyled>
       </DivSubStyled>
       <DivSubStyled>
@@ -248,6 +291,8 @@ IssueSubMenu.propTypes = {
   setSelectMiliestone: PropTypes.func,
   selectLabel: PropTypes.array,
   setSelectLabel: PropTypes.func,
+  setSelectAssignee: PropTypes.func,
+  selectAssignee: PropTypes.array,
 };
 
 export default IssueSubMenu;

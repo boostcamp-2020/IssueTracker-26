@@ -30,6 +30,7 @@ function IssueCreatePage() {
   const { state } = useContext(UserContext);
   const [selectMiliestone, setSelectMiliestone] = useState({});
   const [selectLabel, setSelectLabel] = useState([]);
+  const [selectAssignee, setSelectAssignee] = useState([]);
   return (
     <DivStyled>
       <DivProfilStyled>
@@ -45,6 +46,8 @@ function IssueCreatePage() {
         selectMiliestone={selectMiliestone}
         selectLabel={selectLabel}
         setSelectLabel={setSelectLabel}
+        selectAssignee={selectAssignee}
+        setSelectAssignee={setSelectAssignee}
       />
     </DivStyled>
   );
