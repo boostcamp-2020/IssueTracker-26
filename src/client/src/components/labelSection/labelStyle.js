@@ -5,6 +5,7 @@ const Container = styled.div`
   max-width: 100%;
   width: 1200px;
   margin: 0 40px;
+  margin-bottom: 40px;
 `;
 
 const Header = styled.div`
