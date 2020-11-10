@@ -52,6 +52,12 @@ const milestoneController = (service) => {
       if (list) return res.status(200).json(list);
       return res.status(404).end();
     },
+    async getMilestoneRatio(req, res) {
+      const { id } = req.params;
+      const ratio = await this.service.getMilestoneRatio(id);
+      if (ratio) return res.status(200).json(ratio);
+      return res.status(404).end();
+    },
   };
 };
 

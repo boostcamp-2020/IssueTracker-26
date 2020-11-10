@@ -25,6 +25,13 @@ const colorStyles = css`
   }}
 `;
 
+const disabledStyle = css`
+  pointer-events: none;
+  color: #ffffffcc;
+  background: #94d3a2;
+  opacity: 1;
+`;
+
 const sizeStyles = css`
   ${({ width, height, fontSize }) => css`
     width: ${width};
@@ -58,6 +65,8 @@ const StyledButton = styled.button`
   ${colorStyles}
 
   ${fullWidthStyle}
+  
+  ${(props) => (!props.disabled ? '' : disabledStyle)};
 `;
 
 function Button({
@@ -72,9 +81,11 @@ function Button({
   hoverColor,
   fontColor,
   active,
+  disabled = 'false',
 }) {
   return (
     <StyledButton
+      disabled={disabled === 'false' ? null : disabled}
       color={color}
       hoverColor={hoverColor}
       fontColor={fontColor}
@@ -103,6 +114,7 @@ Button.propTypes = {
   type: PropTypes.string,
   fontColor: PropTypes.string,
   active: PropTypes.string,
+  disabled: PropTypes.string,
 };
 
 export default Button;

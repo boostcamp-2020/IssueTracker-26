@@ -56,6 +56,7 @@ const StyleUl = styled.ul`
 `;
 
 const StyleLi = styled.li`
+  color: black;
   padding: 8px 0 8px 0;
   list-style-type: none;
   font-size: 0.8rem;
