@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import TouchLabel from './TouchLabel';
 import Http from '../../util/http-common';
+import getFontColor from './utils';
 import {
   LabelBox,
   LabelSpan,
@@ -51,7 +52,12 @@ function LabelList(props) {
       ) : (
         <ContentsList>
           <LabelBox width={width}>
-            <LabelSpan color={label.color}>{label.title}</LabelSpan>
+            <LabelSpan
+              fontColor={getFontColor(label.color)}
+              color={label.color}
+            >
+              {label.title}
+            </LabelSpan>
           </LabelBox>
           <Description>{label.description}</Description>
           <div></div>

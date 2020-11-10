@@ -4,6 +4,7 @@ import Input from '../input/InputComponent';
 import Button from '../Button';
 import Http from '../../util/http-common';
 import changeImg from '../../../public/images/changeLabel.svg';
+import getFontColor from './utils';
 import {
   LabelSpan,
   WorkContainer,
@@ -27,14 +28,6 @@ function TouchLabel(props) {
     }
     return newColor;
   };
-
-  function getFontColor(bgColor) {
-    const colorHex = bgColor.replace('#', '');
-    const r = parseInt(colorHex.substring(0, 2), 16);
-    const g = parseInt(colorHex.substring(2, 4), 16);
-    const b = parseInt(colorHex.substring(4, 6), 16);
-    return r * 0.299 + g * 0.587 + b * 0.114 > 186 ? '#000000' : '#FFFFFF';
-  }
 
   const [randColor, setRandColor] = isEdit
     ? useState(color)
