@@ -34,6 +34,7 @@ function TextareaComponent({
   width = '100%',
   height = 300,
   placeholder = '',
+  handleFiles,
   handleInput,
   handleFocus,
   value,
@@ -64,6 +65,7 @@ function TextareaComponent({
         onChange={handleInput}
         onFocus={() => handleFocus(true)}
         onBlur={() => handleFocus(false)}
+        onDrop={handleFiles}
         value={value}
       ></TextArea>
       <Span ref={spanRef}></Span>
@@ -77,6 +79,7 @@ TextareaComponent.propTypes = {
   placeholder: PropTypes.string,
   handleInput: PropTypes.func.isRequired,
   handleFocus: PropTypes.func,
+  handleFiles: PropTypes.func,
   value: PropTypes.string.isRequired,
 };
 
