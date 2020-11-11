@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import searchImg from '../../../public/images/setting.svg';
@@ -7,6 +7,7 @@ import Assignee from '../listDropBox/Assignee';
 import Label from '../listDropBox/Label';
 import Http from '../../util/http-common';
 import Milestone from '../listDropBox/Milstone';
+import UserContext from '../Context/UserContext';
 
 const DivStyled = styled.div`
   flex-basis: 312px;
@@ -120,6 +121,12 @@ const SpanProfileStyled = styled.span`
   color: #586069;
   font-size: 14px;
 `;
+const SpanYourSelfStyled = styled.span`
+  &:hover {
+    cursor: pointer;
+    color: #0366d6;
+  }
+`;
 
 function IssueSubMenu({
   selectMiliestone,
@@ -130,6 +137,7 @@ function IssueSubMenu({
   setSelectAssignee,
 }) {
   const MENU = ['Assignee', 'Label', 'Milstones'];
+  const { state, setState } = useContext(UserContext);
   const [dropMenuList, setdropMenuList] = useState(
     MENU.map(() => {
       return false;
@@ -181,6 +189,16 @@ function IssueSubMenu({
     }
   };
 
+  const handleYourSelf = () => {
+    setSelectAssignee([
+      {
+        id: state.userId,
+        userName: state.userName,
+        profile: state.profile,
+      },
+    ]);
+  };
+
   return (
     <DivStyled>
       <DivSubStyled>
@@ -213,7 +231,12 @@ function IssueSubMenu({
               })}
             </>
           ) : (
-            <span>No one—assign yourself</span>
+            <span>
+              No one—
+              <SpanYourSelfStyled onClick={handleYourSelf}>
+                assign yourself
+              </SpanYourSelfStyled>
+            </span>
           )}
         </DivContentStyled>
       </DivSubStyled>
