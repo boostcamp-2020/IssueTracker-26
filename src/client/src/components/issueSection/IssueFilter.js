@@ -108,7 +108,7 @@ function IssueFilter({
         setTimeout(() => {
           setListState(true);
           setIssueList(data);
-        }, 1000);
+        }, 500);
         setChecked(data.map(() => ''));
         setHeaderCheck({ state: '', count: 0 });
       });

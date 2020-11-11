@@ -162,7 +162,10 @@ function Label({
       <StyleUlDiv onClick={handleCloseMenu}></StyleUlDiv>
       <StyleUl width={width} top={top} right={right}>
         <StyleLi title={title}>{title}</StyleLi>
-        <StyleLiSub onClick={() => handleLabelMenu(null)} subtitle={subtitle}>
+        <StyleLiSub
+          onClick={() => handleLabelMenu(null, 'Label')}
+          subtitle={subtitle}
+        >
           {subtitle}
         </StyleLiSub>
         {labelList}

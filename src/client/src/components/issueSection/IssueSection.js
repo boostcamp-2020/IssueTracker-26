@@ -49,7 +49,7 @@ function IssueSection() {
         setTimeout(() => {
           setListState(true);
           setIssueList(data);
-        }, 1000);
+        }, 500);
         setChecked(data.map(() => ''));
       });
   }, []);

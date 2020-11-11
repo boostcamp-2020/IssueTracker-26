@@ -35,6 +35,14 @@ const filter = (issueList, filterList) => {
         });
         return check;
       });
+    } else if (filterType === 'no') {
+      if (filterData === 'label') {
+        list = list.filter((issue) => issue.label.length === 0);
+      } else if (filterData === 'assignee') {
+        list = list.filter((issue) => issue.assignee.length === 0);
+      } else if (filterData === 'milestone') {
+        list = list.filter((issue) => !issue.milestone_id);
+      }
     }
   });
   return list;

@@ -138,28 +138,63 @@ function IssueListMenu({
           }
           case 'Label': {
             const searchArr = searchVal.split(' ');
-            const result = searchArr.filter(
-              (info) => !info.includes(val.title),
-            );
-            searchResult = `${result.join(' ')} label:${val.title}`;
+            const result = searchArr.filter((info) => {
+              const search = info.split(':');
+              const searchType = search[0];
+              const searchData = search[1];
+              if (val) {
+                return (
+                  !searchData.includes(val.title) && !searchType.includes('no')
+                );
+              }
+              return !searchType.includes('label');
+            });
+            if (val) {
+              searchResult = `${result.join(' ')} label:${val.title}`;
+            } else {
+              searchResult = `${result.join(' ')} no:label`;
+            }
             setSearchVal(searchResult);
             break;
           }
           case 'Milestone': {
             const searchArr = searchVal.split(' ');
-            const result = searchArr.filter(
-              (info) => !info.includes('milestone'),
-            );
-            searchResult = `${result.join(' ')} milestone:${val.title}`;
+            const result = searchArr.filter((info) => {
+              const search = info.split(':');
+              const searchType = search[0];
+              if (val) {
+                return (
+                  !searchType.includes('milestone') &&
+                  !searchType.includes('no')
+                );
+              }
+              return !searchType.includes('milestone');
+            });
+            if (val) {
+              searchResult = `${result.join(' ')} milestone:${val.title}`;
+            } else {
+              searchResult = `${result.join(' ')} no:milestone`;
+            }
             setSearchVal(searchResult);
             break;
           }
           case 'Assignee': {
             const searchArr = searchVal.split(' ');
-            const result = searchArr.filter(
-              (info) => !info.includes('assignee'),
-            );
-            searchResult = `${result.join(' ')} assignee:${val.userName}`;
+            const result = searchArr.filter((info) => {
+              const search = info.split(':');
+              const searchType = search[0];
+              if (val) {
+                return (
+                  !searchType.includes('assignee') && !searchType.includes('no')
+                );
+              }
+              return !searchType.includes('assignee');
+            });
+            if (val) {
+              searchResult = `${result.join(' ')} assignee:${val.userName}`;
+            } else {
+              searchResult = `${result.join(' ')} no:assignee`;
+            }
             setSearchVal(searchResult);
             break;
           }
@@ -170,7 +205,7 @@ function IssueListMenu({
         setTimeout(() => {
           setListState(true);
           setIssueList(Filter(data, searchResult));
-        }, 1000);
+        }, 500);
       });
     setdropMenuList(MENU.map(() => false));
   };
@@ -214,6 +249,7 @@ function IssueListMenu({
                 handleCloseMenu={handleCloseMenu}
                 handleLabelMenu={handleMenu}
                 right={0}
+                subtitle={'Unlabeled'}
               ></Label>
             )}
           </div>
@@ -225,6 +261,7 @@ function IssueListMenu({
               <Milstone
                 handleCloseMenu={handleCloseMenu}
                 handleMilstonsMenu={handleMenu}
+                subtitle={'Issues with no milestone'}
                 right={0}
               ></Milstone>
             )}
@@ -237,6 +274,7 @@ function IssueListMenu({
               <Assignee
                 handleCloseMenu={handleCloseMenu}
                 handleAssigneeMenu={handleMenu}
+                subtitle={'Assigned to nobody'}
                 right={0}
               ></Assignee>
             )}

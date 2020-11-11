@@ -130,7 +130,7 @@ function Milstone({
       <StyleUl width={width} top={top} right={right}>
         <StyleLi title={title}>{title}</StyleLi>
         <StyleLiSub
-          onClick={() => handleMilstonsMenu(null)}
+          onClick={() => handleMilstonsMenu(null, 'Milestone')}
           subtitle={subtitle}
         >
           {subtitle}

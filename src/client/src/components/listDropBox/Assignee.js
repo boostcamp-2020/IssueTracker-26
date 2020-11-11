@@ -133,7 +133,7 @@ function Assignee({
       <StyleUl width={width} top={top} right={right}>
         <StyleLi title={title}>{title}</StyleLi>
         <StyleLiSub
-          onClick={() => handleAssigneeMenu(null)}
+          onClick={() => handleAssigneeMenu(null, 'Assignee')}
           subtitle={subtitle}
         >
           {subtitle}
