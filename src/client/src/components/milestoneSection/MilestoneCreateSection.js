@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import { useHistory } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import Textarea from '../Textarea';
 import InputComponent from '../input/InputComponent';
 import Button from '../Button';
+import Http from '../../util/http-common';
 
 const MilestoneContainer = styled.div`
   max-width: 100%;
@@ -37,6 +40,23 @@ const StyledFrom = styled.div`
 `;
 
 function MilestoneSection() {
+  const history = useHistory();
+  const [milestone, setMilestone] = useState({
+    title: '',
+    dueDate: '',
+    description: '',
+  });
+
+  const changeMilstone = (name) => (e) =>
+    setMilestone({ ...milestone, [name]: e.target.value });
+
+  const createMilestone = () =>
+    fetch(`${Http}api/milestone/`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(milestone),
+    }).then((res) => history.replace('/milestone'));
+
   return (
     <MilestoneContainer>
       <HeaderDiv>
@@ -55,20 +75,37 @@ function MilestoneSection() {
       <StyledFrom>
         <hr />
         <h3>Title</h3>
-        <InputComponent width={'400px'} placeholder={'Title'} />
+        <InputComponent
+          width={'400px'}
+          placeholder={'Title'}
+          value={milestone.title}
+          onChange={changeMilstone('title')}
+        />
         <h3>Due date (optional)</h3>
-        <InputComponent width={'400px'} type={'date'} />
+        <InputComponent
+          width={'400px'}
+          type={'date'}
+          value={milestone.dueDate}
+          onChange={changeMilstone('dueDate')}
+        />
         <h3>Description (optional)</h3>
-        <Textarea />
+        <Textarea
+          value={milestone.description}
+          handleInput={changeMilstone('description')}
+        />
         <hr />
       </StyledFrom>
       <div>
-        <Button width={'150px'} height={'35px'}>
+        <Button width={'150px'} height={'35px'} handler={createMilestone}>
           Create milestone
         </Button>
       </div>
     </MilestoneContainer>
   );
 }
+
+MilestoneSection.propTypes = {
+  milestone: PropTypes.object,
+};
 
 export default MilestoneSection;
