@@ -15,6 +15,7 @@ function IssueDetailContainer({ issue }) {
     user_id: userId,
     state: issueState,
     createdat: createdAt,
+    comment,
     milestone,
     assignee,
     label: labelList,
@@ -49,6 +50,7 @@ function IssueDetailContainer({ issue }) {
     },
     label,
     assignee,
+    comment,
     milestone: milestoneObj,
     input: {
       value: '',

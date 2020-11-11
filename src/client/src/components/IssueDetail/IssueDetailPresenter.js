@@ -7,6 +7,7 @@ import IssueSideMenu from './IssueSideMenu';
 import IssueDetailContext from '../Context/IssueDetailContext';
 import IssueDetailAction from './action';
 import Input from '../input/InputComponent';
+import { TransferTime } from '../../util/time';
 
 const Container = styled.div`
   display: flex;
@@ -100,9 +101,10 @@ const ButtonContainer = styled.div`
 
 function IssueDetailPresenter() {
   const { state, dispatch } = useContext(IssueDetailContext);
-  const { issue, user, assignee, label, milestone } = state;
+  const { issue, user, assignee, label, milestone, comment } = state;
   const [title, setTitle] = useState(state.issue.title);
   const [isTitleEdit, setTitleEdit] = useState(false);
+  const TYPE = { issue: 'issue', comment: 'comment' };
 
   const handleInput = (e) => setTitle(e.target.value);
   return (
@@ -156,12 +158,37 @@ function IssueDetailPresenter() {
         <Content>
           <IssuePost
             author={user.id}
-            image={UserImage}
+            id={issue.id}
+            image={user.profile || UserImage}
             content={issue.content}
             username={user.name}
             time={issue.time}
             textAreaVal={issue.content}
+            type={TYPE.issue}
           />
+          {comment.map((data, index) => {
+            const {
+              id,
+              content,
+              createdat,
+              user_id: userId,
+              username,
+              profile,
+            } = data;
+            return (
+              <IssuePost
+                key={index}
+                id={id}
+                author={userId}
+                image={profile || UserImage}
+                content={content}
+                username={username}
+                time={TransferTime(createdat)}
+                textAreaVal={content}
+                type={TYPE.comment}
+              />
+            );
+          })}
         </Content>
         <Side>
           <IssueSideMenu
