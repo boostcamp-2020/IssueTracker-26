@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import searchImg from '../../../public/images/setting.svg';
@@ -7,6 +7,9 @@ import Assignee from './ListDropBox/Assignee';
 import Label from './ListDropBox/Label';
 import Milestone from './ListDropBox/Milstone';
 import UserImage from '../../../public/images/user.png';
+import UserContext from '../Context/UserContext';
+import IssueDetailContext from '../Context/IssueDetailContext';
+import IssueDetailAction from './action';
 
 const DivStyled = styled.div`
   flex-basis: 312px;
@@ -121,7 +124,16 @@ const SpanProfileStyled = styled.span`
   font-size: 14px;
 `;
 
+const Span = styled.span`
+  &:hover {
+    color: #0366d6;
+    cursor: pointer;
+  }
+`;
+
 function IssueSideMenu({ selectMiliestone, selectLabel, selectAssignee }) {
+  const { state: user } = useContext(UserContext);
+  const { dispatch } = useContext(IssueDetailContext);
   const MENU = ['Assignee', 'Label', 'Milstones'];
   const [dropMenuList, setdropMenuList] = useState(
     MENU.map(() => {
@@ -171,7 +183,25 @@ function IssueSideMenu({ selectMiliestone, selectLabel, selectAssignee }) {
               })}
             </>
           ) : (
-            <span>No one—assign yourself</span>
+            <span>
+              No one—
+              <Span
+                onClick={() => {
+                  const obj = {
+                    id: user.userId,
+                    username: user.userName,
+                    profile: user.profile,
+                  };
+                  dispatch({
+                    type: IssueDetailAction.UPDATE_ASSIGNEE_LIST,
+                    assignee: obj,
+                    dispatch,
+                  });
+                }}
+              >
+                assign yourself
+              </Span>
+            </span>
           )}
         </DivContentStyled>
       </DivSubStyled>

@@ -7,13 +7,18 @@ import IssueSideMenu from './IssueSideMenu';
 import IssueDetailContext from '../Context/IssueDetailContext';
 import IssueDetailAction from './action';
 import Input from '../input/InputComponent';
+import { TransferTime } from '../../util/time';
+import Comment from '../commentSection/index';
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 600px;
+  min-height: 1248px;
+  max-width: 1248px;
   width: 100%;
-  padding: 10rem 15% 0 15%;
+  padding: 10rem 0 5rem 0;
+  margin: 0 auto;
 `;
 const Header = styled.div`
   display: flex;
@@ -41,8 +46,9 @@ const IssueState = styled.div`
   align-items: center;
   color: white;
   margin-right: 0.5rem;
-  background-color: ${(props) => props.theme.Color.lightGreen};
-  padding: 0 1rem;
+  background-color: ${(props) =>
+    props.state ? props.theme.Color.lightGreen : '#FF5050'};
+  padding: 0.4rem 1rem;
   border-radius: 1.2rem;
 `;
 const IssueInfo = styled.div`
@@ -81,10 +87,11 @@ const Body = styled.div`
   flex: 5;
 `;
 const Content = styled.div`
-  flex: 3;
+  flex-grow: 1;
+  max-width: 830px;
 `;
 const Side = styled.div`
-  flex: 1;
+  flex-basis: 312px;
 `;
 
 const Bold = styled(Shared.Span)`
@@ -98,11 +105,23 @@ const ButtonContainer = styled.div`
   gap: 0.5rem;
 `;
 
+const IssuePostContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  border-bottom: 1px solid #dfdfdf;
+  padding-bottom: 1rem;
+`;
+const CommentContainer = styled.div`
+  padding-top: 1rem;
+`;
+
 function IssueDetailPresenter() {
   const { state, dispatch } = useContext(IssueDetailContext);
-  const { issue, user, assignee, label, milestone } = state;
+  const { issue, user, assignee, label, milestone, comment } = state;
   const [title, setTitle] = useState(state.issue.title);
   const [isTitleEdit, setTitleEdit] = useState(false);
+  const TYPE = { issue: 'issue', comment: 'comment' };
 
   const handleInput = (e) => setTitle(e.target.value);
   return (
@@ -144,7 +163,9 @@ function IssueDetailPresenter() {
           )}
         </HeaderTitle>
         <HeaderState>
-          <IssueState>Open</IssueState>
+          <IssueState state={issue.state}>
+            {issue.state ? 'Open' : 'Close'}
+          </IssueState>
           <IssueInfo>
             <Bold>{user.name}</Bold>
             <Shared.Span>opened {issue.time}</Shared.Span>
@@ -154,14 +175,44 @@ function IssueDetailPresenter() {
       </Header>
       <Body>
         <Content>
-          <IssuePost
-            author={user.id}
-            image={UserImage}
-            content={issue.content}
-            username={user.name}
-            time={issue.time}
-            textAreaVal={issue.content}
-          />
+          <IssuePostContainer>
+            <IssuePost
+              author={user.id}
+              id={issue.id}
+              image={user.profile || UserImage}
+              content={issue.content}
+              username={user.name}
+              time={issue.time}
+              textAreaVal={issue.content}
+              type={TYPE.issue}
+            />
+            {comment.map((data, index) => {
+              const {
+                id,
+                content,
+                createdat,
+                user_id: userId,
+                username,
+                profile,
+              } = data;
+              return (
+                <IssuePost
+                  key={index}
+                  id={id}
+                  author={userId}
+                  image={profile || UserImage}
+                  content={content}
+                  username={username}
+                  time={TransferTime(createdat)}
+                  textAreaVal={content}
+                  type={TYPE.comment}
+                />
+              );
+            })}
+          </IssuePostContainer>
+          <CommentContainer>
+            <Comment />
+          </CommentContainer>
         </Content>
         <Side>
           <IssueSideMenu

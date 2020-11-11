@@ -27,7 +27,7 @@ function App() {
         },
       })
         .then((res) => {
-          if (res.status === 401) {
+          if (res.status === 401 || res.status === 406) {
             localStorage.removeItem('jwt');
             setState({
               ...state,

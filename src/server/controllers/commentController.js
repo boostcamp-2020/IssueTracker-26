@@ -6,9 +6,9 @@ const create = async (req, res) => {
   if (!(content && userId && issueId)) {
     return res.status(400).end();
   }
-  const commentId = await commentService.create({ content, userId, issueId });
-  if (commentId) {
-    return res.status(201).end();
+  const comment = await commentService.create({ content, userId, issueId });
+  if (comment) {
+    return res.status(201).json({ comment });
   }
   return res.status(500).end();
 };
@@ -39,11 +39,15 @@ const remove = async (req, res) => {
 
 const update = async (req, res) => {
   const { id } = req.params;
-  const { commentId, content, issueId } = req.body;
+  const { content, issueId } = req.body;
   if (isNaN(id)) {
     return res.status(400).end();
   }
-  const result = await commentService.update({ commentId, content, issueId });
+  const result = await commentService.update({
+    commentId: id,
+    content,
+    issueId,
+  });
   if (result) {
     return res.status(205).end();
   }
