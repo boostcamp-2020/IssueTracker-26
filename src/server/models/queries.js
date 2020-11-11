@@ -93,6 +93,7 @@ const COMMENT = {
   READ: `select id, content, user_id, issue_id from comment where issue_id = ?`,
   REMOVE: `delete from comment where id=?`,
   UPDATE: `update comment set content = ? where id = ?`,
+  GET_COMMENT: `select c.id, c.content, c.createdat, u.id as user_id, u.username, u.profile from comment c, user u where u.id=c.user_id and c.id = ?`,
 };
 
 const MENTION = {
