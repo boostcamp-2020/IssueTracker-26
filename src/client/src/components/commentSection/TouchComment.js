@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import theme from '../Theme';
 import testImg from '../../../public/images/test.svg';
 import {
@@ -8,18 +8,29 @@ import {
   InputHeader,
   InputBody,
   SubmitLayer,
-  Textarea,
   Button,
 } from './Style';
+import Textarea from '../Textarea';
+import IssueDetailContext from '../Context/IssueDetailContext';
+import UserContext from '../Context/UserContext';
+import IssueDetailAction from '../IssueDetail/action';
 
 function TouchComment() {
+  const { state: user } = useContext(UserContext);
+  const { state, dispatch } = useContext(IssueDetailContext);
+  const { issue } = state;
   const [textArea, setTextArea] = useState('');
   const [buttonState, setButtonState] = useState(false);
 
   const handleSubmit = () => {
-    if (buttonState) {
-      console.log('hi');
-    }
+    dispatch({
+      type: IssueDetailAction.CREATE_COMMENT,
+      user,
+      content: textArea,
+      dispatch,
+    });
+    setTextArea('');
+    setButtonState(false);
   };
   const handleTextArea = ({ target }) => {
     setTextArea(target.value);
@@ -41,12 +52,10 @@ function TouchComment() {
         </InputHeader>
         <InputBody>
           <Textarea
-            height="150px"
-            bgColor={theme.Color.lightGrayBackground}
-            borderColor={theme.Color.border}
-            placeholder="Leave a comment"
-            onChange={handleTextArea}
-          ></Textarea>
+            value={textArea}
+            handleInput={handleTextArea}
+            height={150}
+          />
           <SubmitLayer>
             <Button
               bgColor="white"
@@ -54,15 +63,22 @@ function TouchComment() {
               borderColor={theme.Color.border}
               hoverColor="#eaebec"
               canSubmit={true}
+              onClick={() =>
+                dispatch({
+                  type: IssueDetailAction.CHANGE_ISSUE_STATE,
+                  dispatch,
+                  state: issue.state ? 'Close' : 'Open',
+                })
+              }
             >
-              Close issue
+              {issue.state ? 'Close' : 'Open'} issue
             </Button>
             <Button
               bgColor={theme.Color.button}
               fontColor="white"
               borderColor={theme.Color.border}
               hoverColor={theme.Color.buttonHover}
-              onClick={handleSubmit}
+              onClick={buttonState ? handleSubmit : null}
               canSubmit={buttonState}
             >
               Comment
