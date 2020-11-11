@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { TransferTime } from '../../util/time';
 import OpenIssue from '../../../public/images/open-issue.svg';
 import CloseIssue from '../../../public/images/close-issue.svg';
@@ -108,12 +109,14 @@ function IssueContent(props) {
       </div>
       <TitleDiv>
         <div>
-          {issue.state === 1 ? (
-            <ImgStyled src={OpenIssue} />
-          ) : (
-            <ImgStyled src={CloseIssue} />
-          )}
-          <TitleSpan>{issue.title}</TitleSpan>
+          <Link to={`/issue/${issue.id}`}>
+            {issue.state === 1 ? (
+              <ImgStyled src={OpenIssue} />
+            ) : (
+              <ImgStyled src={CloseIssue} />
+            )}
+            <TitleSpan>{issue.title}</TitleSpan>
+          </Link>
           {issue.label.map((label, indexs) => (
             <LabelSpan key={indexs} color={label.color}>
               {label.title}
