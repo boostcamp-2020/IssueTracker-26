@@ -2,10 +2,9 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import Textarea from '../Textarea';
-import InputComponent from '../input/InputComponent';
 import Button from '../Button';
 import Http from '../../util/http-common';
+import MilestoneForm from './MilestoneForm';
 
 const MilestoneContainer = styled.div`
   max-width: 100%;
@@ -25,17 +24,6 @@ const HeaderDiv = styled.div`
   padding-top: 100px;
   * {
     margin: 1em 0em;
-  }
-`;
-
-const StyledFrom = styled.div`
-  margin: 1em 0em;
-  h3 {
-    margin-top: 1em;
-    margin-bottom: 0.5em;
-  }
-  textarea {
-    margin-bottom: 1em;
   }
 `;
 
@@ -72,29 +60,7 @@ function MilestoneSection() {
           </a>
         </h5>
       </HeaderDiv>
-      <StyledFrom>
-        <hr />
-        <h3>Title</h3>
-        <InputComponent
-          width={'400px'}
-          placeholder={'Title'}
-          value={milestone.title}
-          onChange={changeMilstone('title')}
-        />
-        <h3>Due date (optional)</h3>
-        <InputComponent
-          width={'400px'}
-          type={'date'}
-          value={milestone.dueDate}
-          onChange={changeMilstone('dueDate')}
-        />
-        <h3>Description (optional)</h3>
-        <Textarea
-          value={milestone.description}
-          handleInput={changeMilstone('description')}
-        />
-        <hr />
-      </StyledFrom>
+      <MilestoneForm milestone={milestone} changeMilstone={changeMilstone} />
       <div>
         <Button width={'150px'} height={'35px'} handler={createMilestone}>
           Create milestone
