@@ -14,6 +14,9 @@ const Header = styled.div`
   align-items: center;
   padding-top: 100px;
   margin-bottom: -10px;
+  div {
+    padding: 2em 0em;
+  }
   div:first-child {
     width: 100%;
   }

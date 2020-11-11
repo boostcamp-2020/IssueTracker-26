@@ -62,10 +62,26 @@ const milestoneService = (model) => {
         return undefined;
       }
     },
+    async stateChange(state, id) {
+      try {
+        const milestone = await this.model.stateChange(state ? 0 : 1, id);
+        return milestone;
+      } catch (e) {
+        return undefined;
+      }
+    },
     async getMilestoneRatio(id) {
       try {
         const ratio = await this.model.getMilestoneRatio(id);
         return ratio;
+      } catch (e) {
+        return undefined;
+      }
+    },
+    async getMilestoneWithRatio() {
+      try {
+        const milestone = await this.model.getMilestoneWithRatio();
+        return milestone;
       } catch (e) {
         return undefined;
       }

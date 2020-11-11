@@ -52,10 +52,24 @@ const milestoneController = (service) => {
       if (list) return res.status(200).json(list);
       return res.status(404).end();
     },
+    async stateChange(req, res) {
+      const id = parseInt(req.params.id, 10);
+      const { state } = req.body;
+      if (Number.isNaN(id)) return res.status(400).end();
+
+      const milestone = await this.service.stateChange(state, id);
+      if (milestone) return res.status(200).json(milestone);
+      return res.status(500).end();
+    },
     async getMilestoneRatio(req, res) {
       const { id } = req.params;
       const ratio = await this.service.getMilestoneRatio(id);
       if (ratio) return res.status(200).json(ratio);
+      return res.status(404).end();
+    },
+    async getMilestoneWithRatio(req, res) {
+      const milestone = await this.service.getMilestoneWithRatio();
+      if (milestone) return res.status(200).json(milestone);
       return res.status(404).end();
     },
   };

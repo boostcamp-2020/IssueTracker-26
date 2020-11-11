@@ -71,10 +71,28 @@ const getMilestoneAll = async () => {
   }
 };
 
+const stateChange = async (state, id) => {
+  try {
+    const [milestone] = await pool.execute(MILESTONE.CHANGE_STATE, [state, id]);
+    return milestone;
+  } catch (e) {
+    return undefined;
+  }
+};
+
 const getMilestoneRatio = async (id) => {
   try {
     const [list] = await pool.execute(MILESTONE.GETRATIO, [id, id, id]);
     return list[0];
+  } catch (e) {
+    return undefined;
+  }
+};
+
+const getMilestoneWithRatio = async () => {
+  try {
+    const [list] = await pool.execute(MILESTONE.GET_MILESTONE_LIST_WITH_RATIO);
+    return list;
   } catch (e) {
     return undefined;
   }
@@ -88,5 +106,7 @@ module.exports = {
   getIssueListByMilestoneId,
   getMilestoneTotal,
   getMilestoneAll,
+  stateChange,
   getMilestoneRatio,
+  getMilestoneWithRatio,
 };

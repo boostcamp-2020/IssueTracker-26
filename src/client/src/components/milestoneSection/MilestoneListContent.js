@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import calendarImg from '../../../public/images/calendar.svg';
 import { getFormatDate } from '../../util/time';
+import Http from '../../util/http-common';
 
 const ContentDiv = styled.div`
   display: flex;
@@ -74,11 +75,30 @@ const ControlDiv = styled.div`
   }
 `;
 
-function MilestoneListContent(props) {
-  const { milestones, setMilestones, isOpenView } = props;
+const DivBar = styled.div`
+  background: #e1e4e8;
+  height: 8px;
+  border-radius: 10px;
+`;
 
-  const getIssueStatus = (milestone) => {
-    console.log(milestone);
+const DivInBar = styled.div`
+  background: #28a745;
+  height: 8px;
+  width: ${(props) => Math.round(props.width)}% !important;
+  border-radius: 10px;
+`;
+
+function MilestoneListContent(props) {
+  const { milestones, isOpenView, fetchAllData } = props;
+
+  const changeState = (id, state) => {
+    fetch(`${Http}api/milestone/state/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ state }),
+    })
+      .then((res) => res.json())
+      .then(() => fetchAllData());
   };
 
   const milestoneRows = milestones.map((milestone, index) => (
@@ -86,10 +106,10 @@ function MilestoneListContent(props) {
       <LeftDiv>
         <h3>{milestone.title}</h3>
         <div>
-          {milestone.duedate ? (
+          {milestone.dueDate ? (
             <div>
               <img src={calendarImg} />
-              Due by {getFormatDate(new Date(milestone.duedate))}
+              Due by {getFormatDate(new Date(milestone.dueDate))}
             </div>
           ) : (
             <br></br>
@@ -98,15 +118,25 @@ function MilestoneListContent(props) {
         <div>{milestone.description || <br></br>}</div>
       </LeftDiv>
       <RightDiv>
-        <div>progress bar</div>
+        <DivBar>
+          <DivInBar width={Math.round(milestone.ratio)}></DivInBar>
+        </DivBar>
         <StatusDiv>
-          <span>33% complete</span>
-          <span>2 open</span>
-          <span>1 closed</span>
+          <span>{Math.round(milestone.ratio) || 0}% complete</span>
+          <span>{milestone.total - milestone.close} open</span>
+          <span>{milestone.total} closed</span>
         </StatusDiv>
         <ControlDiv>
           <Link to={'/milestone-edit'}>Edit</Link>
-          {isOpenView ? <span>Close</span> : <span>Reopen</span>}
+          {isOpenView ? (
+            <span onClick={() => changeState(milestone.id, milestone.state)}>
+              Close
+            </span>
+          ) : (
+            <span onClick={() => changeState(milestone.id, milestone.state)}>
+              Reopen
+            </span>
+          )}
           <span>Delete</span>
         </ControlDiv>
       </RightDiv>
@@ -118,7 +148,8 @@ function MilestoneListContent(props) {
 
 MilestoneListContent.propTypes = {
   milestones: PropTypes.array,
-  setMilestones: PropTypes.func,
+  isOpenView: PropTypes.bool,
+  fetchAllData: PropTypes.func,
 };
 
 export default MilestoneListContent;

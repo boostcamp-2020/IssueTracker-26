@@ -26,11 +26,13 @@ const MILESTONE = {
   },
   DELETE: `delete from milestone where id=?`,
   GET_MILESTONE_LIST: `select id, title, duedate, description, state from milestone`,
-  // GET_ISSUE_LIST_BY_MILESTONE_ID: `select i.id, i.title, i.content, i.user_id, u.username, i.createdat, i.milestone_id from issue i left join user u on i.user_id=u.id where i.milestone_id=?`,
   GET_ISSUE_LIST_BY_MILESTONE_ID: `select i.id, i.state, i.milestone_id from issue i left join user u on i.user_id=u.id where i.milestone_id=?`,
   GETTOTAL: `select count(*) as count from milestone`,
+  CHANGE_STATE: `update milestone set state = ? where id = ?`,
   GETRATIO: `select *, (select count(*) from issue i, milestone m where i.milestone_id = m.id and m.id=? and i.state = 0) / 
   (select count(*) from issue i, milestone m where i.milestone_id = m.id and m.id=?) * 100 as ratio from milestone where id = ?;`,
+  GET_MILESTONE_LIST_WITH_RATIO: `select a.id, a.state, a.title, a.dueDate, a.description, close/total*100 as ratio, close, total from (select m.id, m.state, m.title, m.dueDate, m.description, count(i.id) as close from milestone m left join issue i on i.milestone_id = m.id and i.state=0 group by m.id) a left join
+  (select m.id, count(i.id)as total from milestone m left join issue i on i.milestone_id = m.id group by m.id) b on a.id=b.id`,
 };
 
 const ISSUE = {
