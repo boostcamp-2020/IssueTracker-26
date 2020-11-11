@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import IssueHeader from './IssueHeader';
 import IssueList from './IssueList';
 import Http from '../../util/http-common';
+import ClearImg from '../../../public/images/clear.png';
+import ClearHoverImg from '../../../public/images/clearHover.png';
 
 const IssueContainer = styled.div`
   max-width: 100%;
@@ -11,15 +13,25 @@ const IssueContainer = styled.div`
 `;
 
 const ClearDiv = styled.div`
+  display: flex;
+  align-items: center;
   margin-top: -20px;
   margin-bottom: 15px;
   font-size: 0.9rem;
   font-weight: bold;
   color: #586069;
   &:hover {
+    img {
+      content: url(${ClearHoverImg});
+    }
     cursor: pointer;
     color: #0366d6;
   }
+`;
+
+const ClearImgStyped = styled.img`
+  margin-right: 6px;
+  margin-top: 3px;
 `;
 
 function IssueSection() {
@@ -67,6 +79,7 @@ function IssueSection() {
       />
       {searchVal !== 'is:issue is:open' ? (
         <ClearDiv onClick={handleClearFilter}>
+          <ClearImgStyped src={ClearImg} />
           <span>Clear current search query, filters, and sorts</span>
         </ClearDiv>
       ) : (

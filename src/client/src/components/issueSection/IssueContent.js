@@ -121,6 +121,27 @@ const LodingDivStyled = styled.div`
   margin: 30px 0;
 `;
 
+const NoContentDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  margin: 50px 0;
+
+  span {
+    margin: 20px 0;
+    font-weight: bold;
+    font-size: 1.3rem;
+  }
+`;
+
+const NoContentImg = styled.img`
+  filter: invert(72%) sepia(3%) saturate(797%) hue-rotate(169deg)
+    brightness(94%) contrast(89%);
+  width: 50px;
+`;
+
 function IssueContent(props) {
   const { issueList, checkList, handleSingleCheck, listState } = props;
   const list = issueList.map((issue, index) => (
@@ -190,7 +211,17 @@ function IssueContent(props) {
   return (
     <div>
       {listState ? (
-        list
+        (() => {
+          if (list.length === 0)
+            return (
+              <NoContentDiv>
+                <NoContentImg src={OpenIssue} />
+                <span>No results matched your search</span>
+              </NoContentDiv>
+            );
+          if (list.length > 0) return list;
+          return '';
+        })()
       ) : (
         <LodingDivStyled>
           <ReactLoading
