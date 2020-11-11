@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import theme from '../Theme';
-import sharedStyle from '../SharedStyle';
 
 const InputContainer = styled.div`
   display: flex;
@@ -78,18 +77,7 @@ const InputBody = styled.div`
 const SubmitLayer = styled.div`
   float: right;
 `;
-const Textarea = styled.textarea`
-  display: block;
-  width: 100%;
-  background-color: ${(props) => props.bgColor};
-  height: ${(props) => props.height};
-  border: 1px solid ${(props) => props.borderColor};
-  outline: none;
-  border-radius: 5px;
-  padding: 8px;
-  margin-bottom: 10px;
-  ${sharedStyle.inputOutlineStyle}
-`;
+
 const Button = styled.button`
   opacity: ${(props) => !props.canSubmit && 0.5};
   color: ${(props) => props.fontColor};
@@ -115,6 +103,5 @@ export {
   InputHeader,
   InputBody,
   SubmitLayer,
-  Textarea,
   Button,
 };
