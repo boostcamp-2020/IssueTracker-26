@@ -44,7 +44,7 @@ const ISSUE = {
   GETISSUEDETAIL: `select i.id, i.title, i.content, i.user_id, u.username, u.profile, i.state, i.createdat, i.milestone_id, m.title as milestonename 
   from issue i left join user u on i.user_id=u.id left join milestone m on i.milestone_id=m.id where i.id = ?`,
 
-  GETISSUECOMMENT: `select c.id, c.content, c.createdat, u.id as user_id, u.username from comment c, user u where u.id=c.user_id and c.issue_id = ?`,
+  GETISSUECOMMENT: `select c.id, c.content, c.createdat, u.id as user_id, u.username, u.profile from comment c, user u where u.id=c.user_id and c.issue_id = ?`,
 
   GETMILESTONE: `select m.id, m.title, (select count(*) from issue where milestone_id = (select milestone_id from issue where id = ?) and state = 1) / count(*) as ratio from issue i, milestone m 
   where milestone_id = (select milestone_id from issue where id = ?) and i.milestone_id=m.id group by m.id`,
