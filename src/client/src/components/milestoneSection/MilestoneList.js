@@ -6,6 +6,7 @@ import Http from '../../util/http-common';
 
 const ContainerDiv = styled.div`
   width: 100%;
+  margin-bottom: 80px;
   border: ${(props) => props.theme.Color.border} 1px solid;
   border-radius: 10px;
 `;
