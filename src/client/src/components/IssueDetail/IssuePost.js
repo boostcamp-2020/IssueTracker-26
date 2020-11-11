@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import Shared from '../shared/sharedComponents';
+import IssueForm from './IssuePostForm';
+import IssueDetailContext from '../Context/IssueDetailContext';
+import UserContext from '../Context/UserContext';
+import IssueDetailAction from './action';
 
 const Container = styled.div`
   display: flex;
@@ -25,6 +29,7 @@ const Content = styled.div`
   border: 1px solid #dfdfdf;
 `;
 const Title = styled.div`
+  background-color: ${(props) => (props.owner ? '#EBF5FF' : 'white')};
   display: flex;
   padding: 0 1rem;
   height: 60px;
@@ -83,32 +88,53 @@ const Arrow = styled.div`
   left: -8px;
   height: 16px;
   width: 16px;
-  background-color: white;
+  background-color: ${(props) => (props.owner ? '#EBF5FF' : 'white')};
   border-left: 1px solid #dfdfdf;
   border-bottom: 1px solid #dfdfdf;
   transform: rotate(45deg);
 `;
 
-function IssuePost({ image }) {
-  return (
+function IssuePost({ author, image, content, username, time, textAreaVal }) {
+  const { dispatch } = useContext(IssueDetailContext);
+  const { state: user } = useContext(UserContext);
+  const isOwner = author === user.userId;
+  const [isContentEdit, setContentEdit] = useState(false);
+  const [textarea, setTextarea] = useState(textAreaVal);
+  return isContentEdit ? (
+    <IssueForm
+      setContentEdit={() => setContentEdit(false)}
+      textAreaVal={textarea}
+      handleTextArea={setTextarea}
+      handlerForm={() => {
+        dispatch({
+          type: IssueDetailAction.UPDATE_ISSUE_CONTENT,
+          content: textarea,
+          dispatch,
+        });
+        setContentEdit(false);
+      }}
+    />
+  ) : (
     <Container>
       <Profile>
         <img src={image} />
       </Profile>
       <Content>
-        <Title>
-          <Arrow />
+        <Title owner={isOwner}>
+          <Arrow owner={isOwner} />
           <Author>
-            <Bold>sejungKim</Bold>
-            <Shared.Span>commented 3 days ago</Shared.Span>
+            <Bold>{username}</Bold>
+            <Shared.Span>commented {time}</Shared.Span>
           </Author>
-          <Controller>
-            <Owner>Owner</Owner>
-            <EditButton>Edit</EditButton>
-          </Controller>
+          {isOwner ? (
+            <Controller>
+              <Owner>Owner</Owner>
+              <EditButton onClick={() => setContentEdit(true)}>Edit</EditButton>
+            </Controller>
+          ) : null}
         </Title>
         <Body>
-          <Pre>레이블 전체 목록을 볼 수 있어야 한다. 줄 까지 보입니다.</Pre>
+          <Pre>{content}</Pre>
         </Body>
       </Content>
     </Container>
@@ -116,7 +142,12 @@ function IssuePost({ image }) {
 }
 
 IssuePost.propTypes = {
+  author: PropTypes.number.isRequired,
   image: PropTypes.string,
+  content: PropTypes.string,
+  username: PropTypes.string,
+  time: PropTypes.string,
+  textAreaVal: PropTypes.string,
 };
 
 export default IssuePost;
