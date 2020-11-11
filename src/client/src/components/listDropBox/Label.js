@@ -139,7 +139,7 @@ function Label({
             <StyleLi
               key={index}
               width={width}
-              onClick={() => handleLabelMenu(label)}
+              onClick={() => handleLabelMenu(label, 'Label')}
             >
               <StyleDiv>
                 <StyleSubDiv>

@@ -2,11 +2,13 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import ReactLoading from 'react-loading';
 import { TransferTime } from '../../util/time';
 import OpenIssue from '../../../public/images/open-issue.svg';
 import CloseIssue from '../../../public/images/close-issue.svg';
 import MilestoneImg from '../../../public/images/issue-milestone.svg';
 import CommentImg from '../../../public/images/comment.svg';
+import ProfileImg from '../../../public/images/user.png';
 
 const ImgStyled = styled.img`
   vertical-align: middle;
@@ -92,12 +94,35 @@ const CommentImgStyled = styled.img`
 
 const CommentSpan = styled.span`
   color: #586069;
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   font-weight: bold;
+  margin-left: 2px;
+`;
+
+const ProfileSpanStyled = styled.span`
+  &:hover {
+    img {
+      margin-left: 1px;
+      margin-right: 1px;
+    }
+  }
+`;
+
+const ProfileImgStyled = styled.img`
+  margin-right: -5px;
+  margin-left: -5px;
+  width: 20px;
+  border-radius: 10px;
+`;
+
+const LodingDivStyled = styled.div`
+  display: flex;
+  justify-content: center;
+  margin: 30px 0;
 `;
 
 function IssueContent(props) {
-  const { issueList, checkList, handleSingleCheck } = props;
+  const { issueList, checkList, handleSingleCheck, listState } = props;
   const list = issueList.map((issue, index) => (
     <ContentDiv key={index}>
       <div>
@@ -140,9 +165,15 @@ function IssueContent(props) {
       <div></div>
       <div></div>
       <div>
-        {issue.assignee.map((assignee, aIndex) => (
-          <span key={aIndex}>{assignee.username}</span>
-        ))}
+        <ProfileSpanStyled>
+          {issue.assignee.map((assignee, aIndex) =>
+            assignee.profile ? (
+              <ProfileImgStyled key={aIndex} src={assignee.profile} />
+            ) : (
+              <ProfileImgStyled key={aIndex} src={ProfileImg} />
+            ),
+          )}
+        </ProfileSpanStyled>
       </div>
       <div>
         {(() => {
@@ -156,13 +187,29 @@ function IssueContent(props) {
     </ContentDiv>
   ));
 
-  return <div>{list}</div>;
+  return (
+    <div>
+      {listState ? (
+        list
+      ) : (
+        <LodingDivStyled>
+          <ReactLoading
+            type={'spokes'}
+            color={'#586069'}
+            height={'70px'}
+            width={'70px'}
+          />
+        </LodingDivStyled>
+      )}
+    </div>
+  );
 }
 
 IssueContent.propTypes = {
   issueList: PropTypes.array,
   checkList: PropTypes.array,
   handleSingleCheck: PropTypes.func,
+  listState: PropTypes.bool,
 };
 
 export default IssueContent;

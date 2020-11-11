@@ -25,6 +25,7 @@ function IssueHeader({
   setSelectFilter,
   searchVal,
   setSearchVal,
+  setListState,
 }) {
   const [issueCount, setIssueCount] = useState([]);
   const [milestoneCount, setMilestoneCount] = useState([]);
@@ -58,6 +59,7 @@ function IssueHeader({
           setSelectFilter={setSelectFilter}
           setSearchVal={setSearchVal}
           searchVal={searchVal}
+          setListState={setListState}
         />
       </div>
       <div>
@@ -83,6 +85,7 @@ IssueHeader.propTypes = {
   setSelectFilter: PropTypes.func,
   setSearchVal: PropTypes.func,
   searchVal: PropTypes.string,
+  setListState: PropTypes.func,
 };
 
 export default IssueHeader;

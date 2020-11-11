@@ -19,6 +19,10 @@ function IssueList(props) {
     headerCheck,
     setHeaderCheck,
     selectFilter,
+    listState,
+    searchVal,
+    setSearchVal,
+    setListState,
   } = props;
 
   const handleAllCheck = () => {
@@ -64,11 +68,15 @@ function IssueList(props) {
         setChecked={setChecked}
         setHeaderCheck={setHeaderCheck}
         selectFilter={selectFilter}
+        searchVal={searchVal}
+        setSearchVal={setSearchVal}
+        setListState={setListState}
       />
       <IssueListContent
         issueList={issueList}
         checkList={checkList}
         handleSingleCheck={handleSingleCheck}
+        listState={listState}
       />
     </ContainerDiv>
   );
@@ -82,6 +90,10 @@ IssueList.propTypes = {
   headerCheck: PropTypes.object,
   setHeaderCheck: PropTypes.func,
   selectFilter: PropTypes.string,
+  listState: PropTypes.bool,
+  setSearchVal: PropTypes.func,
+  searchVal: PropTypes.string,
+  setListState: PropTypes.func,
 };
 
 export default IssueList;

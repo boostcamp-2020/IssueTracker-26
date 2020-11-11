@@ -225,6 +225,15 @@ const getIssueListByAll = async () => {
   }
 };
 
+const getIssueAllList = async () => {
+  try {
+    const [issueList] = await pool.execute(ISSUE.GETISSUEALLLIST, []);
+    return issueList;
+  } catch (err) {
+    return undefined;
+  }
+};
+
 module.exports = {
   getIssueList,
   getIssueLabel,
@@ -249,4 +258,5 @@ module.exports = {
   getIssueListByComment,
   getIssueListByClose,
   getIssueListByAll,
+  getIssueAllList,
 };

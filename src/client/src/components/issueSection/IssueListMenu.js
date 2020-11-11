@@ -9,6 +9,7 @@ import Author from '../listDropBox/Author';
 import Label from '../listDropBox/Label';
 import Assignee from '../listDropBox/Assignee';
 import Milstone from '../listDropBox/Milstone';
+import Filter from '../../util/filter';
 
 const ContentDiv = styled.div`
   display: flex;
@@ -73,6 +74,9 @@ function IssueListMenu({
   setChecked,
   setHeaderCheck,
   selectFilter,
+  searchVal,
+  setSearchVal,
+  setListState,
 }) {
   const MENU = ['Author', 'Label', 'Milstones', 'Assignee', 'Mark as'];
   const { state } = useContext(UserContext);
@@ -91,7 +95,6 @@ function IssueListMenu({
 
   const handleMarkMenu = (e) => {
     const selected = e.target.innerText;
-
     const promiseList = issueList.map((issue, index) => {
       if (checkList[index]) {
         return fetch(`${Http}api/issue/state/${issue.id}`, {
@@ -120,26 +123,56 @@ function IssueListMenu({
     setdropMenuList(MENU.map(() => false));
   };
 
-  const handleAuthorMenu = (e) => {
-    const { id } = e.target.childNodes[2].dataset;
-    console.lopg(id, '클릭');
+  const handleMenu = (val, type) => {
+    console.log(val, type);
+    fetch(`${Http}api/issue/all`)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data)
+        let searchResult;
+        switch (type) {
+          case 'Author': {
+            const searchArr = searchVal.split(' ');
+            const result = searchArr.filter((info) => !info.includes('author'));
+            searchResult = `${result.join(' ')} author:${val.userName}`;
+            setSearchVal(searchResult);
+            break;
+          }
+          case 'Label': {
+            const searchArr = searchVal.split(' ');
+            const result = searchArr.filter(
+              (info) => !info.includes(val.title),
+            );
+            searchResult = `${result.join(' ')} label:${val.title}`;
+            setSearchVal(searchResult);
+            break;
+          }
+          default:
+            break;
+        }
+        setListState(false);
+        setTimeout(() => {
+          setListState(true);
+          setIssueList(Filter(data, searchResult));
+        }, 1000);
+      });
     setdropMenuList(MENU.map(() => false));
   };
 
-  const handleLabelMenu = () => {
-    console.log('라벨클릭!');
-    setdropMenuList(MENU.map(() => false));
-  };
+  // const handleLabelMenu = () => {
+  //   console.log('라벨클릭!');
+  //   setdropMenuList(MENU.map(() => false));
+  // };
 
-  const handleAssigneeMenu = () => {
-    console.log('어사인 클릭!');
-    setdropMenuList(MENU.map(() => false));
-  };
+  // const handleAssigneeMenu = () => {
+  //   console.log('어사인 클릭!');
+  //   setdropMenuList(MENU.map(() => false));
+  // };
 
-  const handleMilstonsMenu = () => {
-    console.log('마일스톤 클릭!');
-    setdropMenuList(MENU.map(() => false));
-  };
+  // const handleMilstonsMenu = () => {
+  //   console.log('마일스톤 클릭!');
+  //   setdropMenuList(MENU.map(() => false));
+  // };
 
   return (
     <ContentDiv>
@@ -166,7 +199,7 @@ function IssueListMenu({
             {dropMenuList[MENU.indexOf('Author')] && (
               <Author
                 handleCloseMenu={handleCloseMenu}
-                handleAuthorMenu={handleAuthorMenu}
+                handleAuthorMenu={handleMenu}
                 right={0}
               ></Author>
             )}
@@ -178,7 +211,7 @@ function IssueListMenu({
             {dropMenuList[MENU.indexOf('Label')] && (
               <Label
                 handleCloseMenu={handleCloseMenu}
-                handleLabelMenu={handleLabelMenu}
+                handleLabelMenu={handleMenu}
                 right={0}
               ></Label>
             )}
@@ -190,7 +223,7 @@ function IssueListMenu({
             {dropMenuList[MENU.indexOf('Milstones')] && (
               <Milstone
                 handleCloseMenu={handleCloseMenu}
-                handleMilstonsMenu={handleMilstonsMenu}
+                handleMilstonsMenu={handleMenu}
                 right={0}
               ></Milstone>
             )}
@@ -202,7 +235,7 @@ function IssueListMenu({
             {dropMenuList[MENU.indexOf('Assignee')] && (
               <Assignee
                 handleCloseMenu={handleCloseMenu}
-                handleAssigneeMenu={handleAssigneeMenu}
+                handleAssigneeMenu={handleMenu}
                 right={0}
               ></Assignee>
             )}
@@ -247,6 +280,9 @@ IssueListMenu.propTypes = {
   setChecked: PropTypes.func,
   setHeaderCheck: PropTypes.func,
   selectFilter: PropTypes.string,
+  searchVal: PropTypes.string,
+  setSearchVal: PropTypes.func,
+  setListState: PropTypes.func,
 };
 
 export default IssueListMenu;
