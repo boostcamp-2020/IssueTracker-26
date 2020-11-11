@@ -12,6 +12,7 @@ const inputOutlineStyle = css`
 
 const InputImgFileContainer = styled.div`
   margin-top: -6px;
+  margin-bottom: 10px;
   border: 1px solid #e1e4e8;
   border-top: 1px dotted #e1e4e8;
   border-bottom-left-radius: 5px;
