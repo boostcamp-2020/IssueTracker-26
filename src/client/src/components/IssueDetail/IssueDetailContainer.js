@@ -2,7 +2,7 @@ import React, { useReducer } from 'react';
 import PropTypes from 'prop-types';
 import IssueDetailPresenter from './IssueDetailPresenter';
 import IssueDetailReducer from './reducer';
-import TransferTime from '../../util/time';
+import { TransferTime } from '../../util/time';
 import IssueDetailContext from '../Context/IssueDetailContext';
 
 function IssueDetailContainer({ issue }) {
