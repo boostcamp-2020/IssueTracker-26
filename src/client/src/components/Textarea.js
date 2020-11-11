@@ -63,8 +63,8 @@ function TextareaComponent({
         height={height}
         placeholder={placeholder}
         onChange={handleInput}
-        onFocus={() => handleFocus(true)}
-        onBlur={() => handleFocus(false)}
+        onFocus={() => handleFocus && handleFocus(true)}
+        onBlur={() => handleFocus && handleFocus(false)}
         onDrop={handleFiles}
         value={value}
       ></TextArea>
