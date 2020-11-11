@@ -6,13 +6,15 @@ import commentAPI from '../../util/api/comment';
 function changeIssueState(state, action) {
   const { issue } = state;
   const { state: issueState, dispatch } = action;
-  issueAPI.changeIssueState(issue.id, issueState).then((status) => {
-    if (status === 200)
-      dispatch({
-        type: IssueDetailAction.SET_ISSUE_STATE,
-        issueState,
-      });
-  });
+  issueAPI
+    .changeIssueState(issue.id, issueState ? 'Open' : 'Close')
+    .then((status) => {
+      if (status === 200)
+        dispatch({
+          type: IssueDetailAction.SET_ISSUE_STATE,
+          issueState,
+        });
+    });
   return state;
 }
 

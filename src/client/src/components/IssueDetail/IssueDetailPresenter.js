@@ -14,8 +14,11 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 600px;
+  min-height: 1248px;
+  max-width: 1248px;
   width: 100%;
-  padding: 10rem 15% 5rem 15%;
+  padding: 10rem 0 5rem 0;
+  margin: 0 auto;
 `;
 const Header = styled.div`
   display: flex;
@@ -84,10 +87,11 @@ const Body = styled.div`
   flex: 5;
 `;
 const Content = styled.div`
-  flex: 3;
+  flex-grow: 1;
+  max-width: 830px;
 `;
 const Side = styled.div`
-  flex: 1;
+  flex-basis: 312px;
 `;
 
 const Bold = styled(Shared.Span)`

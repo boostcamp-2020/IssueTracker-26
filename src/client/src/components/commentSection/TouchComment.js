@@ -67,7 +67,7 @@ function TouchComment() {
                 dispatch({
                   type: IssueDetailAction.CHANGE_ISSUE_STATE,
                   dispatch,
-                  state: issue.state ? 'Close' : 'Open',
+                  state: issue.state ? 0 : 1,
                 })
               }
             >
