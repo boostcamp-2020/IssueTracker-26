@@ -1,12 +1,29 @@
 import IssueDetailAction from './action';
 import issueAPI from '../../util/api/issue';
+import commentAPI from '../../util/api/comment';
 
 // Promise
-function updateIssueContent(state, action) {
+function updateCommentContent(state, action) {
   const { issue } = state;
-  const { content, dispatch } = action;
+  const { id: commentId, content, dispatch } = action;
   if (!content) return state;
-  issueAPI.updateIssueContent(issue.id, content).then((status) => {
+  commentAPI
+    .updateCommentContent({ commentId, issueId: issue.id, content })
+    .then((status) => {
+      if (status === 205)
+        dispatch({
+          type: IssueDetailAction.SET_COMMENT_CONTENT,
+          commentId,
+          content,
+        });
+    });
+  return state;
+}
+
+function updateIssueContent(state, action) {
+  const { id, content, dispatch } = action;
+  if (!content) return state;
+  issueAPI.updateIssueContent(id, content).then((status) => {
     if (status === 200)
       dispatch({ type: IssueDetailAction.SET_ISSUE_CONTENT, content });
   });
@@ -125,6 +142,19 @@ function applyIssueContent(state, action) {
   };
 }
 
+function applyCommentContent(state, action) {
+  const newComments = state.comment.map((data) => {
+    if (action.commentId === data.id) {
+      return { ...data, content: action.content };
+    }
+    return { ...data };
+  });
+  return {
+    ...state,
+    comment: newComments,
+  };
+}
+
 function reducer(state, action) {
   switch (action.type) {
     case IssueDetailAction.SET_MILESTONE:
@@ -147,6 +177,10 @@ function reducer(state, action) {
       return updateIssueContent(state, action);
     case IssueDetailAction.SET_ISSUE_CONTENT:
       return applyIssueContent(state, action);
+    case IssueDetailAction.UPDATE_COMMENT_CONTENT:
+      return updateCommentContent(state, action);
+    case IssueDetailAction.SET_COMMENT_CONTENT:
+      return applyCommentContent(state, action);
 
     default:
       return state;
