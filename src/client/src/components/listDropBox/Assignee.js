@@ -116,7 +116,7 @@ function Assignee({
             <StyleLi
               key={index}
               width={width}
-              onClick={() => handleAssigneeMenu(userInfo)}
+              onClick={() => handleAssigneeMenu(userInfo, 'Assignee')}
             >
               <img src={user.profile} />{' '}
               <span data-id={user.id}>{user.userName}</span>

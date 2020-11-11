@@ -23,6 +23,18 @@ const filter = (issueList, filterList) => {
         });
         return check;
       });
+    } else if (filterType === 'milestone') {
+      list = list.filter((issue) => filterData === issue.milestonename);
+    } else if (filterType === 'assignee') {
+      list = list.filter((issue) => {
+        let check = false;
+        issue.assignee.forEach((user) => {
+          if (user.username === filterData) {
+            check = true;
+          }
+        });
+        return check;
+      });
     }
   });
   return list;

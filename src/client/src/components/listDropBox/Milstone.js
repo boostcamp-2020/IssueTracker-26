@@ -114,7 +114,7 @@ function Milstone({
             <StyleLi
               key={index}
               width={width}
-              onClick={() => handleMilstonsMenu(milestone)}
+              onClick={() => handleMilstonsMenu(milestone, 'Milestone')}
             >
               <span data-id={milestone.id}>{milestone.title}</span>
             </StyleLi>

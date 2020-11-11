@@ -124,11 +124,9 @@ function IssueListMenu({
   };
 
   const handleMenu = (val, type) => {
-    console.log(val, type);
     fetch(`${Http}api/issue/all`)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data)
         let searchResult;
         switch (type) {
           case 'Author': {
@@ -147,6 +145,24 @@ function IssueListMenu({
             setSearchVal(searchResult);
             break;
           }
+          case 'Milestone': {
+            const searchArr = searchVal.split(' ');
+            const result = searchArr.filter(
+              (info) => !info.includes('milestone'),
+            );
+            searchResult = `${result.join(' ')} milestone:${val.title}`;
+            setSearchVal(searchResult);
+            break;
+          }
+          case 'Assignee': {
+            const searchArr = searchVal.split(' ');
+            const result = searchArr.filter(
+              (info) => !info.includes('assignee'),
+            );
+            searchResult = `${result.join(' ')} assignee:${val.userName}`;
+            setSearchVal(searchResult);
+            break;
+          }
           default:
             break;
         }
@@ -158,21 +174,6 @@ function IssueListMenu({
       });
     setdropMenuList(MENU.map(() => false));
   };
-
-  // const handleLabelMenu = () => {
-  //   console.log('라벨클릭!');
-  //   setdropMenuList(MENU.map(() => false));
-  // };
-
-  // const handleAssigneeMenu = () => {
-  //   console.log('어사인 클릭!');
-  //   setdropMenuList(MENU.map(() => false));
-  // };
-
-  // const handleMilstonsMenu = () => {
-  //   console.log('마일스톤 클릭!');
-  //   setdropMenuList(MENU.map(() => false));
-  // };
 
   return (
     <ContentDiv>
@@ -218,7 +219,7 @@ function IssueListMenu({
           </div>
           <div>
             <span onClick={() => handleDropMenu('Milstones')}>
-              Milstones <img src={drop} />
+              Milestones <img src={drop} />
             </span>
             {dropMenuList[MENU.indexOf('Milstones')] && (
               <Milstone
