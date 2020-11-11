@@ -132,7 +132,7 @@ function IssueContent(props) {
                 return <MilestoneImgStyled src={MilestoneImg} />;
               return null;
             })()}
-            {issue.milestonename}
+            <Link to={'/milestone'}>{issue.milestonename}</Link>
           </span>
         </SubTitleDiv>
       </TitleDiv>
