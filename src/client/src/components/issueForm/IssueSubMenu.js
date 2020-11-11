@@ -8,6 +8,7 @@ import Label from '../listDropBox/Label';
 import Http from '../../util/http-common';
 import Milestone from '../listDropBox/Milstone';
 import UserContext from '../Context/UserContext';
+import userImg from '../../../public/images/user.png';
 
 const DivStyled = styled.div`
   flex-basis: 312px;
@@ -194,7 +195,7 @@ function IssueSubMenu({
       {
         id: state.userId,
         userName: state.userName,
-        profile: state.profile,
+        profile: state.profile || userImg,
       },
     ]);
   };
@@ -295,7 +296,9 @@ function IssueSubMenu({
           {selectMiliestone.title ? (
             <>
               <DivBar>
-                <DivInBar width={selectMiliestone.ratio}></DivInBar>
+                <DivInBar
+                  width={selectMiliestone.ratio ? selectMiliestone.ratio : 0}
+                ></DivInBar>
               </DivBar>
               <SpanStyled>{selectMiliestone.title}</SpanStyled>
             </>
