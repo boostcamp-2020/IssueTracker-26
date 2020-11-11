@@ -64,11 +64,11 @@ const createMentionLogic = async ({ content, issueId, commentId }) => {
 
 const create = async ({ content, userId, issueId }) => {
   try {
-    const commentId = await commentModel.create({ content, userId, issueId });
+    const comment = await commentModel.create({ content, userId, issueId });
 
-    await createMentionLogic({ content, issueId, commentId });
+    await createMentionLogic({ content, issueId, commendId: comment.id });
 
-    return commentId;
+    return comment;
   } catch (err) {
     return undefined;
   }

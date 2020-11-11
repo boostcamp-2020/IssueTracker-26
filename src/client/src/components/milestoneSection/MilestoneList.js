@@ -6,6 +6,7 @@ import Http from '../../util/http-common';
 
 const ContainerDiv = styled.div`
   width: 100%;
+  margin-bottom: 80px;
   border: ${(props) => props.theme.Color.border} 1px solid;
   border-radius: 10px;
 `;
@@ -17,10 +18,14 @@ function MilestoneList() {
   const getTypeMilestone = (type) =>
     milestones.filter((x) => (type ? x.state : !x.state));
 
-  useEffect(() => {
-    fetch(`${Http}api/milestone/`)
+  const fetchAllData = () => {
+    fetch(`${Http}api/milestone/ratio`)
       .then((res) => res.json())
-      .then((data) => setMilestones(data.milestones));
+      .then((data) => setMilestones(data));
+  };
+
+  useEffect(() => {
+    fetchAllData();
   }, []);
 
   return (
@@ -33,7 +38,7 @@ function MilestoneList() {
       <MilestoneListContent
         isOpenView={isOpenView}
         milestones={getTypeMilestone(isOpenView)}
-        setMilestones={setMilestones}
+        fetchAllData={fetchAllData}
       />
     </ContainerDiv>
   );

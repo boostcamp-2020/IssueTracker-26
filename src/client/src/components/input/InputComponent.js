@@ -15,7 +15,7 @@ const InputTag = styled.input`
     props.outlineColor === 'warning' ? SharedStyle.warningOutlineStyle : null}
   ${(props) =>
     props.outlineColor === 'default' ? SharedStyle.inputOutlineStyle : null}
-   ${(props) =>
+  ${(props) =>
     props.border === 'none'
       ? css`
           border: none;

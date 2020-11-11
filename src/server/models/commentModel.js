@@ -8,7 +8,8 @@ const create = async ({ content, userId, issueId }) => {
       userId,
       issueId,
     ]);
-    return insertId;
+    const [[comment]] = await pool.execute(COMMENT.GET_COMMENT, [insertId]);
+    return comment;
   } catch (err) {
     return undefined;
   }

@@ -26,11 +26,13 @@ const MILESTONE = {
   },
   DELETE: `delete from milestone where id=?`,
   GET_MILESTONE_LIST: `select id, title, duedate, description, state from milestone`,
-  // GET_ISSUE_LIST_BY_MILESTONE_ID: `select i.id, i.title, i.content, i.user_id, u.username, i.createdat, i.milestone_id from issue i left join user u on i.user_id=u.id where i.milestone_id=?`,
   GET_ISSUE_LIST_BY_MILESTONE_ID: `select i.id, i.state, i.milestone_id from issue i left join user u on i.user_id=u.id where i.milestone_id=?`,
   GETTOTAL: `select count(*) as count from milestone`,
+  CHANGE_STATE: `update milestone set state = ? where id = ?`,
   GETRATIO: `select *, (select count(*) from issue i, milestone m where i.milestone_id = m.id and m.id=? and i.state = 0) / 
   (select count(*) from issue i, milestone m where i.milestone_id = m.id and m.id=?) * 100 as ratio from milestone where id = ?;`,
+  GET_MILESTONE_LIST_WITH_RATIO: `select a.id, a.state, a.title, a.dueDate, a.description, close/total*100 as ratio, close, total from (select m.id, m.state, m.title, m.dueDate, m.description, count(i.id) as close from milestone m left join issue i on i.milestone_id = m.id and i.state=0 group by m.id) a left join
+  (select m.id, count(i.id)as total from milestone m left join issue i on i.milestone_id = m.id group by m.id) b on a.id=b.id`,
 };
 
 const ISSUE = {
@@ -44,7 +46,7 @@ const ISSUE = {
   GETISSUEDETAIL: `select i.id, i.title, i.content, i.user_id, u.username, u.profile, i.state, i.createdat, i.milestone_id, m.title as milestonename 
   from issue i left join user u on i.user_id=u.id left join milestone m on i.milestone_id=m.id where i.id = ?`,
 
-  GETISSUECOMMENT: `select c.id, c.content, c.createdat, u.id, u.username from comment c, user u where u.id=c.user_id and c.issue_id = ?`,
+  GETISSUECOMMENT: `select c.id, c.content, c.createdat, u.id as user_id, u.username, u.profile from comment c, user u where u.id=c.user_id and c.issue_id = ?`,
 
   GETMILESTONE: `select m.id, m.title, (select count(*) from issue where milestone_id = (select milestone_id from issue where id = ?) and state = 1) / count(*) as ratio from issue i, milestone m 
   where milestone_id = (select milestone_id from issue where id = ?) and i.milestone_id=m.id group by m.id`,
@@ -86,6 +88,9 @@ const ISSUE = {
 
   GETISSUELISTBYALL: `select i.id, i.title, i.state, i.content, i.user_id, u.username, i.createdat, i.milestone_id, m.title as milestonename, count(c.id) as commentCount 
   from issue i left join user u on i.user_id=u.id left join milestone m on i.milestone_id=m.id left join comment c on i.id=c.issue_id group by i.id`,
+
+  GETISSUEALLLIST: `select i.id, i.title, i.state, i.content, i.user_id, u.username, i.createdat, i.milestone_id, m.title as milestonename, count(c.id) as commentCount 
+  from issue i left join user u on i.user_id=u.id left join milestone m on i.milestone_id=m.id left join comment c on i.id=c.issue_id group by i.id`,
 };
 
 const COMMENT = {
@@ -93,6 +98,7 @@ const COMMENT = {
   READ: `select id, content, user_id, issue_id from comment where issue_id = ?`,
   REMOVE: `delete from comment where id=?`,
   UPDATE: `update comment set content = ? where id = ?`,
+  GET_COMMENT: `select c.id, c.content, c.createdat, u.id as user_id, u.username, u.profile from comment c, user u where u.id=c.user_id and c.id = ?`,
 };
 
 const MENTION = {

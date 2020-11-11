@@ -1,12 +1,61 @@
 import IssueDetailAction from './action';
 import issueAPI from '../../util/api/issue';
+import commentAPI from '../../util/api/comment';
 
 // Promise
-function updateIssueContent(state, action) {
+function changeIssueState(state, action) {
   const { issue } = state;
-  const { content, dispatch } = action;
+  const { state: issueState, dispatch } = action;
+  issueAPI
+    .changeIssueState(issue.id, issueState ? 'Open' : 'Close')
+    .then((status) => {
+      if (status === 200)
+        dispatch({
+          type: IssueDetailAction.SET_ISSUE_STATE,
+          issueState,
+        });
+    });
+  return state;
+}
+
+function createComment(state, action) {
+  const { issue } = state;
+  const { user, content, dispatch } = action;
+  if (!(user && content && issue)) return state;
+  commentAPI
+    .createComment({ issueId: issue.id, userId: user.userId, content })
+    .then(({ comment }) => {
+      if (comment) {
+        dispatch({
+          type: IssueDetailAction.ADD_COMMENT,
+          comment,
+        });
+      }
+    });
+  return state;
+}
+
+function updateCommentContent(state, action) {
+  const { issue } = state;
+  const { id: commentId, content, dispatch } = action;
   if (!content) return state;
-  issueAPI.updateIssueContent(issue.id, content).then((status) => {
+  commentAPI
+    .updateCommentContent({ commentId, issueId: issue.id, content })
+    .then((status) => {
+      if (status === 205)
+        dispatch({
+          type: IssueDetailAction.SET_COMMENT_CONTENT,
+          commentId,
+          content,
+        });
+    });
+  return state;
+}
+
+function updateIssueContent(state, action) {
+  const { id, content, dispatch } = action;
+  if (!content) return state;
+  issueAPI.updateIssueContent(id, content).then((status) => {
     if (status === 200)
       dispatch({ type: IssueDetailAction.SET_ISSUE_CONTENT, content });
   });
@@ -125,6 +174,38 @@ function applyIssueContent(state, action) {
   };
 }
 
+function applyCommentContent(state, action) {
+  const newComments = state.comment.map((data) => {
+    if (action.commentId === data.id) {
+      return { ...data, content: action.content };
+    }
+    return { ...data };
+  });
+  return {
+    ...state,
+    comment: newComments,
+  };
+}
+
+function applyComment(state, action) {
+  const { comment: newComment } = action;
+  return {
+    ...state,
+    comment: [...state.comment, newComment],
+  };
+}
+
+function applyIssueState(state, action) {
+  const { issueState } = action;
+  return {
+    ...state,
+    issue: {
+      ...state.issue,
+      state: issueState,
+    },
+  };
+}
+
 function reducer(state, action) {
   switch (action.type) {
     case IssueDetailAction.SET_MILESTONE:
@@ -147,7 +228,18 @@ function reducer(state, action) {
       return updateIssueContent(state, action);
     case IssueDetailAction.SET_ISSUE_CONTENT:
       return applyIssueContent(state, action);
-
+    case IssueDetailAction.UPDATE_COMMENT_CONTENT:
+      return updateCommentContent(state, action);
+    case IssueDetailAction.SET_COMMENT_CONTENT:
+      return applyCommentContent(state, action);
+    case IssueDetailAction.CREATE_COMMENT:
+      return createComment(state, action);
+    case IssueDetailAction.ADD_COMMENT:
+      return applyComment(state, action);
+    case IssueDetailAction.CHANGE_ISSUE_STATE:
+      return changeIssueState(state, action);
+    case IssueDetailAction.SET_ISSUE_STATE:
+      return applyIssueState(state, action);
     default:
       return state;
   }

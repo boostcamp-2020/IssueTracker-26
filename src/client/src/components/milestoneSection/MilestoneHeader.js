@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import LabelMilestoneButton from '../LabelMilestoneButton';
@@ -11,6 +10,9 @@ const HeaderDiv = styled.div`
   align-items: center;
   padding-top: 100px;
   margin-bottom: -10px;
+  div {
+    padding: 2em 0em;
+  }
   div:first-child {
     width: 100%;
   }

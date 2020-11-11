@@ -200,6 +200,30 @@ const getFilterIssueList = async (id, type) => {
     return undefined;
   }
 };
+const getIssueAllList = async () => {
+  try {
+    let issueList = await issueModel.getIssueAllList();
+    const promiseList = [];
+    issueList.forEach((issue) => {
+      const label = issueModel.getIssueLabel(issue.id);
+      const assignee = issueModel.getIssueAssignee(issue.id);
+      promiseList.push(label);
+      promiseList.push(assignee);
+    });
+
+    await Promise.all(promiseList).then((item) => {
+      let index = -2;
+      issueList = issueList.map((issue) => {
+        index += 2;
+        return { ...issue, label: item[index], assignee: item[index + 1] };
+      });
+    });
+
+    return issueList;
+  } catch (err) {
+    return undefined;
+  }
+};
 
 module.exports = {
   getIssueList,
@@ -212,4 +236,5 @@ module.exports = {
   labelsUpdate,
   milestoneUpdate,
   getFilterIssueList,
+  getIssueAllList,
 };

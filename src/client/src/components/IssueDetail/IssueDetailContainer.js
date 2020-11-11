@@ -15,10 +15,12 @@ function IssueDetailContainer({ issue }) {
     user_id: userId,
     state: issueState,
     createdat: createdAt,
+    comment,
     milestone,
     assignee,
     label: labelList,
   } = issue;
+
   const label = labelList.map(
     ({ labelid, title: labelTitle, description, color }) => ({
       id: labelid,
@@ -49,6 +51,7 @@ function IssueDetailContainer({ issue }) {
     },
     label,
     assignee,
+    comment,
     milestone: milestoneObj,
     input: {
       value: '',

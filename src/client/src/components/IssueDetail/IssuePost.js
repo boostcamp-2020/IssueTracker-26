@@ -94,9 +94,22 @@ const Arrow = styled.div`
   transform: rotate(45deg);
 `;
 
-function IssuePost({ author, image, content, username, time, textAreaVal }) {
+function IssuePost({
+  id,
+  author,
+  image,
+  content,
+  username,
+  time,
+  textAreaVal,
+  type,
+}) {
   const { dispatch } = useContext(IssueDetailContext);
   const { state: user } = useContext(UserContext);
+  const action = {
+    issue: IssueDetailAction.UPDATE_ISSUE_CONTENT,
+    comment: IssueDetailAction.UPDATE_COMMENT_CONTENT,
+  };
   const isOwner = author === user.userId;
   const [isContentEdit, setContentEdit] = useState(false);
   const [textarea, setTextarea] = useState(textAreaVal);
@@ -107,7 +120,8 @@ function IssuePost({ author, image, content, username, time, textAreaVal }) {
       handleTextArea={setTextarea}
       handlerForm={() => {
         dispatch({
-          type: IssueDetailAction.UPDATE_ISSUE_CONTENT,
+          type: action[type],
+          id,
           content: textarea,
           dispatch,
         });
@@ -142,7 +156,9 @@ function IssuePost({ author, image, content, username, time, textAreaVal }) {
 }
 
 IssuePost.propTypes = {
+  id: PropTypes.number.isRequired,
   author: PropTypes.number.isRequired,
+  type: PropTypes.string.isRequired,
   image: PropTypes.string,
   content: PropTypes.string,
   username: PropTypes.string,

@@ -2,6 +2,15 @@ import HTTP from '../http-common';
 
 const issueAPI = {};
 
+issueAPI.changeIssueState = (issueId, state) =>
+  fetch(`${HTTP}api/issue/state/${issueId}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ state }),
+  }).then((res) => res.status);
+
 issueAPI.getIssue = (id, token) =>
   fetch(`${HTTP}api/issue/detail/${id}`, {
     headers: {
