@@ -3,6 +3,36 @@ import issueAPI from '../../util/api/issue';
 import commentAPI from '../../util/api/comment';
 
 // Promise
+function changeIssueState(state, action) {
+  const { issue } = state;
+  const { state: issueState, dispatch } = action;
+  issueAPI.changeIssueState(issue.id, issueState).then((status) => {
+    if (status === 200)
+      dispatch({
+        type: IssueDetailAction.SET_ISSUE_STATE,
+        issueState,
+      });
+  });
+  return state;
+}
+
+function createComment(state, action) {
+  const { issue } = state;
+  const { user, content, dispatch } = action;
+  if (!(user && content && issue)) return state;
+  commentAPI
+    .createComment({ issueId: issue.id, userId: user.userId, content })
+    .then(({ comment }) => {
+      if (comment) {
+        dispatch({
+          type: IssueDetailAction.ADD_COMMENT,
+          comment,
+        });
+      }
+    });
+  return state;
+}
+
 function updateCommentContent(state, action) {
   const { issue } = state;
   const { id: commentId, content, dispatch } = action;
@@ -155,6 +185,25 @@ function applyCommentContent(state, action) {
   };
 }
 
+function applyComment(state, action) {
+  const { comment: newComment } = action;
+  return {
+    ...state,
+    comment: [...state.comment, newComment],
+  };
+}
+
+function applyIssueState(state, action) {
+  const { issueState } = action;
+  return {
+    ...state,
+    issue: {
+      ...state.issue,
+      state: issueState,
+    },
+  };
+}
+
 function reducer(state, action) {
   switch (action.type) {
     case IssueDetailAction.SET_MILESTONE:
@@ -181,7 +230,14 @@ function reducer(state, action) {
       return updateCommentContent(state, action);
     case IssueDetailAction.SET_COMMENT_CONTENT:
       return applyCommentContent(state, action);
-
+    case IssueDetailAction.CREATE_COMMENT:
+      return createComment(state, action);
+    case IssueDetailAction.ADD_COMMENT:
+      return applyComment(state, action);
+    case IssueDetailAction.CHANGE_ISSUE_STATE:
+      return changeIssueState(state, action);
+    case IssueDetailAction.SET_ISSUE_STATE:
+      return applyIssueState(state, action);
     default:
       return state;
   }
