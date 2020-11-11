@@ -6,8 +6,6 @@ import theme from './Theme';
 
 const Nav = styled.nav`
   display: flex;
-  margin: 1em;
-  padding: 1em;
   width: 330px;
   font-weight: 500;
 `;
