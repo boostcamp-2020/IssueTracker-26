@@ -82,6 +82,9 @@ const Body = styled.div`
   flex: 5;
 `;
 const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
   flex: 3;
 `;
 const Side = styled.div`
