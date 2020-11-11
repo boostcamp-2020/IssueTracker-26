@@ -75,6 +75,19 @@ const ControlDiv = styled.div`
   }
 `;
 
+const DivBar = styled.div`
+  background: #e1e4e8;
+  height: 8px;
+  border-radius: 10px;
+`;
+
+const DivInBar = styled.div`
+  background: #28a745;
+  height: 8px;
+  width: ${(props) => Math.round(props.width)}% !important;
+  border-radius: 10px;
+`;
+
 function MilestoneListContent(props) {
   const { milestones, isOpenView, fetchAllData } = props;
 
@@ -105,7 +118,9 @@ function MilestoneListContent(props) {
         <div>{milestone.description || <br></br>}</div>
       </LeftDiv>
       <RightDiv>
-        <div>progress bar</div>
+        <DivBar>
+          <DivInBar width={Math.round(milestone.ratio)}></DivInBar>
+        </DivBar>
         <StatusDiv>
           <span>{Math.round(milestone.ratio) || 0}% complete</span>
           <span>{milestone.total - milestone.close} open</span>
