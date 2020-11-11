@@ -10,6 +10,8 @@ import Header from './header/Header';
 import Http from '../util/http-common';
 import GitHubLogin from './login/GitHubLogin';
 import IssueDetailPage from '../pages/IssueDetailPage';
+import MilestoneCreatePage from '../pages/MilestoneCreatePage';
+import MilestoneEditPage from '../pages/MilestoneEditPage';
 
 function App() {
   const [state, setState] = useState({
@@ -78,6 +80,8 @@ function PrivateRoute() {
           <Route path="/milestone" component={MilestonePage} />
           <Route path="/issue-create" component={IssueCreatePage} />
           <Route path="/issue/:id" component={IssueDetailPage} />
+          <Route path="/milestone-create" component={MilestoneCreatePage} />
+          <Route path="/milestone-edit" component={MilestoneEditPage} />
           <Route path="*">
             <Redirect to="/" />
           </Route>
