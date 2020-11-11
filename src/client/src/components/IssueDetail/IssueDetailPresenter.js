@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 import UserImage from '../../../public/images/user.png';
 import Shared from '../shared/sharedComponents';
 import IssuePost from './IssuePost';
+import IssueSideMenu from './IssueSideMenu';
+import IssueDetailContext from '../Context/IssueDetailContext';
+import IssueDetailAction from './action';
+import Input from '../input/InputComponent';
 
 const Container = styled.div`
   display: flex;
@@ -25,6 +29,8 @@ const HeaderTitle = styled.div`
   flex: 2;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 0.5rem;
+  gap: 0.5rem;
 `;
 const HeaderState = styled.div`
   flex: 1;
@@ -47,14 +53,23 @@ const IssueInfo = styled.div`
 const Title = styled.h1`
   font-weight: 600;
 `;
-const EditButton = styled.button`
-  padding: 0.5rem 0.7rem;
-  border-radius: 8px;
+
+const EditButton = styled(Shared.Button)`
   background-color: ${(props) => props.theme.Color.lightGrayBackground};
   border: 1px solid #dbdbdb;
-  outline: none;
   &:hover {
     background-color: #f4f5f6;
+    border: 1px solid #cbcbcb;
+    cursor: pointer;
+  }
+`;
+
+const SubmitButton = styled(Shared.Button)`
+  color: white;
+  background-color: ${(props) => props.theme.Color.lightGreen};
+  border: 1px solid #dbdbdb;
+  &:hover {
+    background-color: #237a3d;
     border: 1px solid #cbcbcb;
     cursor: pointer;
   }
@@ -71,41 +86,89 @@ const Content = styled.div`
 const Side = styled.div`
   flex: 1;
 `;
-const Assignee = styled.div``;
-const Label = styled.div``;
-const Milestone = styled.div``;
 
 const Bold = styled(Shared.Span)`
   font-weight: 800;
 `;
 
+const ButtonContainer = styled.div`
+  display: flex;
+  width: 15%;
+  justify-content: flex-end;
+  gap: 0.5rem;
+`;
+
 function IssueDetailPresenter() {
+  const { state, dispatch } = useContext(IssueDetailContext);
+  const { issue, user, assignee, label, milestone } = state;
+  const [title, setTitle] = useState(state.issue.title);
+  const [isTitleEdit, setTitleEdit] = useState(false);
+
+  const handleInput = (e) => setTitle(e.target.value);
   return (
     <Container>
       <Header>
         <HeaderTitle>
-          <Title>
-            레이블 목록 보기 구현 <Shared.Span>#1</Shared.Span>
-          </Title>
-          <EditButton>Edit</EditButton>
+          {isTitleEdit ? (
+            <Input
+              height={'42px'}
+              width={'85%'}
+              onChange={handleInput}
+              value={title}
+            />
+          ) : (
+            <Title>
+              {issue.title}
+              <Shared.Span>#{issue.id}</Shared.Span>
+            </Title>
+          )}
+          {isTitleEdit ? (
+            <ButtonContainer>
+              <SubmitButton
+                onClick={() => {
+                  dispatch({
+                    type: IssueDetailAction.UPDATE_ISSUE_TITLE,
+                    value: title,
+                    dispatch,
+                  });
+                  setTitleEdit(false);
+                  setTitle(title);
+                }}
+              >
+                수정
+              </SubmitButton>
+              <EditButton onClick={() => setTitleEdit(false)}>취소</EditButton>
+            </ButtonContainer>
+          ) : (
+            <EditButton onClick={() => setTitleEdit(true)}>Edit</EditButton>
+          )}
         </HeaderTitle>
         <HeaderState>
           <IssueState>Open</IssueState>
           <IssueInfo>
-            <Bold>sejungkim</Bold>
-            <Shared.Span>opened this issue 3 days ago</Shared.Span>
+            <Bold>{user.name}</Bold>
+            <Shared.Span>opened {issue.time}</Shared.Span>
             <Shared.Span>1 comment</Shared.Span>
           </IssueInfo>
         </HeaderState>
       </Header>
       <Body>
         <Content>
-          <IssuePost image={UserImage} />
+          <IssuePost
+            author={user.id}
+            image={UserImage}
+            content={issue.content}
+            username={user.name}
+            time={issue.time}
+            textAreaVal={issue.content}
+          />
         </Content>
         <Side>
-          <Assignee>어사이니 등록</Assignee>
-          <Label>레이블 등록</Label>
-          <Milestone>마일스톤 등록</Milestone>
+          <IssueSideMenu
+            selectAssignee={assignee}
+            selectLabel={label}
+            selectMiliestone={milestone}
+          />
         </Side>
       </Body>
     </Container>

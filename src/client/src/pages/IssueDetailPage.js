@@ -21,7 +21,7 @@ function IssueDetailPage(props) {
       return setIssue(issueData);
     });
   }, []);
-  return <IssueDetail issue={issue} />;
+  return issue ? <IssueDetail issue={issue} /> : <></>;
 }
 
 IssueDetailPage.propTypes = {

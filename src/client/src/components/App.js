@@ -76,8 +76,8 @@ function PrivateRoute() {
           <Route exact path="/" component={MainPage} />
           <Route path="/label" component={LabelPage} />
           <Route path="/milestone" component={MilestonePage} />
-          <Route path="/:id" component={IssueDetailPage} />
           <Route path="/issue-create" component={IssueCreatePage} />
+          <Route path="/issue/:id" component={IssueDetailPage} />
           <Route path="*">
             <Redirect to="/" />
           </Route>
