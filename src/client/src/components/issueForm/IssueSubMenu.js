@@ -137,7 +137,7 @@ function IssueSubMenu({
   setSelectAssignee,
 }) {
   const MENU = ['Assignee', 'Label', 'Milstones'];
-  const { state, setState } = useContext(UserContext);
+  const { state } = useContext(UserContext);
   const [dropMenuList, setdropMenuList] = useState(
     MENU.map(() => {
       return false;
