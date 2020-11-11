@@ -120,6 +120,14 @@ const getFilterIssueList = async (req, res) => {
   return res.status(500).end();
 };
 
+const getIssueAllList = async (req, res) => {
+  const issueList = await issueService.getIssueAllList();
+  if (issueList) {
+    return res.status(200).json(issueList);
+  }
+  return res.status(500).end();
+};
+
 module.exports = {
   getIssueList,
   getIssueDetail,
@@ -131,4 +139,5 @@ module.exports = {
   labelsUpdate,
   milestoneUpdate,
   getFilterIssueList,
+  getIssueAllList,
 };

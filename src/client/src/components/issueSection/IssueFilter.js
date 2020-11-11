@@ -74,6 +74,7 @@ function IssueFilter({
   setSelectFilter,
   searchVal,
   setSearchVal,
+  setListState,
 }) {
   const { state } = useContext(UserContext);
 
@@ -103,7 +104,11 @@ function IssueFilter({
     fetch(`${Http}api/issue/filter/${state.userId}/${selected}`)
       .then((res) => res.json())
       .then((data) => {
-        setIssueList(data);
+        setListState(false);
+        setTimeout(() => {
+          setListState(true);
+          setIssueList(data);
+        }, 500);
         setChecked(data.map(() => ''));
         setHeaderCheck({ state: '', count: 0 });
       });
@@ -154,7 +159,12 @@ function IssueFilter({
       fetch(`${Http}api/issue/filter/${state.userId}/${selected}`)
         .then((res) => res.json())
         .then((data) => {
-          setIssueList(data);
+          setListState(false);
+          setIssueList([]);
+          setTimeout(() => {
+            setListState(true);
+            setIssueList(data);
+          }, 1000);
           setChecked(data.map(() => ''));
           setHeaderCheck({ state: '', count: 0 });
         });
@@ -210,6 +220,7 @@ IssueFilter.propTypes = {
   setSelectFilter: PropTypes.func,
   setSearchVal: PropTypes.func,
   searchVal: PropTypes.string,
+  setListState: PropTypes.func,
 };
 
 export default IssueFilter;

@@ -36,7 +36,6 @@ function IssueCreatePage() {
   const [textAreaVal, setTextAreaVal] = useState('');
   const [inputVal, setInputVal] = useState('');
   const history = useHistory();
-
   const handlerForm = () => {
     const issueInfo = {
       userId: state.userId,
@@ -58,10 +57,10 @@ function IssueCreatePage() {
   return (
     <DivStyled>
       <DivProfilStyled>
-        {state.profile === null ? (
-          <ImgProfilStyled src={ProfileImg} />
-        ) : (
+        {state.profile ? (
           <ImgProfilStyled src={state.profile} />
+        ) : (
+          <ImgProfilStyled src={ProfileImg} />
         )}
       </DivProfilStyled>
       <IssueForm
