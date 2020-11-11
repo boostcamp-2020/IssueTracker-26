@@ -35,6 +35,7 @@ function TextareaComponent({
   height = 300,
   placeholder = '',
   handleInput,
+  handleFocus,
   value,
 }) {
   const spanRef = useRef(null);
@@ -61,6 +62,8 @@ function TextareaComponent({
         height={height}
         placeholder={placeholder}
         onChange={handleInput}
+        onFocus={() => handleFocus(true)}
+        onBlur={() => handleFocus(false)}
         value={value}
       ></TextArea>
       <Span ref={spanRef}></Span>
@@ -73,6 +76,7 @@ TextareaComponent.propTypes = {
   height: PropTypes.number,
   placeholder: PropTypes.string,
   handleInput: PropTypes.func.isRequired,
+  handleFocus: PropTypes.func,
   value: PropTypes.string.isRequired,
 };
 
