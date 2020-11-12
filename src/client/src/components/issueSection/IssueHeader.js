@@ -11,10 +11,16 @@ const HeaderDiv = styled.div`
   width: 100%;
   display: flex;
   align-items: center;
-  padding-top: 100px;
-  margin-bottom: -10px;
+  padding-top: 140px;
+  margin-bottom: 10px;
   div:first-child {
     width: 100%;
+  }
+`;
+
+const ContentDiv = styled.div`
+  &:nth-child(2) {
+    margin: 0px 20px;
   }
 `;
 
@@ -49,7 +55,7 @@ function IssueHeader({
 
   return (
     <HeaderDiv>
-      <div>
+      <ContentDiv>
         <IssueFilter
           setHeaderCheck={setHeaderCheck}
           setChecked={setChecked}
@@ -61,19 +67,19 @@ function IssueHeader({
           searchVal={searchVal}
           setListState={setListState}
         />
-      </div>
-      <div>
+      </ContentDiv>
+      <ContentDiv>
         <LabelMilestoneButton
           page={'issue'}
           labelCnt={parseInt(issueCount, 10)}
           milestoneCnt={parseInt(milestoneCount, 10)}
         />
-      </div>
-      <div>
+      </ContentDiv>
+      <ContentDiv>
         <Link to={'/issue-create'}>
           <Button height={'32px'}>New Isssue</Button>
         </Link>
-      </div>
+      </ContentDiv>
     </HeaderDiv>
   );
 }
