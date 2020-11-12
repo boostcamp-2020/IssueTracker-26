@@ -6,6 +6,7 @@ import Button from '../Button';
 import Http from '../../util/http-common';
 import MilestoneForm from './MilestoneForm';
 import LabelMilestoneButton from '../LabelMilestoneButton';
+import { getDateInputFormat } from '../../util/time';
 
 const MilestoneContainer = styled.div`
   max-width: 100%;
@@ -69,7 +70,9 @@ function MilestoneEditSection(props) {
       .then((data) =>
         setMilestone({
           ...data.milestone,
-          duedate: data.milestone.dueDate ? new Date(data.milestone.dueDate) : '',
+          duedate: data.milestone.dueDate
+            ? getDateInputFormat(data.milestone.dueDate)
+            : '',
         }),
       );
   }, []);
