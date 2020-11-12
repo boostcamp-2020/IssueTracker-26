@@ -139,8 +139,6 @@ function IssueForm({
   setInputVal,
 }) {
   const [stateButton, setStateButton] = useState('disabled');
-  const PATH = process.env.REACT_APP_IMGUR_PATH;
-  const CLIENT = process.env.REACT_APP_CLIENT;
   const [imgUrl, setImgUrl] = useState([]);
   const [focus, setFocus] = useState(false);
 
@@ -189,13 +187,13 @@ function IssueForm({
             value={textAreaVal}
             placeholder={'Leave a comment'}
             handleInput={handleTextArea}
-            handleFiles={handleFiles(PATH, CLIENT, setImgUrl)}
+            handleFiles={handleFiles(setImgUrl)}
             handleFocus={handleFocus}
             imageUpload={true}
           />
           <ImageUpload
             focus={focus}
-            handleFiles={handleFiles(PATH, CLIENT, setImgUrl)}
+            handleFiles={handleFiles(setImgUrl)}
           ></ImageUpload>
           <DivFooterStyled>
             <SapnCancelStyled>

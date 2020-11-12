@@ -1,5 +1,8 @@
-const handleFiles = (PATH, CLIENT, setImgUrl) => (e) => {
+const handleFiles = (setImgUrl) => (e) => {
   e.preventDefault();
+  const PATH = process.env.REACT_APP_IMGUR_PATH;
+  const CLIENT = process.env.REACT_APP_CLIENT;
+
   const newFiles = e.dataTransfer?.files || e.target.files; // object
   const newFileList = [];
   for (let i = 0; i < newFiles.length; i += 1) {

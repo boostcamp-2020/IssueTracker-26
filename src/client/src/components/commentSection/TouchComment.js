@@ -24,8 +24,6 @@ function TouchComment() {
   const { issue } = state;
   const [textArea, setTextArea] = useState('');
   const [buttonState, setButtonState] = useState(false);
-  const PATH = process.env.REACT_APP_IMGUR_PATH;
-  const CLIENT = process.env.REACT_APP_CLIENT;
   const [imgUrl, setImgUrl] = useState([]);
   const [focus, setFocus] = useState(false);
 
@@ -66,7 +64,7 @@ function TouchComment() {
         <InputBody>
           <Textarea
             value={textArea}
-            handleFiles={handleFiles(PATH, CLIENT, setImgUrl)}
+            handleFiles={handleFiles(setImgUrl)}
             handleFocus={handleFocus}
             handleInput={handleTextArea}
             imageUpload={true}
@@ -74,7 +72,7 @@ function TouchComment() {
           />
           <ImageUpload
             focus={focus}
-            handleFiles={handleFiles(PATH, CLIENT, setImgUrl)}
+            handleFiles={handleFiles(setImgUrl)}
           ></ImageUpload>
           <SubmitLayer>
             <Button
