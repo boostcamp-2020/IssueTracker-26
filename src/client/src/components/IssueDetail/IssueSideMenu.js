@@ -10,6 +10,7 @@ import UserImage from '../../../public/images/user.png';
 import UserContext from '../Context/UserContext';
 import IssueDetailContext from '../Context/IssueDetailContext';
 import IssueDetailAction from './action';
+import getFontColor from '../labelSection/utils';
 
 const DivStyled = styled.div`
   flex-basis: 312px;
@@ -98,7 +99,7 @@ const LabelStyled = styled.span`
   line-height: 100%;
   margin-right: 10px !important;
   font-weight: bold;
-  color: black;
+  color: ${(props) => props.fontColor};
   background: ${(props) => props.color};
   font-size: 14px;
   padding: 5px 10px;
@@ -227,7 +228,11 @@ function IssueSideMenu({ selectMiliestone, selectLabel, selectAssignee }) {
               <SpanStyled>
                 {selectLabel.map((label, index) => {
                   return (
-                    <LabelStyled key={index} color={label.color}>
+                    <LabelStyled
+                      key={index}
+                      color={label.color}
+                      fontColor={getFontColor(label.color)}
+                    >
                       {label.title}
                     </LabelStyled>
                   );
