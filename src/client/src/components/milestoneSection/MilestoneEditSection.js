@@ -21,12 +21,10 @@ const MilestoneContainer = styled.div`
 `;
 
 const HeaderDiv = styled.div`
-  width: 100%;
-  height: 200px;
   align-items: center;
   padding-top: 100px;
-  * {
-    margin: 1em 0em;
+  nav {
+    margin: 30px 0px;
   }
 `;
 
@@ -34,26 +32,47 @@ function MilestoneEditSection(props) {
   const { id } = props;
   const history = useHistory();
   const [milestone, setMilestone] = useState({
+    id: '',
     title: '',
     dueDate: '',
     description: '',
+    state: '',
   });
-
-  useEffect(() => {
-    fetch(`${Http}api/milestone/${id}`)
-      .then((res) => res.json())
-      .then((data) => console.log(data));
-  }, []);
 
   const changeMilstone = (name) => (e) =>
     setMilestone({ ...milestone, [name]: e.target.value });
 
   const editMilestone = () =>
-    fetch(`${Http}api/milestone/`, {
+    fetch(`${Http}api/milestone/${milestone.id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(milestone),
+      body: JSON.stringify({
+        title: milestone.title,
+        dueDate: milestone.dueDate,
+        description: milestone.description,
+      }),
     }).then(() => history.replace(`/milestone`));
+
+  const changeState = (id, state) => {
+    fetch(`${Http}api/milestone/state/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ state }),
+    })
+      .then((res) => res.json())
+      .then(() => fetchAllData());
+  };
+
+  useEffect(() => {
+    fetch(`${Http}api/milestone/${id}`)
+      .then((res) => res.json())
+      .then((data) =>
+        setMilestone({
+          ...data.milestone,
+          dueDate: new Date(data.milestone.dueDate),
+        }),
+      );
+  }, []);
 
   return (
     <MilestoneContainer>
@@ -78,9 +97,9 @@ function MilestoneEditSection(props) {
           color={'ghostwhite'}
           hoverColor={'whitesmoke'}
           fontColor={'darkslategray'}
-          handler={editMilestone}
+          handler={() => changeState(milestone.id, milestone.state)}
         >
-          Close Milestone
+          {milestone.state ? 'Close Milestone' : 'Reopen Milestone'}
         </Button>
         <Button width={'120px'} height={'35px'} handler={editMilestone}>
           Save changes
