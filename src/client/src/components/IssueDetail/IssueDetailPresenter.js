@@ -40,15 +40,16 @@ const HeaderTitle = styled.div`
 const HeaderState = styled.div`
   flex: 1;
   display: flex;
+  align-items: center;
 `;
 const IssueState = styled.div`
   display: flex;
   align-items: center;
   color: white;
-  margin-right: 0.5rem;
+  margin-right: 1rem;
   background-color: ${(props) =>
     props.state ? props.theme.Color.lightGreen : '#FF5050'};
-  padding: 0 12px;
+  padding: 6px 12px;
   border-radius: 1.2rem;
 `;
 const IssueInfo = styled.div`
