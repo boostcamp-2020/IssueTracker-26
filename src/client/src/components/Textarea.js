@@ -18,7 +18,9 @@ const TextArea = styled.textarea`
   padding: 20px;
   border-radius: 5px;
   padding: 0.5rem 0.5rem;
-  ${sharedStyle.inputOutlineStyle}
+  ${sharedStyle.inputOutlineStyle};
+  border-bottom-left-radius: ${(props) => props.imageUpload && 0};
+  border-bottom-right-radius: ${(props) => props.imageUpload && 0};
 `;
 
 const Span = styled.span`
@@ -38,6 +40,7 @@ function TextareaComponent({
   handleInput,
   handleFocus,
   value,
+  imageUpload = false,
 }) {
   const spanRef = useRef(null);
   const handleCount = () => {
@@ -67,6 +70,7 @@ function TextareaComponent({
         onBlur={() => handleFocus && handleFocus(false)}
         onDrop={handleFiles}
         value={value}
+        imageUpload={imageUpload}
       ></TextArea>
       <Span ref={spanRef}></Span>
     </Container>
@@ -81,6 +85,7 @@ TextareaComponent.propTypes = {
   handleFocus: PropTypes.func,
   handleFiles: PropTypes.func,
   value: PropTypes.string.isRequired,
+  imageUpload: PropTypes.bool,
 };
 
 export default TextareaComponent;
