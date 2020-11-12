@@ -101,6 +101,15 @@ function MilestoneListContent(props) {
       .then(() => fetchAllData());
   };
 
+  const deleteMilestone = (id) => () => {
+    const willDelete = confirm('정말로 마일스톤을 삭제하시겠습니까? :(');
+    if (willDelete) {
+      fetch(`${Http}api/milestone/${id}`, {
+        method: 'DELETE',
+      }).then(() => fetchAllData());
+    }
+  };
+
   const milestoneRows = milestones.map((milestone, index) => (
     <ContentDiv key={index}>
       <LeftDiv>
@@ -131,7 +140,7 @@ function MilestoneListContent(props) {
           <span onClick={changeState(milestone.id, milestone.state)}>
             {isOpenView ? 'Close' : 'Reopen'}
           </span>
-          <span>Delete</span>
+          <span onClick={deleteMilestone(milestone.id)}>Delete</span>
         </ControlDiv>
       </RightDiv>
     </ContentDiv>
