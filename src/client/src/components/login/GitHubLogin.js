@@ -25,7 +25,7 @@ function GitHubLogin() {
       if (res.status === 401) return {};
       return res.json();
     })
-    .then(({ id, token, userName, profile }) => {
+    .then(({ userId, token, userName, profile }) => {
       if (!token) return history.replace('/login');
       localStorage.setItem('jwt', token);
       history.replace('/');
@@ -33,7 +33,7 @@ function GitHubLogin() {
         ...state,
         isLoggedIn: true,
         token,
-        id,
+        userId,
         userName,
         profile,
       });

@@ -68,7 +68,6 @@ const gitHubAuth = async (req, res) => {
         }),
       },
     ).then((response) => response.json());
-    console.log(error)
     if (error) return res.status(401).end();
     const { login, avatar_url: profile } = await fetch(
       `https://api.github.com/user`,
@@ -86,9 +85,12 @@ const gitHubAuth = async (req, res) => {
       profile,
     };
     const { id, userName } = await userService.findOrCreateUser(userInfo);
-    return res
-      .status(200)
-      .json({ id, userName, profile, token: makeToken({ id, userName }) });
+    return res.status(200).json({
+      userId: id,
+      userName,
+      profile,
+      token: makeToken({ id, userName }),
+    });
   } catch (err) {
     return res.status(401).end();
   }
