@@ -16,11 +16,11 @@ const LABEL = {
 };
 
 const MILESTONE = {
-  CREATE: `insert into milestone(title, duedate, description) values(?,?,?)`,
-  UPDATE: ({ id, title, dueDate, description }) => {
+  CREATE: `insert into milestone(title, dueDate, description) values(?,?,?)`,
+  UPDATE: ({ id, title, duedate, description }) => {
     let fields = '';
     if (title) fields += `title='${title}',`;
-    if (dueDate) fields += `duedate='${dueDate}',`;
+    if (duedate) fields += `dueDate='${duedate}',`;
     if (description) fields += `description='${description}'`;
     fields =
       fields[fields.length - 1] === ','
@@ -29,8 +29,8 @@ const MILESTONE = {
     return `update milestone set ${fields.trim()} where id=${id}`;
   },
   DELETE: `delete from milestone where id=?`,
-  GET_MILESTONE_LIST: `select id, title, duedate, description, state from milestone`,
-  GET_MILESTONE_BY_ID: `select id, title, duedate, description, state from milestone where id = ?`,
+  GET_MILESTONE_LIST: `select id, title, dueDate, description, state from milestone`,
+  GET_MILESTONE_BY_ID: `select id, title, dueDate, description, state from milestone where id = ?`,
   GET_ISSUE_LIST_BY_MILESTONE_ID: `select i.id, i.state, i.milestone_id from issue i left join user u on i.user_id=u.id where i.milestone_id=?`,
   GETTOTAL: `select count(*) as count from milestone`,
   CHANGE_STATE: `update milestone set state = ? where id = ?`,

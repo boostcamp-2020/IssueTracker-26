@@ -24,13 +24,13 @@ const milestoneController = (service) => {
       return res.status(500).end();
     },
     async createMilestone(req, res) {
-      const { title, dueDate = null, description = null } = req.body;
+      const { title, duedate = null, description = null } = req.body;
       if (!title) {
         return res.status(400).end();
       }
       const milestoneId = await this.service.createMilestone({
         title,
-        dueDate,
+        duedate,
         description,
       });
       if (milestoneId) return res.status(201).end();
@@ -39,12 +39,12 @@ const milestoneController = (service) => {
     },
     async updateMilestone(req, res) {
       const { id } = req.params;
-      const { title, dueDate = null, description = null } = req.body;
+      const { title, duedate = null, description = null } = req.body;
       if (!title || !id) return res.status(400).end();
       const affectedRow = await this.service.updateMilestone({
         id,
         title,
-        dueDate,
+        duedate,
         description,
       });
       if (affectedRow) return res.status(200).end();

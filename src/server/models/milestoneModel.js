@@ -40,11 +40,11 @@ const getMilestoneById = async (id) => {
   }
 };
 
-const createMilestone = async ({ title, dueDate, description }) => {
+const createMilestone = async ({ title, duedate, description }) => {
   try {
     const [{ insertId }] = await pool.execute(MILESTONE.CREATE, [
       title,
-      dueDate || null,
+      duedate || null,
       description,
     ]);
     return insertId;

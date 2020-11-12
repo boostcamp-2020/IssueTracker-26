@@ -25,11 +25,11 @@ const milestoneService = (model) => {
       const milestone = await this.model.getMilestoneById(id);
       return milestone;
     },
-    async createMilestone({ title, dueDate, description }) {
+    async createMilestone({ title, duedate, description }) {
       try {
         const milestoneId = await this.model.createMilestone({
           title,
-          dueDate,
+          duedate,
           description,
         });
         return milestoneId;
@@ -37,12 +37,12 @@ const milestoneService = (model) => {
         return undefined;
       }
     },
-    async updateMilestone({ id, title, dueDate, description }) {
+    async updateMilestone({ id, title, duedate, description }) {
       try {
         const milestoneId = await this.model.updateMilestone({
           id,
           title,
-          dueDate,
+          duedate,
           description,
         });
         return milestoneId;
