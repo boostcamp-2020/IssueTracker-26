@@ -15,6 +15,14 @@ const milestoneController = (service) => {
       if (milestones) return res.status(200).json({ milestones });
       return res.status(500).end();
     },
+    async getMilestoneById(req, res) {
+      const { id } = req.params;
+      if (!id) return res.status(400).end();
+
+      const milestone = await service.getMilestoneById(id);
+      if (milestone) return res.status(200).json({ milestone });
+      return res.status(500).end();
+    },
     async createMilestone(req, res) {
       const { title, dueDate = null, description = null } = req.body;
       if (!title) {

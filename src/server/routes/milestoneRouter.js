@@ -43,13 +43,18 @@ router.put(
 );
 
 router.get(
+  '/milestone/ratio',
+  milestoneController.getMilestoneWithRatio.bind(milestoneController),
+);
+
+router.get(
   '/milestone/ratio/:id',
   milestoneController.getMilestoneRatio.bind(milestoneController),
 );
 
 router.get(
-  '/milestone/ratio',
-  milestoneController.getMilestoneWithRatio.bind(milestoneController),
+  '/milestone/:id',
+  milestoneController.getMilestoneById.bind(milestoneController),
 );
 
 module.exports = router;
