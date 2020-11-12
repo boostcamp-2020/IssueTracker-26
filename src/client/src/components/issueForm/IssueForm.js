@@ -218,6 +218,7 @@ function IssueForm({
             handleInput={handleTextArea}
             handleFiles={handleFiles}
             handleFocus={handleFocus}
+            imageUpload={true}
           />
           <ImageUpload focus={focus} handleFiles={handleFiles}></ImageUpload>
           <DivFooterStyled>

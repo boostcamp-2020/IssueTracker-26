@@ -103,6 +103,7 @@ function TouchComment() {
             handleFiles={handleFiles}
             handleFocus={handleFocus}
             handleInput={handleTextArea}
+            imageUpload={true}
             height={150}
           />
           <ImageUpload focus={focus} handleFiles={handleFiles}></ImageUpload>
