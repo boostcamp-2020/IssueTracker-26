@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import Textarea from '../Textarea';
 import InputComponent from '../input/InputComponent';
+import { getDateInputFormat } from '../../util/time';
 
 const StyledFrom = styled.div`
   margin: 1em 0em;
@@ -31,8 +32,8 @@ function MilestoneForm(props) {
       <InputComponent
         width={'400px'}
         type={'date'}
-        value={milestone.dueDate}
-        onChange={changeMilstone('dueDate')}
+        value={getDateInputFormat(milestone.duedate)}
+        onChange={changeMilstone('duedate')}
       />
       <h3>Description (optional)</h3>
       <Textarea

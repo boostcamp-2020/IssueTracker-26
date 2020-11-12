@@ -34,7 +34,7 @@ function MilestoneEditSection(props) {
   const [milestone, setMilestone] = useState({
     id: '',
     title: '',
-    dueDate: '',
+    duedate: '',
     description: '',
     state: '',
   });
@@ -48,7 +48,7 @@ function MilestoneEditSection(props) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         title: milestone.title,
-        dueDate: milestone.dueDate,
+        duedate: milestone.duedate,
         description: milestone.description,
       }),
     }).then(() => history.replace(`/milestone`));
@@ -69,7 +69,7 @@ function MilestoneEditSection(props) {
       .then((data) =>
         setMilestone({
           ...data.milestone,
-          dueDate: new Date(data.milestone.dueDate),
+          duedate: new Date(data.milestone.duedate),
         }),
       );
   }, []);
