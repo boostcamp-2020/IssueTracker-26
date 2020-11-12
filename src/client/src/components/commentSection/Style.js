@@ -3,7 +3,7 @@ import theme from '../Theme';
 
 const InputContainer = styled.div`
   display: flex;
-  height: 260px;
+  height: 300px;
   width: 100%;
 `;
 const ProfileBox = styled.div`
@@ -38,19 +38,19 @@ const InputBox = styled.div`
     border-color: rgba(255, 255, 255, 0);
     border-right-color: ${theme.Color.grayBackground};
     border-width: 8px;
-    margin-top: -228px;
+    margin-top: -264px;
   }
   &:before {
     border: solid 1px red;
     border-color: rgba(245, 2, 2, 0);
     border-right-color: #e1e4e8;
     border-width: 10px;
-    margin-top: -230px;
+    margin-top: -266px;
   }
 `;
 const InputHeader = styled.div`
   height: 18%;
-  font-size: 14px;
+  font-size: 16px;
   background-color: ${theme.Color.grayBackground};
   border-bottom: 1px solid ${theme.Color.border};
   position: relative;
@@ -59,13 +59,13 @@ const InputHeader = styled.div`
 
   & > div {
     position: absolute;
-    top: 11px;
+    top: 13px;
     left: 10px;
     background-color: white;
     border: 1px solid ${theme.Color.border};
     border-bottom: 1px solid white;
     border-radius: 5px 5px 0 0;
-    padding: 8px 10px;
+    padding: 10px 10px;
     &:hover {
       cursor: pointer;
     }

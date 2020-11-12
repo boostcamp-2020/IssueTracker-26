@@ -148,7 +148,7 @@ function IssuePost({
           ) : null}
         </Title>
         <Body>
-          <Pre>{content}</Pre>
+          <Pre dangerouslySetInnerHTML={{ __html: content }}></Pre>
         </Body>
       </Content>
     </Container>

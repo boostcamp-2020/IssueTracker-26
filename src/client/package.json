@@ -34,6 +34,7 @@
     "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
+    "dotenv-webpack": "^5.1.0",
     "file-loader": "^6.2.0",
     "prop-types": "^15.7.2",
     "query-string": "^6.13.7",
