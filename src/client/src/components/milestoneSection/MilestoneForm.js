@@ -32,12 +32,12 @@ function MilestoneForm(props) {
       <InputComponent
         width={'400px'}
         type={'date'}
-        value={getDateInputFormat(milestone.duedate)}
+        value={milestone.duedate ? getDateInputFormat(milestone.duedate) : ''}
         onChange={changeMilstone('duedate')}
       />
       <h3>Description (optional)</h3>
       <Textarea
-        value={milestone.description}
+        value={milestone.description || ''}
         handleInput={changeMilstone('description')}
       />
       <hr />
