@@ -127,7 +127,7 @@ function MilestoneListContent(props) {
           <span>{milestone.total} closed</span>
         </StatusDiv>
         <ControlDiv>
-          <Link to={'/milestone-edit'}>Edit</Link>
+          <Link to={`/milestone-edit/${milestone.id}`}>Edit</Link>
           {isOpenView ? (
             <span onClick={() => changeState(milestone.id, milestone.state)}>
               Close
