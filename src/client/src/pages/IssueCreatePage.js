@@ -12,7 +12,7 @@ const DivStyled = styled.div`
   display: flex;
   max-width: 1248px;
   width: 100%;
-  height: 660px;
+  height: 690px;
   padding-top: 170px;
 `;
 
