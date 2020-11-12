@@ -48,7 +48,7 @@ const IssueState = styled.div`
   margin-right: 0.5rem;
   background-color: ${(props) =>
     props.state ? props.theme.Color.lightGreen : '#FF5050'};
-  padding: 5px 16px;
+  padding: 0 12px;
   border-radius: 1.2rem;
 `;
 const IssueInfo = styled.div`

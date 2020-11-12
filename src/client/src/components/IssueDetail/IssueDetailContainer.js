@@ -20,7 +20,6 @@ function IssueDetailContainer({ issue }) {
     assignee = [],
     label: labelList = [],
   } = issue;
-
   const label = labelList.map(
     ({ labelid, title: labelTitle, description, color }) => ({
       id: labelid,
