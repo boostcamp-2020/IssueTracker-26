@@ -15,10 +15,10 @@ function IssueDetailContainer({ issue }) {
     user_id: userId,
     state: issueState,
     createdat: createdAt,
-    comment,
+    comment = [],
     milestone,
-    assignee,
-    label: labelList,
+    assignee = [],
+    label: labelList = [],
   } = issue;
 
   const label = labelList.map(

@@ -219,7 +219,7 @@ function IssueDetailPresenter() {
               textAreaVal={issue.content}
               type={TYPE.issue}
             />
-            {comment.length === 1 ? null : (
+            {comment.length <= 1 ? null : (
               <CommentInfo>
                 <CommentInfoContent>
                   Comments {comment.length}

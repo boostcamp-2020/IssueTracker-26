@@ -130,7 +130,7 @@ function IssuePost({
           imageEl.style.height = 'auto';
         } else {
           imageEl.style.height = '500px';
-          imageEl.styled.width = 'auto';
+          imageEl.style.width = 'auto';
         }
       };
     });
