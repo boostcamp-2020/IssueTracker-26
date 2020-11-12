@@ -6,6 +6,7 @@ import Button from '../Button';
 import IssueDetailContext from '../Context/IssueDetailContext';
 import UserImage from '../../../public/images/user.png';
 import ImageUpload from '../imageUpload/ImageUpload';
+import handleFiles from '../../util/api/handleFile';
 
 const Container = styled.div`
   display: flex;
@@ -137,34 +138,6 @@ function IssueForm({
   };
   const handleFocus = (isFocus) => setFocus(isFocus);
 
-  const handleFiles = (e) => {
-    e.preventDefault();
-    const newFiles = e.dataTransfer?.files || e.target.files; // object
-    const newFileList = [];
-    for (let i = 0; i < newFiles.length; i += 1) {
-      newFileList.push(newFiles[i]);
-    }
-    Promise.all(
-      newFileList.map((newFile) => {
-        if (newFile.size < 500000) {
-          return fetch(PATH, {
-            method: 'POST',
-            headers: {
-              Authorization: `Client-ID ${CLIENT}`,
-              Accept: 'application/json',
-            },
-            body: newFile,
-          })
-            .then((res) => res.json())
-            .then((res) => {
-              return res.data.link;
-            });
-        }
-        return undefined;
-      }),
-    ).then((urlList) => setImgUrl([...urlList]));
-  };
-
   useEffect(() => {
     let temp = '';
     imgUrl.forEach((url) => {
@@ -193,11 +166,14 @@ function IssueForm({
               value={textAreaVal}
               placeholder={'Leave a comment'}
               handleInput={handleInput()}
-              handleFiles={handleFiles}
+              handleFiles={handleFiles(PATH, CLIENT, setImgUrl)}
               handleFocus={handleFocus}
               imageUpload={true}
             />
-            <ImageUpload focus={focus} handleFiles={handleFiles}></ImageUpload>
+            <ImageUpload
+              focus={focus}
+              handleFiles={handleFiles(PATH, CLIENT, setImgUrl)}
+            ></ImageUpload>
             <DivFooterStyled>
               <SapnCancelStyled onClick={setContentEdit}>
                 Cancel

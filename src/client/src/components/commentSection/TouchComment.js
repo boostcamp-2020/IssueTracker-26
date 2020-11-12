@@ -15,6 +15,7 @@ import IssueDetailContext from '../Context/IssueDetailContext';
 import UserContext from '../Context/UserContext';
 import IssueDetailAction from '../IssueDetail/action';
 import ImageUpload from '../imageUpload/ImageUpload';
+import handleFiles from '../../util/api/handleFile';
 
 function TouchComment() {
   const { state: user } = useContext(UserContext);
@@ -47,34 +48,6 @@ function TouchComment() {
     }
   };
 
-  const handleFiles = (e) => {
-    e.preventDefault();
-    const newFiles = e.dataTransfer?.files || e.target.files; // object
-    const newFileList = [];
-    for (let i = 0; i < newFiles.length; i += 1) {
-      newFileList.push(newFiles[i]);
-    }
-    Promise.all(
-      newFileList.map((newFile) => {
-        if (newFile.size < 500000) {
-          return fetch(PATH, {
-            method: 'POST',
-            headers: {
-              Authorization: `Client-ID ${CLIENT}`,
-              Accept: 'application/json',
-            },
-            body: newFile,
-          })
-            .then((res) => res.json())
-            .then((res) => {
-              return res.data.link;
-            });
-        }
-        return undefined;
-      }),
-    ).then((urlList) => setImgUrl([...urlList]));
-  };
-
   useEffect(() => {
     let temp = '';
     imgUrl.forEach((url) => {
@@ -100,13 +73,16 @@ function TouchComment() {
         <InputBody>
           <Textarea
             value={textArea}
-            handleFiles={handleFiles}
+            handleFiles={handleFiles(PATH, CLIENT, setImgUrl)}
             handleFocus={handleFocus}
             handleInput={handleTextArea}
             imageUpload={true}
             height={150}
           />
-          <ImageUpload focus={focus} handleFiles={handleFiles}></ImageUpload>
+          <ImageUpload
+            focus={focus}
+            handleFiles={handleFiles(PATH, CLIENT, setImgUrl)}
+          ></ImageUpload>
           <SubmitLayer>
             <Button
               bgColor="white"
