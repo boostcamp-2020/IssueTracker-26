@@ -53,7 +53,7 @@ const ISSUE = {
 
   GETISSUECOMMENT: `select c.id, c.content, c.createdat, u.id as user_id, u.username, u.profile from comment c, user u where u.id=c.user_id and c.issue_id = ?`,
 
-  GETMILESTONE: `select m.id, m.title, (select count(*) from issue where milestone_id = (select milestone_id from issue where id = ?) and state = 1) / count(*) as ratio from issue i, milestone m 
+  GETMILESTONE: `select m.id, m.title, (select count(*) from issue where milestone_id = (select milestone_id from issue where id = ?) and state = 0) / count(*) * 100 as ratio from issue i, milestone m 
   where milestone_id = (select milestone_id from issue where id = ?) and i.milestone_id=m.id group by m.id`,
 
   CREATEISSUE: `insert into issue(title, content, user_id, milestone_id) values(?,?,?,?)`,
