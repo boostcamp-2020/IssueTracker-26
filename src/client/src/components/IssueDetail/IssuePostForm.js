@@ -1,10 +1,13 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import TextArea from '../Textarea';
 import Button from '../Button';
 import IssueDetailContext from '../Context/IssueDetailContext';
 import UserImage from '../../../public/images/user.png';
+import ImageUpload from '../imageUpload/ImageUpload';
+import handleFiles from '../../util/handleFile';
+import tagGenerator from '../../util/tag-generator';
 
 const Container = styled.div`
   display: flex;
@@ -47,11 +50,12 @@ const DivStyled = styled.div`
   }
 `;
 
+const InputDisPlayNone = styled.input`
+  display: none;
+`;
+
 const DivContentStyled = styled.div`
-  height: 436px;
-  input {
-    display: none;
-  }
+  height: 465px;
 
   label {
     display: inline-block;
@@ -120,6 +124,8 @@ function IssueForm({
 }) {
   const { state } = useContext(IssueDetailContext);
   const [stateButton, setStateButton] = useState(textAreaVal ? '' : 'disabled');
+  const [imgUrl, setImgUrl] = useState([]);
+  const [focus, setFocus] = useState(false);
 
   const handleInput = () => (e) => {
     handleTextArea(e.target.value);
@@ -129,6 +135,19 @@ function IssueForm({
       setStateButton('');
     }
   };
+  const handleFocus = (isFocus) => setFocus(isFocus);
+
+  useEffect(
+    () =>
+      tagGenerator(
+        imgUrl,
+        textAreaVal,
+        handleTextArea,
+        setStateButton,
+        'false',
+      ),
+    [imgUrl],
+  );
 
   return (
     <Container>
@@ -137,7 +156,7 @@ function IssueForm({
       </Profile>
       <DivStyled>
         <DivContentStyled>
-          <input type="radio" checked readOnly />
+          <InputDisPlayNone type="radio" checked readOnly />
           <label>Write</label>
           <DivDetailStyled>
             <TextArea
@@ -145,7 +164,14 @@ function IssueForm({
               value={textAreaVal}
               placeholder={'Leave a comment'}
               handleInput={handleInput()}
+              handleFiles={handleFiles(setImgUrl)}
+              handleFocus={handleFocus}
+              imageUpload={true}
             />
+            <ImageUpload
+              focus={focus}
+              handleFiles={handleFiles(setImgUrl)}
+            ></ImageUpload>
             <DivFooterStyled>
               <SapnCancelStyled onClick={setContentEdit}>
                 Cancel

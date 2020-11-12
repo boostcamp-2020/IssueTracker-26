@@ -21,6 +21,10 @@ const milestoneService = (model) => {
       }));
       return milestoneList;
     },
+    async getMilestoneById(id) {
+      const milestone = await this.model.getMilestoneById(id);
+      return milestone;
+    },
     async createMilestone({ title, dueDate, description }) {
       try {
         const milestoneId = await this.model.createMilestone({

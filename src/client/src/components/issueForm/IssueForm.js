@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import TextArea from '../Textarea';
 import Button from '../Button';
+import ImageUpload from '../imageUpload/ImageUpload';
+import handleFiles from '../../util/handleFile';
+import tagGenerator from '../../util/tag-generator';
 
 const DivStyled = styled.div`
   border: #e1e4e8 1px solid;
@@ -46,11 +49,12 @@ const DivSubStyled = styled.div`
   padding: 10px;
 `;
 
+const InputDisPlayNone = styled.input`
+  display: none;
+`;
+
 const DivContentStyled = styled.div`
   height: 436px;
-  input {
-    display: none;
-  }
 
   label {
     display: inline-block;
@@ -112,18 +116,7 @@ const SapnCancelStyled = styled.span`
   margin-left: 10px;
   &:hover {
     cursor: pointer;
-  }
-  &:link {
-    color: red;
-    text-decoration: none;
-  }
-  &:visited {
     color: black;
-    text-decoration: none;
-  }
-  &:hover {
-    color: blue;
-    text-decoration: underline;
   }
 `;
 
@@ -135,6 +128,8 @@ function IssueForm({
   setInputVal,
 }) {
   const [stateButton, setStateButton] = useState('disabled');
+  const [imgUrl, setImgUrl] = useState([]);
+  const [focus, setFocus] = useState(false);
 
   const handleTextArea = (e) => {
     setTextAreaVal(e.target.value);
@@ -149,6 +144,20 @@ function IssueForm({
     }
   };
 
+  const handleFocus = (isFocus) => setFocus(isFocus);
+
+  useEffect(
+    () =>
+      tagGenerator(
+        imgUrl,
+        textAreaVal,
+        setTextAreaVal,
+        setStateButton,
+        'false',
+      ),
+    [imgUrl],
+  );
+
   return (
     <DivStyled>
       <DivSubStyled>
@@ -159,7 +168,7 @@ function IssueForm({
         />
       </DivSubStyled>
       <DivContentStyled>
-        <input type="radio" checked readOnly />
+        <InputDisPlayNone type="radio" checked readOnly />
         <label>Write</label>
         <DivDetailStyled>
           <TextArea
@@ -167,7 +176,14 @@ function IssueForm({
             value={textAreaVal}
             placeholder={'Leave a comment'}
             handleInput={handleTextArea}
+            handleFiles={handleFiles(setImgUrl)}
+            handleFocus={handleFocus}
+            imageUpload={true}
           />
+          <ImageUpload
+            focus={focus}
+            handleFiles={handleFiles(setImgUrl)}
+          ></ImageUpload>
           <DivFooterStyled>
             <SapnCancelStyled>
               <Link to="/">Cancel</Link>
