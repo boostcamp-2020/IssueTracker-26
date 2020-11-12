@@ -85,7 +85,7 @@ function TouchComment() {
       if (textArea !== '') resultText += '\n';
       setTextArea(`${resultText}${temp}`);
       setButtonState(true);
-    };
+    }
   }, [imgUrl]);
 
   return (
@@ -101,7 +101,7 @@ function TouchComment() {
           <Textarea
             value={textArea}
             handleFiles={handleFiles}
-            handleFocus={handleFocus}    
+            handleFocus={handleFocus}
             handleInput={handleTextArea}
             height={150}
           />

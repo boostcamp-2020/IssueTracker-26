@@ -195,7 +195,7 @@ function IssueForm({
       if (textAreaVal !== '') resultText += '\n';
       setTextAreaVal(`${resultText}${temp}`);
       setStateButton('false');
-    };
+    }
   }, [imgUrl]);
 
   return (
@@ -217,7 +217,7 @@ function IssueForm({
             placeholder={'Leave a comment'}
             handleInput={handleTextArea}
             handleFiles={handleFiles}
-            handleFocus={handleFocus}    
+            handleFocus={handleFocus}
           />
           <ImageUpload focus={focus} handleFiles={handleFiles}></ImageUpload>
           <DivFooterStyled>
