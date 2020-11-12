@@ -40,4 +40,13 @@ const getFormatDate = (date) => {
   return `${MONTH[month]} ${day}, ${year}`;
 };
 
-export { TransferTime, getFormatDate };
+const getDateInputFormat = (date) => {
+  const dateObj = new Date(date);
+  const year = dateObj.getFullYear();
+  const month = dateObj.getMonth();
+  let day = dateObj.getDate();
+  day = day >= 10 ? day : `0${day}`;
+  return `${year}-${month}-${day}`;
+};
+
+export { TransferTime, getFormatDate, getDateInputFormat };
