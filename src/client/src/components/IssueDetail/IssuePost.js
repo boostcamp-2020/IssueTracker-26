@@ -10,11 +10,13 @@ import IssueDetailAction from './action';
 const Container = styled.div`
   display: flex;
   padding-right: 0.5rem;
+  background-color: white;
 `;
 const Profile = styled.div`
   margin-right: 2rem;
   & {
     img {
+      border-radius: 2rem;
       width: 48px;
     }
   }
@@ -27,6 +29,7 @@ const Content = styled.div`
   align-items: center;
   width: 100%;
   border: 1px solid #dfdfdf;
+  border-radius: 0.5rem;
 `;
 const Title = styled.div`
   background-color: ${(props) => (props.owner ? '#EBF5FF' : 'white')};
@@ -36,6 +39,8 @@ const Title = styled.div`
   width: 100%;
   justify-content: space-between;
   align-items: center;
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
 `;
 const Author = styled.div`
   display: flex;

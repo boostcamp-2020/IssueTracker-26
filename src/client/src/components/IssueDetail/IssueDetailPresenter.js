@@ -48,7 +48,7 @@ const IssueState = styled.div`
   margin-right: 0.5rem;
   background-color: ${(props) =>
     props.state ? props.theme.Color.lightGreen : '#FF5050'};
-  padding: 0.4rem 1rem;
+  padding: 5px 16px;
   border-radius: 1.2rem;
 `;
 const IssueInfo = styled.div`
@@ -57,6 +57,8 @@ const IssueInfo = styled.div`
   gap: 0.5rem;
 `;
 const Title = styled.h1`
+  display: flex;
+  gap: 1rem;
   font-weight: 600;
 `;
 
@@ -88,9 +90,10 @@ const Body = styled.div`
 `;
 const Content = styled.div`
   flex-grow: 1;
-  max-width: 830px;
+  max-width: 930px;
 `;
 const Side = styled.div`
+  padding-left: 1rem;
   flex-basis: 312px;
 `;
 
@@ -106,14 +109,40 @@ const ButtonContainer = styled.div`
 `;
 
 const IssuePostContainer = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 2rem;
   border-bottom: 1px solid #dfdfdf;
   padding-bottom: 1rem;
+  &:before {
+    position: absolute;
+    left: 100px;
+    height: 100%;
+    border-left: 1px solid #dfdfdf;
+    content: ' ';
+    z-index: -999;
+  }
 `;
+
 const CommentContainer = styled.div`
   padding-top: 1rem;
+`;
+
+const CommentInfo = styled.div`
+  background-color: #fafafa;
+  margin-left: 80px;
+  margin-right: 8px;
+  border-top: 1px solid #dfdfdf;
+  border-bottom: 1px solid #dfdfdf;
+  padding: 1rem 16px;
+`;
+
+const CommentInfoContent = styled.div`
+  padding: 0 0.5rem;
+  font-size: 16px;
+  font-weight: 600;
+  color: #4d4d4d;
 `;
 
 function IssueDetailPresenter() {
@@ -169,7 +198,11 @@ function IssueDetailPresenter() {
           <IssueInfo>
             <Bold>{user.name}</Bold>
             <Shared.Span>opened {issue.time}</Shared.Span>
-            <Shared.Span>1 comment</Shared.Span>
+            <Shared.Span>
+              {comment.length
+                ? `${comment.length} comment${comment.length === 1 ? '' : 's'}`
+                : ''}{' '}
+            </Shared.Span>
           </IssueInfo>
         </HeaderState>
       </Header>
@@ -186,6 +219,14 @@ function IssueDetailPresenter() {
               textAreaVal={issue.content}
               type={TYPE.issue}
             />
+            {comment.length === 1 ? null : (
+              <CommentInfo>
+                <CommentInfoContent>
+                  Comments {comment.length}
+                </CommentInfoContent>
+              </CommentInfo>
+            )}
+
             {comment.map((data, index) => {
               const {
                 id,
