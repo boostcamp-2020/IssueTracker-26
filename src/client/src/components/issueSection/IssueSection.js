@@ -15,7 +15,7 @@ const IssueContainer = styled.div`
 const ClearDiv = styled.div`
   display: flex;
   align-items: center;
-  margin-top: -20px;
+  margin-top: 10px;
   margin-bottom: 15px;
   font-size: 0.9rem;
   font-weight: bold;
