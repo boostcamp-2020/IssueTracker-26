@@ -1,8 +1,23 @@
 import IssueDetailAction from './action';
 import issueAPI from '../../util/api/issue';
 import commentAPI from '../../util/api/comment';
+import milestoneAPI from '../../util/api/milestone';
 
 // Promise
+function getMilestoneRation(state, action) {
+  const { milestone } = state;
+  const { dispatch } = action;
+  milestoneAPI.getMilestoneRatio(milestone.id).then((data) => {
+    if (data) {
+      dispatch({
+        type: IssueDetailAction.SET_MILESTONE_RATIO,
+        ratio: data.ratio,
+      });
+    }
+  });
+  return state;
+}
+
 function changeIssueState(state, action) {
   const { issue } = state;
   const { state: issueState, dispatch } = action;
@@ -14,6 +29,7 @@ function changeIssueState(state, action) {
           type: IssueDetailAction.SET_ISSUE_STATE,
           issueState,
         });
+      dispatch({ type: IssueDetailAction.GET_MILESTONE_RATIO, dispatch });
     });
   return state;
 }
@@ -206,6 +222,18 @@ function applyIssueState(state, action) {
   };
 }
 
+function applyMilestoneRatio(state, action) {
+  const { milestone } = state;
+  const { ratio } = action;
+  return {
+    ...state,
+    milestone: {
+      ...milestone,
+      ratio,
+    },
+  };
+}
+
 function reducer(state, action) {
   switch (action.type) {
     case IssueDetailAction.SET_MILESTONE:
@@ -240,6 +268,11 @@ function reducer(state, action) {
       return changeIssueState(state, action);
     case IssueDetailAction.SET_ISSUE_STATE:
       return applyIssueState(state, action);
+    case IssueDetailAction.GET_MILESTONE_RATIO:
+      return getMilestoneRation(state, action);
+    case IssueDetailAction.SET_MILESTONE_RATIO:
+      return applyMilestoneRatio(state, action);
+
     default:
       return state;
   }

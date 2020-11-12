@@ -264,11 +264,7 @@ function IssueSideMenu({ selectMiliestone, selectLabel, selectAssignee }) {
             <>
               <DivBar>
                 <DivInBar
-                  width={
-                    selectMiliestone.ratio
-                      ? parseFloat(selectMiliestone.ratio) * 100
-                      : 0
-                  }
+                  width={selectMiliestone.ratio ? selectMiliestone.ratio : 0}
                 ></DivInBar>
               </DivBar>
               <SpanStyled>{selectMiliestone.title}</SpanStyled>
