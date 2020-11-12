@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
+import styled from 'styled-components';
 import MainPage from '../pages/MainPage';
 import LoginPage from '../pages/LoginPage';
 import LabelPage from '../pages/LabelPage';
@@ -7,11 +8,16 @@ import MilestonePage from '../pages/MilestonePage';
 import UserContext from './Context/UserContext';
 import IssueCreatePage from '../pages/IssueCreatePage';
 import Header from './header/Header';
+import Footer from './Footer';
 import Http from '../util/http-common';
 import GitHubLogin from './login/GitHubLogin';
 import IssueDetailPage from '../pages/IssueDetailPage';
 import MilestoneCreatePage from '../pages/MilestoneCreatePage';
 import MilestoneEditPage from '../pages/MilestoneEditPage';
+
+const Container = styled.div`
+  min-height: 86vh;
+`;
 
 function App() {
   const [state, setState] = useState({
@@ -73,7 +79,7 @@ function PrivateRoute() {
   return (
     <>
       <Header />
-      <div>
+      <Container>
         <Switch>
           <Route exact path="/" component={MainPage} />
           <Route path="/label" component={LabelPage} />
@@ -86,7 +92,8 @@ function PrivateRoute() {
             <Redirect to="/" />
           </Route>
         </Switch>
-      </div>
+      </Container>
+      <Footer />
     </>
   );
 }

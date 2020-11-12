@@ -116,18 +116,7 @@ const SapnCancelStyled = styled.span`
   margin-left: 10px;
   &:hover {
     cursor: pointer;
-  }
-  &:link {
-    color: red;
-    text-decoration: none;
-  }
-  &:visited {
     color: black;
-    text-decoration: none;
-  }
-  &:hover {
-    color: blue;
-    text-decoration: underline;
   }
 `;
 
