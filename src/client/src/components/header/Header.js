@@ -19,9 +19,10 @@ const HeaderDiv = styled.div`
   position: fixed;
   justify-content: center;
   align-items: center;
-  height: 100px;
+  height: 10vh;
   width: 100%;
-  background-color: black;
+  background-color: #2f363d;
+  top: 0;
 `;
 
 const UserDiv = styled.div`
