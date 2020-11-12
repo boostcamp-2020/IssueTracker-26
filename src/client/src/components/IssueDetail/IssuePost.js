@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useRef, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import Shared from '../shared/sharedComponents';
@@ -111,6 +111,7 @@ function IssuePost({
 }) {
   const { dispatch } = useContext(IssueDetailContext);
   const { state: user } = useContext(UserContext);
+  const preRef = useRef(null);
   const action = {
     issue: IssueDetailAction.UPDATE_ISSUE_CONTENT,
     comment: IssueDetailAction.UPDATE_COMMENT_CONTENT,
@@ -118,6 +119,22 @@ function IssuePost({
   const isOwner = author === user.userId;
   const [isContentEdit, setContentEdit] = useState(false);
   const [textarea, setTextarea] = useState(textAreaVal);
+
+  useEffect(() => {
+    const imgs = preRef.current.querySelectorAll('img');
+    [...imgs].forEach((img) => {
+      const imageEl = img;
+      imageEl.onload = () => {
+        if (imageEl.width >= imageEl.height) {
+          imageEl.style.width = '500px';
+          imageEl.style.height = 'auto';
+        } else {
+          imageEl.style.height = '500px';
+          imageEl.styled.width = 'auto';
+        }
+      };
+    });
+  }, [content]);
   return isContentEdit ? (
     <IssueForm
       setContentEdit={() => setContentEdit(false)}
@@ -153,7 +170,7 @@ function IssuePost({
           ) : null}
         </Title>
         <Body>
-          <Pre dangerouslySetInnerHTML={{ __html: content }}></Pre>
+          <Pre ref={preRef} dangerouslySetInnerHTML={{ __html: content }}></Pre>
         </Body>
       </Content>
     </Container>
