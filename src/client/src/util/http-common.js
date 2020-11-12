@@ -1,3 +1,3 @@
-const http = 'http://localhost:3000/';
+const http = process.env.HOST;
 
 export default http;
