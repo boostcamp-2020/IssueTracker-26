@@ -54,7 +54,7 @@ function MilestoneEditSection(props) {
       }),
     }).then(() => history.replace(`/milestone`));
 
-  const changeState = () => (mid, state) => {
+  const changeState = (mid, state) => () => {
     fetch(`${Http}api/milestone/state/${mid}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
