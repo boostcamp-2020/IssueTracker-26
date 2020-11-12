@@ -60,7 +60,7 @@ function MilestoneEditSection(props) {
       body: JSON.stringify({ state }),
     })
       .then((res) => res.json())
-      .then(() => fetchAllData());
+      .then(() => history.replace('/milestone'));
   };
 
   useEffect(() => {
