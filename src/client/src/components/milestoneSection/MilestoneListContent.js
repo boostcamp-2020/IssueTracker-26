@@ -91,7 +91,7 @@ const DivInBar = styled.div`
 function MilestoneListContent(props) {
   const { milestones, isOpenView, fetchAllData } = props;
 
-  const changeState = (id, state) => {
+  const changeState = (id, state) => () => {
     fetch(`${Http}api/milestone/state/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -128,15 +128,9 @@ function MilestoneListContent(props) {
         </StatusDiv>
         <ControlDiv>
           <Link to={`/milestone-edit/${milestone.id}`}>Edit</Link>
-          {isOpenView ? (
-            <span onClick={() => changeState(milestone.id, milestone.state)}>
-              Close
-            </span>
-          ) : (
-            <span onClick={() => changeState(milestone.id, milestone.state)}>
-              Reopen
-            </span>
-          )}
+          <span onClick={changeState(milestone.id, milestone.state)}>
+            {isOpenView ? 'Close' : 'Reopen'}
+          </span>
           <span>Delete</span>
         </ControlDiv>
       </RightDiv>
