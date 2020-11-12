@@ -9,6 +9,7 @@ import CloseIssue from '../../../public/images/close-issue.svg';
 import MilestoneImg from '../../../public/images/issue-milestone.svg';
 import CommentImg from '../../../public/images/comment.svg';
 import ProfileImg from '../../../public/images/user.png';
+import getFontColor from '../labelSection/utils';
 
 const ImgStyled = styled.img`
   vertical-align: middle;
@@ -74,6 +75,7 @@ const LabelSpan = styled.span`
   background: ${(props) => props.color};
   display: inline-block;
   padding: 2px 7px 2px 7px;
+  color: ${(props) => props.fontColor};
 `;
 
 const MilestoneImgStyled = styled.img`
@@ -164,7 +166,11 @@ function IssueContent(props) {
             <TitleSpan>{issue.title}</TitleSpan>
           </Link>
           {issue.label.map((label, indexs) => (
-            <LabelSpan key={indexs} color={label.color}>
+            <LabelSpan
+              key={indexs}
+              color={label.color}
+              fontColor={getFontColor(label.color)}
+            >
               {label.title}
             </LabelSpan>
           ))}
