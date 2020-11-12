@@ -175,7 +175,7 @@ function IssueForm({
       if (textAreaVal !== '') resultText += '\n';
       handleTextArea(`${resultText}${temp}`);
       setStateButton('false');
-    };
+    }
   }, [imgUrl]);
 
   return (
