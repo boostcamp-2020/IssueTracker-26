@@ -43,9 +43,10 @@ const getFormatDate = (date) => {
 const getDateInputFormat = (date) => {
   const dateObj = new Date(date);
   const year = dateObj.getFullYear();
-  const month = dateObj.getMonth();
+  let month = dateObj.getMonth() + 1;
   let day = dateObj.getDate();
   day = day >= 10 ? day : `0${day}`;
+  month = month >= 10 ? month : `0${month}`;
   return `${year}-${month}-${day}`;
 };
 
