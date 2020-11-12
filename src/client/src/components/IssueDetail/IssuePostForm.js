@@ -11,6 +11,7 @@ import tagGenerator from '../../util/tag-generator';
 
 const Container = styled.div`
   display: flex;
+  background-color: white;
 `;
 
 const DivStyled = styled.div`
