@@ -198,10 +198,7 @@ function Login() {
   };
 
   const handleOpenGitHub = () => {
-    window.open(
-      'https://github.com/login/oauth/authorize?response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fgithub&client_id=2430ccbbfb13e515ed98',
-      '_self',
-    );
+    window.open(process.env.GITHUB_SOCIAL_LOGIN, '_self');
   };
 
   return (
