@@ -19,9 +19,13 @@ const MILESTONE = {
   CREATE: `insert into milestone(title, duedate, description) values(?,?,?)`,
   UPDATE: ({ id, title, dueDate, description }) => {
     let fields = '';
-    if (title) fields += `title='${title}' `;
-    if (dueDate) fields += `dueDate='${dueDate}'`;
+    if (title) fields += `title='${title}',`;
+    if (dueDate) fields += `dueDate='${dueDate}',`;
     if (description) fields += `description='${description}'`;
+    fields =
+      fields[fields.length - 1] === ','
+        ? fields.slice(0, fields.length - 1)
+        : fields;
     return `update milestone set ${fields.trim()} where id=${id}`;
   },
   DELETE: `delete from milestone where id=?`,
