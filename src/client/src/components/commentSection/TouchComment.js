@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import theme from '../Theme';
-import testImg from '../../../public/images/test.svg';
+import UserImage from '../../../public/images/user.png';
 import {
   InputContainer,
   ProfileBox,
@@ -55,7 +55,7 @@ function TouchComment() {
   return (
     <InputContainer>
       <ProfileBox>
-        <img src={testImg}></img>
+        <img src={user.profile || UserImage}></img>
       </ProfileBox>
       <InputBox>
         <InputHeader>

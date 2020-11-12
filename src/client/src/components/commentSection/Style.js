@@ -4,25 +4,23 @@ import theme from '../Theme';
 const InputContainer = styled.div`
   display: flex;
   height: 300px;
-  width: 100%;
+  max-width: 100%;
 `;
 const ProfileBox = styled.div`
   position: relative;
-  width: 15%;
-
+  padding: 0.5rem 2rem 0 0;
   & > img {
-    position: absolute;
-    top: 5px;
-    right: 20px;
-    width: 28px;
-    height: 28px;
+    border-radius: 2rem;
+    width: 48px;
+    height: 48px;
   }
 `;
 const InputBox = styled.div`
-  width: 85%;
+  width: 100%;
   height: 100%;
   border: 1px solid #e1e4e8;
   border-radius: 8px;
+  margin-right: 8px;
 
   position: relative;
   &:after,
