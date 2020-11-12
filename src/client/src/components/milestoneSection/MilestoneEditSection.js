@@ -69,7 +69,7 @@ function MilestoneEditSection(props) {
       .then((data) =>
         setMilestone({
           ...data.milestone,
-          duedate: new Date(data.milestone.duedate),
+          duedate: data.milestone.dueDate ? new Date(data.milestone.dueDate) : '',
         }),
       );
   }, []);

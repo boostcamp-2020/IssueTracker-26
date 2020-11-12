@@ -86,7 +86,7 @@ const ISSUE = {
   GETISSUELISTBYISSUEID: `select i.id, i.title, i.state, i.content, i.user_id, u.username, i.createdat, i.milestone_id, m.title as milestonename, count(c.id) as commentCount 
   from issue i left join user u on i.user_id=u.id left join milestone m on i.milestone_id=m.id left join comment c on i.id=c.issue_id where i.state=1 and i.id=? group by i.id`,
 
-  GETISSUELISTBYCOMMENT: `select c.issue_id, i.state from comment c, issue i where c.user_id=? and c.issue_id=i.id and i.state=1`,
+  GETISSUELISTBYCOMMENT: `select c.issue_id, i.state from comment c, issue i where c.user_id=? and c.issue_id=i.id and i.state=1 group by issue_id`,
 
   GETISSUELISTBYCLOSE: `select i.id, i.title, i.state, i.content, i.user_id, u.username, i.createdat, i.milestone_id, m.title as milestonename, count(c.id) as commentCount 
   from issue i left join user u on i.user_id=u.id left join milestone m on i.milestone_id=m.id left join comment c on i.id=c.issue_id where i.state=0 group by i.id order by i.id desc`,
