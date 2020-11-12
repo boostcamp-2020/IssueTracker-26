@@ -175,10 +175,14 @@ function IssueContent(props) {
             {issue.username}
             {(() => {
               if (issue.milestonename)
-                return <MilestoneImgStyled src={MilestoneImg} />;
+                return (
+                  <Link to={'/milestone'}>
+                    <MilestoneImgStyled src={MilestoneImg} />
+                    {issue.milestonename}
+                  </Link>
+                );
               return null;
             })()}
-            <Link to={'/milestone'}>{issue.milestonename}</Link>
           </span>
         </SubTitleDiv>
       </TitleDiv>

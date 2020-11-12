@@ -60,7 +60,7 @@ function Header() {
   return (
     <HeaderDiv>
       <TitleLink to={'/'}>
-        <span>🎯ISSUE</span>
+        <span>🎯ISSUE TRACKER</span>
       </TitleLink>
 
       <UserDiv>
