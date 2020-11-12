@@ -78,7 +78,7 @@ function TouchComment() {
   useEffect(() => {
     let temp = '';
     imgUrl.forEach((url) => {
-      temp += `<img src="${url}\n" />`;
+      temp += `<img src="${url}" />\n`;
     });
     if (temp !== '') {
       let resultText = textArea;
