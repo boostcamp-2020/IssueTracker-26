@@ -124,7 +124,7 @@ function MilestoneListContent(props) {
         <StatusDiv>
           <span>{Math.round(milestone.ratio) || 0}% complete</span>
           <span>{milestone.total - milestone.close} open</span>
-          <span>{milestone.total} closed</span>
+          <span>{milestone.close} closed</span>
         </StatusDiv>
         <ControlDiv>
           <Link to={`/milestone-edit/${milestone.id}`}>Edit</Link>

@@ -20,7 +20,7 @@ const MILESTONE = {
   UPDATE: ({ id, title, dueDate, description }) => {
     let fields = '';
     if (title) fields += `title='${title}',`;
-    if (dueDate) fields += `dueDate='${dueDate}',`;
+    if (dueDate) fields += `duedate='${dueDate}',`;
     if (description) fields += `description='${description}'`;
     fields =
       fields[fields.length - 1] === ','

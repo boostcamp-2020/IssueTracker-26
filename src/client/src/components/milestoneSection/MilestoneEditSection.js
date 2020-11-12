@@ -34,7 +34,7 @@ function MilestoneEditSection(props) {
   const [milestone, setMilestone] = useState({
     id: '',
     title: '',
-    dueDate: '',
+    duedate: '',
     description: '',
     state: '',
   });
@@ -48,19 +48,19 @@ function MilestoneEditSection(props) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         title: milestone.title,
-        dueDate: milestone.dueDate,
+        duedate: milestone.duedate,
         description: milestone.description,
       }),
     }).then(() => history.replace(`/milestone`));
 
-  const changeState = (id, state) => {
-    fetch(`${Http}api/milestone/state/${id}`, {
+  const changeState = () => (mid, state) => {
+    fetch(`${Http}api/milestone/state/${mid}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ state }),
     })
       .then((res) => res.json())
-      .then(() => fetchAllData());
+      .then(() => history.replace('/milestone'));
   };
 
   useEffect(() => {
@@ -69,7 +69,7 @@ function MilestoneEditSection(props) {
       .then((data) =>
         setMilestone({
           ...data.milestone,
-          dueDate: new Date(data.milestone.dueDate),
+          duedate: new Date(data.milestone.duedate),
         }),
       );
   }, []);
@@ -97,7 +97,7 @@ function MilestoneEditSection(props) {
           color={'ghostwhite'}
           hoverColor={'whitesmoke'}
           fontColor={'darkslategray'}
-          handler={() => changeState(milestone.id, milestone.state)}
+          handler={changeState(milestone.id, milestone.state)}
         >
           {milestone.state ? 'Close Milestone' : 'Reopen Milestone'}
         </Button>

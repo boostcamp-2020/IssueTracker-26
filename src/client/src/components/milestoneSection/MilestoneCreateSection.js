@@ -31,7 +31,7 @@ function MilestoneSection() {
   const history = useHistory();
   const [milestone, setMilestone] = useState({
     title: '',
-    dueDate: '',
+    duedate: '',
     description: '',
   });
 
