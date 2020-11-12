@@ -6,7 +6,8 @@ import Button from '../Button';
 import IssueDetailContext from '../Context/IssueDetailContext';
 import UserImage from '../../../public/images/user.png';
 import ImageUpload from '../imageUpload/ImageUpload';
-import handleFiles from '../../util/api/handleFile';
+import handleFiles from '../../util/handleFile';
+import tagGenerator from '../../util/tag-generator';
 
 const Container = styled.div`
   display: flex;
@@ -138,18 +139,17 @@ function IssueForm({
   };
   const handleFocus = (isFocus) => setFocus(isFocus);
 
-  useEffect(() => {
-    let temp = '';
-    imgUrl.forEach((url) => {
-      temp += `<img src="${url}" />\n`;
-    });
-    if (temp !== '') {
-      let resultText = textAreaVal;
-      if (textAreaVal !== '') resultText += '\n';
-      handleTextArea(`${resultText}${temp}`);
-      setStateButton('false');
-    }
-  }, [imgUrl]);
+  useEffect(
+    () =>
+      tagGenerator(
+        imgUrl,
+        textAreaVal,
+        handleTextArea,
+        setStateButton,
+        'false',
+      ),
+    [imgUrl],
+  );
 
   return (
     <Container>

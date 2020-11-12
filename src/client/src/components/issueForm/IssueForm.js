@@ -5,7 +5,8 @@ import PropTypes from 'prop-types';
 import TextArea from '../Textarea';
 import Button from '../Button';
 import ImageUpload from '../imageUpload/ImageUpload';
-import handleFiles from '../../util/api/handleFile';
+import handleFiles from '../../util/handleFile';
+import tagGenerator from '../../util/tag-generator';
 
 const DivStyled = styled.div`
   border: #e1e4e8 1px solid;
@@ -158,18 +159,17 @@ function IssueForm({
 
   const handleFocus = (isFocus) => setFocus(isFocus);
 
-  useEffect(() => {
-    let temp = '';
-    imgUrl.forEach((url) => {
-      temp += `<img src="${url}" />\n`;
-    });
-    if (temp !== '') {
-      let resultText = textAreaVal;
-      if (textAreaVal !== '') resultText += '\n';
-      setTextAreaVal(`${resultText}${temp}`);
-      setStateButton('false');
-    }
-  }, [imgUrl]);
+  useEffect(
+    () =>
+      tagGenerator(
+        imgUrl,
+        textAreaVal,
+        setTextAreaVal,
+        setStateButton,
+        'false',
+      ),
+    [imgUrl],
+  );
 
   return (
     <DivStyled>

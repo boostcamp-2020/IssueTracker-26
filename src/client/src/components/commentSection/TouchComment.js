@@ -15,7 +15,8 @@ import IssueDetailContext from '../Context/IssueDetailContext';
 import UserContext from '../Context/UserContext';
 import IssueDetailAction from '../IssueDetail/action';
 import ImageUpload from '../imageUpload/ImageUpload';
-import handleFiles from '../../util/api/handleFile';
+import handleFiles from '../../util/handleFile';
+import tagGenerator from '../../util/tag-generator';
 
 function TouchComment() {
   const { state: user } = useContext(UserContext);
@@ -48,18 +49,10 @@ function TouchComment() {
     }
   };
 
-  useEffect(() => {
-    let temp = '';
-    imgUrl.forEach((url) => {
-      temp += `<img src="${url}" />\n`;
-    });
-    if (temp !== '') {
-      let resultText = textArea;
-      if (textArea !== '') resultText += '\n';
-      setTextArea(`${resultText}${temp}`);
-      setButtonState(true);
-    }
-  }, [imgUrl]);
+  useEffect(
+    () => tagGenerator(imgUrl, textArea, setTextArea, setButtonState, true),
+    [imgUrl],
+  );
 
   return (
     <InputContainer>
