@@ -1,10 +1,11 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import TextArea from '../Textarea';
 import Button from '../Button';
 import IssueDetailContext from '../Context/IssueDetailContext';
 import UserImage from '../../../public/images/user.png';
+import ImageUpload from '../imageUpload/ImageUpload';
 
 const Container = styled.div`
   display: flex;
@@ -47,11 +48,12 @@ const DivStyled = styled.div`
   }
 `;
 
+const InputDisPlayNone = styled.input`
+  display: none;
+`;
+
 const DivContentStyled = styled.div`
-  height: 436px;
-  input {
-    display: none;
-  }
+  height: 465px;
 
   label {
     display: inline-block;
@@ -120,6 +122,10 @@ function IssueForm({
 }) {
   const { state } = useContext(IssueDetailContext);
   const [stateButton, setStateButton] = useState(textAreaVal ? '' : 'disabled');
+  const PATH = process.env.REACT_APP_IMGUR_PATH;
+  const CLIENT = process.env.REACT_APP_CLIENT;
+  const [imgUrl, setImgUrl] = useState([]);
+  const [focus, setFocus] = useState(false);
 
   const handleInput = () => (e) => {
     handleTextArea(e.target.value);
@@ -129,6 +135,48 @@ function IssueForm({
       setStateButton('');
     }
   };
+  const handleFocus = (isFocus) => setFocus(isFocus);
+
+  const handleFiles = (e) => {
+    e.preventDefault();
+    const newFiles = e.dataTransfer?.files || e.target.files; // object
+    const newFileList = [];
+    for (let i = 0; i < newFiles.length; i += 1) {
+      newFileList.push(newFiles[i]);
+    }
+    Promise.all(
+      newFileList.map((newFile) => {
+        if (newFile.size < 500000) {
+          return fetch(PATH, {
+            method: 'POST',
+            headers: {
+              Authorization: `Client-ID ${CLIENT}`,
+              Accept: 'application/json',
+            },
+            body: newFile,
+          })
+            .then((res) => res.json())
+            .then((res) => {
+              return res.data.link;
+            });
+        }
+        return undefined;
+      }),
+    ).then((urlList) => setImgUrl([...urlList]));
+  };
+
+  useEffect(() => {
+    let temp = '';
+    imgUrl.forEach((url) => {
+      temp += `<img src="${url}" />\n`;
+    });
+    if (temp !== '') {
+      let resultText = textAreaVal;
+      if (textAreaVal !== '') resultText += '\n';
+      handleTextArea(`${resultText}${temp}`);
+      setStateButton('false');
+    };
+  }, [imgUrl]);
 
   return (
     <Container>
@@ -137,7 +185,7 @@ function IssueForm({
       </Profile>
       <DivStyled>
         <DivContentStyled>
-          <input type="radio" checked readOnly />
+          <InputDisPlayNone type="radio" checked readOnly />
           <label>Write</label>
           <DivDetailStyled>
             <TextArea
@@ -145,7 +193,10 @@ function IssueForm({
               value={textAreaVal}
               placeholder={'Leave a comment'}
               handleInput={handleInput()}
+              handleFiles={handleFiles}
+              handleFocus={handleFocus}
             />
+            <ImageUpload focus={focus} handleFiles={handleFiles}></ImageUpload>
             <DivFooterStyled>
               <SapnCancelStyled onClick={setContentEdit}>
                 Cancel
