@@ -91,7 +91,7 @@ const DivInBar = styled.div`
 function MilestoneListContent(props) {
   const { milestones, isOpenView, fetchAllData } = props;
 
-  const changeState = (id, state) => {
+  const changeState = (id, state) => () => {
     fetch(`${Http}api/milestone/state/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -99,6 +99,15 @@ function MilestoneListContent(props) {
     })
       .then((res) => res.json())
       .then(() => fetchAllData());
+  };
+
+  const deleteMilestone = (id) => () => {
+    const willDelete = confirm('정말로 마일스톤을 삭제하시겠습니까? :(');
+    if (willDelete) {
+      fetch(`${Http}api/milestone/${id}`, {
+        method: 'DELETE',
+      }).then(() => fetchAllData());
+    }
   };
 
   const milestoneRows = milestones.map((milestone, index) => (
@@ -128,16 +137,10 @@ function MilestoneListContent(props) {
         </StatusDiv>
         <ControlDiv>
           <Link to={`/milestone-edit/${milestone.id}`}>Edit</Link>
-          {isOpenView ? (
-            <span onClick={() => changeState(milestone.id, milestone.state)}>
-              Close
-            </span>
-          ) : (
-            <span onClick={() => changeState(milestone.id, milestone.state)}>
-              Reopen
-            </span>
-          )}
-          <span>Delete</span>
+          <span onClick={changeState(milestone.id, milestone.state)}>
+            {isOpenView ? 'Close' : 'Reopen'}
+          </span>
+          <span onClick={deleteMilestone(milestone.id)}>Delete</span>
         </ControlDiv>
       </RightDiv>
     </ContentDiv>
