@@ -13,10 +13,10 @@ const Container = styled.div`
   background-color: white;
 `;
 const Profile = styled.div`
-  margin-right: 2rem;
+  margin-right: 32px;
   & {
     img {
-      border-radius: 2rem;
+      border-radius: 36px;
       width: 48px;
     }
   }
