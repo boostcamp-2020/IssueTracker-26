@@ -105,6 +105,7 @@ const StyleDiv = styled.div`
 const StyleSubDiv = styled.div`
   display: flex;
   text-align: left;
+  width: 100% !important;
 `;
 
 const StyleContentDiv = styled.div`
