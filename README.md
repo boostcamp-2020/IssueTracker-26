@@ -5,6 +5,7 @@
 ## 🤔설명   
 
 - 이슈를 관리해주는 도구
+- 배포 주소 : http://115.85.182.96/
 
 
 
@@ -107,3 +108,7 @@ https://www.notion.so/API-1bf048d5b9ae4834baf85d215ca97372
 - 로그인 페이지
 
 ![image](https://user-images.githubusercontent.com/52816790/98916844-ff6c7580-250e-11eb-86c7-797390914354.png)
+
+- 메인 페이지
+
+![image](https://user-images.githubusercontent.com/52816790/99019854-a64d2200-25a0-11eb-8712-b0926583f47e.png)
