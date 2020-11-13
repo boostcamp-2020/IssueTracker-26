@@ -34,8 +34,14 @@
     "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
+    "dotenv-webpack": "^5.1.0",
+    "file-loader": "^6.2.0",
+    "prop-types": "^15.7.2",
+    "query-string": "^6.13.7",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "react-router-dom": "^5.2.0"
+    "react-loading": "^2.0.3",
+    "react-router-dom": "^5.2.0",
+    "styled-components": "^5.2.1"
   }
 }

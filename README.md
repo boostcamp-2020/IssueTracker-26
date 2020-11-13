@@ -5,6 +5,7 @@
 ## 🤔설명   
 
 - 이슈를 관리해주는 도구
+- 배포 주소 : http://115.85.182.96/
 
 
 
@@ -52,11 +53,21 @@
 
 - #### Sub PJT II   ()
 
-  
+  - Front-End 컴포넌트 구현
+  - 이슈 목록 불러오기
+    - 로그인 페이지
+  - 회원가입 
+  - 리액트 학습
 
 - #### Sub PJT III  ()
 
-
+  - Front-End 컴포넌트 구현
+    - 이슈 필터링
+    - 마일스톤 CRUD
+    - 레이블 CRUD
+    - 소셜로그인
+  - Back-End
+    - OAuth 소셜 로그인 API 
 
 ## 📝시스템 아키텍쳐
 
@@ -74,34 +85,32 @@
 
 
 
+#### Front-end
+
+:one:  **npm install** 명령어를 실행시켜 주세요.
+
+:two:  **npm start** 명령어를 실행시켜 주세요.
+
+
+
 ## 🔴 Server
 
 ### 1. ERD
 
-![image](https://user-images.githubusercontent.com/44664867/97531923-9d811b80-19f8-11eb-821d-9e954811d3dc.png)
+![image](https://user-images.githubusercontent.com/44664867/98916727-d946d580-250e-11eb-9131-2e3aa4731a40.png)
 
 ### 2. API 문서
 
-- 회원가입 API
-
-  POST : http://127.0.0.1:3000/api/user
-
-  BODY : { userName, password }
-
-- 중복체크 API
-
-  POST : http://127.0.0.1:3000/api/userName
-
-  BODY : { userName }
-
-- 이슈목록 보기 API
-
-  GET : http://127.0.0.1:3000/api/issue
-
-- 마일스톤 생성 API
-
-  POST : http://127.0.0.1:3000/api/milestone
-
-  BODY : { title, dueDate(optional), description(optional) }
+https://www.notion.so/API-1bf048d5b9ae4834baf85d215ca97372
 
 ## 🔵 Client
+
+- 로그인 페이지
+
+![image](https://user-images.githubusercontent.com/52816790/98916844-ff6c7580-250e-11eb-86c7-797390914354.png)
+
+- 메인 페이지
+
+![image](https://user-images.githubusercontent.com/52816790/99019854-a64d2200-25a0-11eb-8712-b0926583f47e.png)
+
+

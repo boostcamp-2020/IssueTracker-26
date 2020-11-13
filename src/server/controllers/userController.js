@@ -1,6 +1,16 @@
 const passport = require('passport');
+const fetch = require('node-fetch');
 const userService = require('../services/userService');
 const { makeToken, randomString } = require('../util');
+
+const getUserInfo = async (req, res) => {
+  const { userName, id } = req.user;
+  const user = await userService.findUserById(id);
+  if (!user) return res.status(500).end();
+  const { id: userId, profile } = user;
+  if (userId) return res.status(200).json({ userName, userId: id, profile });
+  return res.status(406).end();
+};
 
 const signUp = async (req, res) => {
   const { userName, password } = req.body;
@@ -9,7 +19,11 @@ const signUp = async (req, res) => {
   }
   const userId = await userService.signUp(userName, password);
   if (userId) {
-    return res.status(201).end();
+    return res.status(201).json({
+      id: userId,
+      userName,
+      token: makeToken({ id: userId, userName }),
+    });
   }
   return res.status(500).end();
 };
@@ -31,23 +45,63 @@ const signIn = (req, res, next) =>
     if (err) next(err);
     if (!user) return res.status(404).json({ token: undefined });
     const { id, userName } = user;
-    return res.status(200).json({ token: makeToken({ id, userName }) });
+    return res
+      .status(200)
+      .json({ userId: id, userName, token: makeToken({ id, userName }) });
   })(req, res, next);
 
-const failGitHubAuth = (req, res) => {
-  return res.status(401).json({ token: undefined });
+const gitHubAuth = async (req, res) => {
+  const { code } = req.body;
+  try {
+    const { error, access_token: accessToken } = await fetch(
+      `https://github.com/login/oauth/access_token`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          client_id: process.env.GITHUB_CLIENT_ID,
+          client_secret: process.env.GITHUB_CLIENT_SECRET,
+          code,
+        }),
+      },
+    ).then((response) => response.json());
+    if (error) return res.status(401).end();
+    const { login, avatar_url: profile } = await fetch(
+      `https://api.github.com/user`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+          Authorization: `token ${accessToken}`,
+        },
+      },
+    ).then((response) => response.json());
+    const userInfo = {
+      userName: login,
+      password: randomString(),
+      profile,
+    };
+    const { id, userName } = await userService.findOrCreateUser(userInfo);
+    return res.status(200).json({
+      userId: id,
+      userName,
+      profile,
+      token: makeToken({ id, userName }),
+    });
+  } catch (err) {
+    return res.status(401).end();
+  }
 };
 
-const gitHubAuth = async (req, res) => {
-  const { user } = req.session.passport;
-  const userId = await userService.checkDuplicated(user);
-  if (userId) {
-    const token = makeToken({ id: userId, userName: user });
-    return res.status(200).json({ token });
+const getUserByAll = async (req, res) => {
+  const userList = await userService.getUserByAll();
+  if (userList) {
+    return res.status(200).json(userList);
   }
-  const newUserId = await userService.signUp(user, randomString());
-  const token = makeToken({ id: newUserId, userName: user });
-  return res.status(200).json({ token });
+  return res.status(500).end();
 };
 
 module.exports = {
@@ -55,5 +109,6 @@ module.exports = {
   checkDuplicated,
   signIn,
   gitHubAuth,
-  failGitHubAuth,
+  getUserInfo,
+  getUserByAll,
 };

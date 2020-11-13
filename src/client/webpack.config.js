@@ -2,6 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
+const Dotenv = require('dotenv-webpack');
 
 const mode = process.env.NODE_ENV || 'development';
 
@@ -17,10 +18,9 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.png|jpg|gif$/,
+        test: /\.png|jpg|gif|svg$/,
         loader: 'url-loader',
         options: {
-          publicPath: './img',
           name: '[name].[ext]?[hash]',
           limit: 100,
         },
@@ -37,6 +37,7 @@ module.exports = {
       template: './src/index.html',
     }),
     new CleanWebpackPlugin(),
+    new Dotenv(),
   ],
   optimization: {
     minimizer:
@@ -61,6 +62,7 @@ module.exports = {
     host: 'localhost',
     overlay: true,
     port: 8080,
+    hot: true,
     stats: 'errors-only',
     historyApiFallback: true,
   },
