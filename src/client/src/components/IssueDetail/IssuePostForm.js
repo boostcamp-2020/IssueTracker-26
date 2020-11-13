@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import TextArea from '../Textarea';
 import Button from '../Button';
 import IssueDetailContext from '../Context/IssueDetailContext';
+import UserContext from '../Context/UserContext';
 import UserImage from '../../../public/images/user.png';
 import ImageUpload from '../imageUpload/ImageUpload';
 import handleFiles from '../../util/handleFile';
@@ -112,6 +113,7 @@ const Profile = styled.div`
   margin-right: 2rem;
   & {
     img {
+      border-radius: 36px;
       width: 48px;
     }
   }
@@ -123,7 +125,7 @@ function IssueForm({
   handleTextArea,
   setContentEdit,
 }) {
-  const { state } = useContext(IssueDetailContext);
+  const { state: user } = useContext(UserContext);
   const [stateButton, setStateButton] = useState(textAreaVal ? '' : 'disabled');
   const [imgUrl, setImgUrl] = useState([]);
   const [focus, setFocus] = useState(false);
@@ -153,7 +155,7 @@ function IssueForm({
   return (
     <Container>
       <Profile>
-        <img src={state.user.profile || UserImage} />
+        <img src={user.profile || UserImage} />
       </Profile>
       <DivStyled>
         <DivContentStyled>
